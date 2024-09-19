@@ -8,6 +8,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "DietList")
 public class DietEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

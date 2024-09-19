@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "UserInfo")
 public class UserEntity {
 
     @Id
@@ -22,9 +23,6 @@ public class UserEntity {
 
     @Column(nullable = false)
     private String UserPassword;
-
-    @Column(nullable = false)
-    private int Calorie;
 
     @Column(nullable = false)
     private int Carbohydrate;

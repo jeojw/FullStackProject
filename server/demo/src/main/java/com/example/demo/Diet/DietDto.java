@@ -11,15 +11,10 @@ import lombok.Setter;
 @Builder
 public class DietDto {
     private String Name;
-
     private int Calorie;
-
     private int Carbohydrate;
-
     private int Protein;
-
     private int Province;
-
     private String RecipeLink;
 
     public DietDto(String name, int calorie,
