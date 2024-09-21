@@ -1,4 +1,4 @@
-# fullstackproj
+# client
 
 A new Flutter project.
 

@@ -25,6 +25,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/api/signup", "/api/signin").permitAll()
                         .anyRequest().authenticated())
+                .oauth2Login(
+                        oauth->oauth.loginPage("/signin")
+                                    .defaultSuccessUrl("/home")
+                )
                 .logout((logout) -> logout
                         .logoutSuccessUrl("/login")
                         .invalidateHttpSession(true))
