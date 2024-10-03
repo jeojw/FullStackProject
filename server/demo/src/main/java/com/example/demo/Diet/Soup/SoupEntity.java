@@ -21,14 +21,14 @@ public class SoupEntity {
     private String Name;
 
     @Column(nullable = false)
-    private int Calorie;
+    private double Calorie;
 
     @Column(nullable = false)
-    private int Carbohydrate;
+    private double Carbohydrate;
 
     @Column(nullable = false)
-    private int Protein;
+    private double Protein;
 
     @Column(nullable = false)
-    private int Province;
+    private double Province;
 }

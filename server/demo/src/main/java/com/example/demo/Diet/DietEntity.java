@@ -6,6 +6,8 @@ import com.example.demo.Diet.Soup.SoupEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Entity
 @Builder
@@ -17,27 +19,26 @@ public class DietEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name="rice_table")
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @JoinColumn(name="rice_table_id")
     private RiceEntity rice;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name="soup_table")
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @JoinColumn(name="soup_table_id")
     private SoupEntity soup;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name="side_dish_table")
-    private SideDishEntity sideDish;
+    @OneToMany(mappedBy = "dietEntity", cascade = CascadeType.PERSIST)
+    private List<SideDishEntity> sideDish;
 
     @Column(nullable = false)
-    private int Calorie;
+    private double Calorie;
 
     @Column(nullable = false)
-    private int Carbohydrate;
+    private double Carbohydrate;
 
     @Column(nullable = false)
-    private int Protein;
+    private double Protein;
 
     @Column(nullable = false)
-    private int Province;
+    private double Province;
 }

@@ -25,11 +25,14 @@ public class UserEntity {
     private String UserPassword;
 
     @Column(nullable = false)
-    private int Carbohydrate;
+    private double Weight;
 
     @Column(nullable = false)
-    private int Protein;
+    private double Carbohydrate;
 
     @Column(nullable = false)
-    private int Province;
+    private double Protein;
+
+    @Column(nullable = false)
+    private double Province;
 }

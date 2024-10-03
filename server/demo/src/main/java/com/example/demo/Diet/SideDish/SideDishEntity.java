@@ -1,5 +1,6 @@
 package com.example.demo.Diet.SideDish;
 
+import com.example.demo.Diet.DietEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,14 +22,21 @@ public class SideDishEntity {
     private String Name;
 
     @Column(nullable = false)
-    private int Calorie;
+    private String Classification;
 
     @Column(nullable = false)
-    private int Carbohydrate;
+    private double Calorie;
 
     @Column(nullable = false)
-    private int Protein;
+    private double Carbohydrate;
 
     @Column(nullable = false)
-    private int Province;
+    private double Protein;
+
+    @Column(nullable = false)
+    private double Province;
+
+    @ManyToOne
+    @JoinColumn(name = "diet_list_id")
+    private DietEntity dietEntity;
 }
