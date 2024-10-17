@@ -13,6 +13,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 public class DietDto {
+    private Long Id;
     private RiceDto Rice;
     private SoupDto Soup;
     private List<SideDishDto> SideDishList;
@@ -22,8 +23,9 @@ public class DietDto {
     private double Protein;
     private double Province;
 
-    public DietDto(RiceDto rice, SoupDto soup, List<SideDishDto> sideDishDtoList)
+    public DietDto(Long id, RiceDto rice, SoupDto soup, List<SideDishDto> sideDishDtoList)
     {
+        this.Id = id;
         this.Rice = rice;
         this.Soup = soup;
         this.SideDishList = sideDishDtoList;

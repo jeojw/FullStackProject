@@ -9,6 +9,7 @@ import com.example.demo.Diet.SideDish.SideDishRepository;
 import com.example.demo.Diet.Soup.SoupDto;
 import com.example.demo.Diet.Soup.SoupEntity;
 import com.example.demo.Diet.Soup.SoupRepository;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,20 +22,25 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DietService {
 
-    @Autowired
-    private DietRepository dietRepository;
-    @Autowired
-    private RiceRepository riceRepository;
-    @Autowired
-    private SoupRepository soupRepository;
-    @Autowired
-    private SideDishRepository sideDishRepository;
+    private final DietRepository dietRepository;
+    private final RiceRepository riceRepository;
+    private final SoupRepository soupRepository;
+    private final SideDishRepository sideDishRepository;
 
-    private final List<RiceEntity> riceList = riceRepository.getRiceEntityList();
-    private final List<SoupEntity> soupEntityList = soupRepository.getSoupEntityList();
-    private final List<SideDishEntity> sideDishEntityList_1 = sideDishRepository.getSideDishEntityList_1();
-    private final List<SideDishEntity> sideDishEntityList_2 = sideDishRepository.getSideDishEntityList_2();
-    private final List<SideDishEntity> sideDishEntityList_3 = sideDishRepository.getSideDishEntityList_3();
+    private List<RiceEntity> riceList;
+    private List<SoupEntity> soupEntityList;
+    private List<SideDishEntity> sideDishEntityList_1;
+    private List<SideDishEntity> sideDishEntityList_2;
+    private List<SideDishEntity> sideDishEntityList_3;
+
+    @PostConstruct
+    public void init() {
+        riceList = riceRepository.getRiceEntityList();
+        soupEntityList = soupRepository.getSoupEntityList();
+        sideDishEntityList_1 = sideDishRepository.getSideDishEntityList_1();
+        sideDishEntityList_2 = sideDishRepository.getSideDishEntityList_2();
+        sideDishEntityList_3 = sideDishRepository.getSideDishEntityList_3();
+    }
 
     private final List<List<FoodDto>> FoodSets = new ArrayList<>();
     private final List<List<FoodDto>> DietList = new ArrayList<>();
@@ -87,6 +93,7 @@ public class DietService {
                                 .build());
             }
             dtoList.add(DietDto.builder()
+                    .Id(entity.getId())
                     .Rice(RiceDto.builder()
                             .Name(entity.getRice().getName())
                             .Calorie(entity.getRice().getCalorie())
@@ -108,6 +115,48 @@ public class DietService {
                     .build());
         }
         return dtoList;
+    }
+
+    public DietDto getDiet(Long id){
+        if (dietRepository.findById(id.intValue()).isPresent()){
+            DietEntity entity = dietRepository.findById(id.intValue()).get();
+            List<SideDishDto> tmpList = new ArrayList<>();
+            for (SideDishEntity sideDishEntity : entity.getSideDish()){
+                tmpList.add(SideDishDto.builder()
+                        .Name(sideDishEntity.getName())
+                        .Classification(sideDishEntity.getClassification())
+                        .Calorie(sideDishEntity.getCalorie())
+                        .Carbohydrate(sideDishEntity.getCarbohydrate())
+                        .Protein(sideDishEntity.getProtein())
+                        .Province(sideDishEntity.getProvince())
+                        .build());
+            }
+
+            return DietDto.builder()
+                    .Id(entity.getId())
+                    .Rice(RiceDto.builder()
+                            .Name(entity.getRice().getName())
+                            .Calorie(entity.getRice().getCalorie())
+                            .Protein(entity.getRice().getProtein())
+                            .Province(entity.getRice().getProvince())
+                            .build())
+                    .Soup(SoupDto.builder()
+                            .Name(entity.getSoup().getName())
+                            .Calorie(entity.getRice().getCalorie())
+                            .Carbohydrate(entity.getRice().getCarbohydrate())
+                            .Protein(entity.getRice().getProtein())
+                            .Province(entity.getRice().getProvince())
+                            .build())
+                    .SideDishList(tmpList)
+                    .Calorie(entity.getCalorie())
+                    .Carbohydrate(entity.getCarbohydrate())
+                    .Protein(entity.getProtein())
+                    .Province(entity.getProvince())
+                    .build();
+        }
+         else{
+             return null;
+        }
     }
 
     public void StoreDietList(List<List<FoodDto>> DietList){

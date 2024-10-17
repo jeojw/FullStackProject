@@ -19,22 +19,17 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http	.csrf(AbstractHttpConfigurer::disable)
-                .httpBasic(AbstractHttpConfigurer::disable)
-                .formLogin(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests((authorize) -> authorize
+        http.csrf(csrf -> csrf
+                .ignoringRequestMatchers("/api/**")) // API에 대해 CSRF 비활성화
+                .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/signup", "/api/signin").permitAll()
-                        .anyRequest().authenticated())
-                .oauth2Login(
-                        oauth->oauth.loginPage("/signin")
-                                    .defaultSuccessUrl("/home")
-                )
-                .logout((logout) -> logout
+                        .anyRequest().permitAll())
+                .logout(logout -> logout
                         .logoutSuccessUrl("/login")
                         .invalidateHttpSession(true))
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                );
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
         return http.build();
     }
 

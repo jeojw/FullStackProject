@@ -5,10 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -16,7 +13,7 @@ public class UserController {
     private final UserService userService;
     private final BCryptPasswordEncoder encoder;
 
-    @GetMapping("/api/getUserInfo")
+    @PostMapping("/api/getUserInfo")
     public ResponseEntity<UserDto> getUserInfo(@RequestBody SigninRequestDto signinRequestDto){
         return ResponseEntity.ok(userService.getUserInfo(signinRequestDto));
     }
@@ -35,5 +32,11 @@ public class UserController {
         userDto.setUserPassword(encodedPassword);
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/api/setOption")
+    public ResponseEntity<Boolean> setOptions(@RequestBody @Validated SetOptionRequestDto requestDto,
+                                              @RequestParam("userEmail") String userEmail){
+        return ResponseEntity.ok(userService.SetOptions(userEmail, requestDto));
     }
 }

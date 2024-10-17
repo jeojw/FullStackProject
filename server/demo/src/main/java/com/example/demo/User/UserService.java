@@ -4,6 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.Optional;
 
 @Service
@@ -43,14 +46,13 @@ public class UserService {
                         .age(userDto.getAge())
                         .Height(userDto.getHeight())
                         .Weight(userDto.getWeight())
-                        .BMR(userDto.getBMR())
                         .ActiveCoef(userDto.getActiveCoef())
                         .build());
     }
 
     public Boolean SetOptions(String userEmail, SetOptionRequestDto setOptionRequestDto){
         if (userRepository.checkUserByEmail(userEmail).isPresent()){
-            int age = 0;
+            int age = Period.between(setOptionRequestDto.getBirth().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), LocalDate.now()).getYears();;
             double BMR = 0;
             if (setOptionRequestDto.getGender() == 1){
                 BMR = 66.5 + (13.75 * setOptionRequestDto.getWeight()) + (5.003 * setOptionRequestDto.getHeight()) - (6.75 * age);
@@ -59,7 +61,9 @@ public class UserService {
                 BMR = 655.1 + (9.563 * setOptionRequestDto.getWeight()) + (1.850 * setOptionRequestDto.getHeight()) - (4.676  * age);
             }
             userRepository.setOptions(userEmail, setOptionRequestDto.getHeight(), setOptionRequestDto.getWeight(),
-                    ,setOptionRequestDto.getBirth(), age, BMR, setOptionRequestDto.getActiveCoef());
+                    setOptionRequestDto.getGender() ,setOptionRequestDto.getBirth(), age, BMR, setOptionRequestDto.getActiveCoef());
+
+            return true;
         }
         else {
             return false;
