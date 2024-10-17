@@ -1,4 +1,4 @@
-package com.example.demo.Diet.Soup;
+package com.example.demo.Diet;
 
 import lombok.*;
 
@@ -7,8 +7,9 @@ import lombok.*;
 @Data
 @Builder
 @AllArgsConstructor
-public class SoupDto {
+public class FoodDto {
     private String Name;
+    private String Classification;
     private double Calorie;
     private double Carbohydrate;
     private double Protein;

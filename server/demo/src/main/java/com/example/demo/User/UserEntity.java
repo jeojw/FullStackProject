@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Entity
 @Builder
 @Getter
@@ -25,14 +27,23 @@ public class UserEntity {
     private String UserPassword;
 
     @Column(nullable = false)
+    private int Gender;
+
+    @Column(nullable = false)
+    private Date Birth;
+
+    @Column(nullable = false)
+    private int age;
+
+    @Column(nullable = false)
+    private double Height;
+
+    @Column(nullable = false)
     private double Weight;
 
     @Column(nullable = false)
-    private double Carbohydrate;
+    private double BMR;
 
     @Column(nullable = false)
-    private double Protein;
-
-    @Column(nullable = false)
-    private double Province;
+    private int ActiveCoef;
 }
