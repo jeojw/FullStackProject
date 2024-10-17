@@ -22,9 +22,17 @@ public class UserController {
     }
 
     @PostMapping("/api/signIn")
-    public ResponseEntity<?> signIn(@RequestBody @Validated SigninRequestDto signinRequestDto){
+    public ResponseEntity<Boolean> signIn(@RequestBody @Validated SigninRequestDto signinRequestDto){
         String encodedPassword = encoder.encode(signinRequestDto.getUserPassword());
-        userService.signIn(signinRequestDto);
+        signinRequestDto.setUserPassword(encodedPassword);
+
+        return ResponseEntity.ok(userService.signIn(signinRequestDto));
+    }
+
+    @PostMapping("/api/signUp")
+    public ResponseEntity<?> signUp(@RequestBody @Validated UserDto userDto){
+        String encodedPassword = encoder.encode(userDto.getUserPassword());
+        userDto.setUserPassword(encodedPassword);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

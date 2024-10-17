@@ -19,18 +19,50 @@ public class UserService {
         return userInfo.map(userEntity -> UserDto.builder()
                 .UserEmail(userEntity.getUserEmail())
                 .UserPassword(userEntity.getUserPassword())
-                .Carbohydrate(userEntity.getCarbohydrate())
-                .Protein(userEntity.getProtein())
-                .Province(userEntity.getProvince())
+                .Gender(userEntity.getGender())
+                .Birth(userEntity.getBirth())
+                .age(userEntity.getAge())
+                .Height(userEntity.getHeight())
+                .Weight(userEntity.getWeight())
+                .BMR(userEntity.getBMR())
+                .ActiveCoef(userEntity.getActiveCoef())
                 .build()).orElse(null);
     }
 
-    public void setNutrient(String userEmail, NutrientDto nutrientDto){
-        userRepository.setNutrient(nutrientDto.getCarbohydrate(), nutrientDto.getProtein(),
-                nutrientDto.getProvince(), userEmail);
+    public Boolean signIn(SigninRequestDto signinRequestDto){
+        Optional<UserEntity> userInfo = userRepository.checkUser(signinRequestDto.getUserEmail(), signinRequestDto.getUserPassword());
+        return userInfo.isPresent();
     }
 
-    public void signIn(SigninRequestDto signinRequestDto){
+    public void signUp(UserDto userDto){
+        userRepository.save(UserEntity.builder()
+                        .UserEmail(userDto.getUserEmail())
+                        .UserPassword(userDto.getUserPassword())
+                        .Gender(userDto.getGender())
+                        .Birth(userDto.getBirth())
+                        .age(userDto.getAge())
+                        .Height(userDto.getHeight())
+                        .Weight(userDto.getWeight())
+                        .BMR(userDto.getBMR())
+                        .ActiveCoef(userDto.getActiveCoef())
+                        .build());
+    }
 
+    public Boolean SetOptions(String userEmail, SetOptionRequestDto setOptionRequestDto){
+        if (userRepository.checkUserByEmail(userEmail).isPresent()){
+            int age = 0;
+            double BMR = 0;
+            if (setOptionRequestDto.getGender() == 1){
+                BMR = 66.5 + (13.75 * setOptionRequestDto.getWeight()) + (5.003 * setOptionRequestDto.getHeight()) - (6.75 * age);
+            }
+            else{
+                BMR = 655.1 + (9.563 * setOptionRequestDto.getWeight()) + (1.850 * setOptionRequestDto.getHeight()) - (4.676  * age);
+            }
+            userRepository.setOptions(userEmail, setOptionRequestDto.getHeight(), setOptionRequestDto.getWeight(),
+                    ,setOptionRequestDto.getBirth(), age, BMR, setOptionRequestDto.getActiveCoef());
+        }
+        else {
+            return false;
+        }
     }
 }

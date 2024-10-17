@@ -3,26 +3,32 @@ package com.example.demo.Diet;
 import com.example.demo.Diet.Rice.RiceDto;
 import com.example.demo.Diet.Rice.RiceEntity;
 import com.example.demo.Diet.Rice.RiceRepository;
+import com.example.demo.Diet.SideDish.SideDishDto;
 import com.example.demo.Diet.SideDish.SideDishEntity;
 import com.example.demo.Diet.SideDish.SideDishRepository;
+import com.example.demo.Diet.Soup.SoupDto;
 import com.example.demo.Diet.Soup.SoupEntity;
 import com.example.demo.Diet.Soup.SoupRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.DoubleStream;
 
 @Service
 @RequiredArgsConstructor
 public class DietService {
 
-    private final DietRepository dietRepository;
-    private final RiceRepository riceRepository;
-    private final SoupRepository soupRepository;
-    private final SideDishRepository sideDishRepository;
+    @Autowired
+    private DietRepository dietRepository;
+    @Autowired
+    private RiceRepository riceRepository;
+    @Autowired
+    private SoupRepository soupRepository;
+    @Autowired
+    private SideDishRepository sideDishRepository;
 
     private final List<RiceEntity> riceList = riceRepository.getRiceEntityList();
     private final List<SoupEntity> soupEntityList = soupRepository.getSoupEntityList();
@@ -65,12 +71,42 @@ public class DietService {
         SetDietList(FoodSets, new ArrayList<>(), 0,
                 0, 0, 0,
                 carb, protein, province, 0);
-
         StoreDietList(DietList);
+        entityList = dietRepository.returnSearchDiets();
 
-        entityList = dietRepository.returnSearchDiets(carb * 0.9, carb * 1.1,
-                protein * 0.9, protein * 1.1, province * 0.9, province * 1.1);
-
+        for (DietEntity entity : entityList){
+            List<SideDishDto> tmpList = new ArrayList<>();
+            for (SideDishEntity sideDishEntity : entity.getSideDish()){
+                tmpList.add(SideDishDto.builder()
+                                .Name(sideDishEntity.getName())
+                                .Classification(sideDishEntity.getClassification())
+                                .Calorie(sideDishEntity.getCalorie())
+                                .Carbohydrate(sideDishEntity.getCarbohydrate())
+                                .Protein(sideDishEntity.getProtein())
+                                .Province(sideDishEntity.getProvince())
+                                .build());
+            }
+            dtoList.add(DietDto.builder()
+                    .Rice(RiceDto.builder()
+                            .Name(entity.getRice().getName())
+                            .Calorie(entity.getRice().getCalorie())
+                            .Protein(entity.getRice().getProtein())
+                            .Province(entity.getRice().getProvince())
+                            .build())
+                    .Soup(SoupDto.builder()
+                            .Name(entity.getSoup().getName())
+                            .Calorie(entity.getRice().getCalorie())
+                            .Carbohydrate(entity.getRice().getCarbohydrate())
+                            .Protein(entity.getRice().getProtein())
+                            .Province(entity.getRice().getProvince())
+                            .build())
+                    .SideDishList(tmpList)
+                    .Calorie(entity.getCalorie())
+                    .Carbohydrate(entity.getCarbohydrate())
+                    .Protein(entity.getProtein())
+                    .Province(entity.getProvince())
+                    .build());
+        }
         return dtoList;
     }
 
@@ -103,10 +139,6 @@ public class DietService {
                             .Province(foodDtos.get(1).getProvince())
                             .build())
                     .sideDish(sideDishEntityList)
-                    .Calorie(foodDtos.stream().mapToDouble(FoodDto::getCalorie).sum())
-                    .Carbohydrate(foodDtos.stream().mapToDouble(FoodDto::getCarbohydrate).sum())
-                    .Protein(foodDtos.stream().mapToDouble(FoodDto::getProtein).sum())
-                    .Province(foodDtos.stream().mapToDouble(FoodDto::getProvince).sum())
                     .build());
         }
 

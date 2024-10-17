@@ -2,9 +2,6 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        maven{
-            url "https://maven.egovframe.go.kr/maven/"
-        }
     }
 }
 
