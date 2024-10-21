@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -260,5 +261,44 @@ public class DietService {
         }
 
         return returnList;
+    }
+
+    public List<DietDto> sortDietList(List<DietDto> list, String nutrient, String sortOption){
+        if (Objects.equals(nutrient, "Calorie")){
+            if (Objects.equals(sortOption, "Upper")){
+                list.sort(Comparator.comparing(DietDto::getCalorie));
+            }
+            else{
+                list.sort(Comparator.comparing(DietDto::getCalorie).reversed());
+            }
+            return list;
+        }
+        else if (Objects.equals(nutrient, "Carbohydrate")){
+            if (Objects.equals(sortOption, "Upper")){
+                list.sort(Comparator.comparing(DietDto::getCarbohydrate));
+            }
+            else{
+                list.sort(Comparator.comparing(DietDto::getCarbohydrate).reversed());
+            }
+            return list;
+        }
+        else if (Objects.equals(nutrient, "Protein")){
+            if (Objects.equals(sortOption, "Upper")){
+                list.sort(Comparator.comparing(DietDto::getProtein));
+            }
+            else{
+                list.sort(Comparator.comparing(DietDto::getProtein).reversed());
+            }
+            return list;
+        }
+        else{
+            if (Objects.equals(sortOption, "Upper")){
+                list.sort(Comparator.comparing(DietDto::getProvince));
+            }
+            else{
+                list.sort(Comparator.comparing(DietDto::getProvince).reversed());
+            }
+            return list;
+        }
     }
 }

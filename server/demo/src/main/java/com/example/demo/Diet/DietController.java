@@ -21,6 +21,13 @@ public class DietController {
         return ResponseEntity.ok(dietService.getDietList(BMR, activeCoef));
     }
 
+    @PostMapping("/api/sortDietList")
+    public ResponseEntity<List<DietDto>> sortDietList(@RequestParam("DietList") List<DietDto> list,
+                                                      @RequestParam("Nutrient") String nutrient,
+                                                      @RequestParam("sortOption") String sortOption){
+        return ResponseEntity.ok(dietService.sortDietList(list, nutrient, sortOption));
+    }
+
     @PostMapping("/api/dietInfo/{id}")
     public ResponseEntity<DietDto> getDiet(@PathVariable Long id){
         return ResponseEntity.ok(dietService.getDiet(id));

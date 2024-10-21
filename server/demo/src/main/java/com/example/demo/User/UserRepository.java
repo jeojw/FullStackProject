@@ -12,13 +12,15 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
-    @Query(value = "SELECT * FROM fullstack_proj.user_info WHERE user_email = :userEmail AND user_password = :userPassword",
-    nativeQuery = true)
-    Optional<UserEntity> checkUser(@Param("userEmail") String email, @Param("userPassword") String password);
-
     @Query(value = "SELECT * FROM fullstack_proj.user_info WHERE user_email = :userEmail",
             nativeQuery = true)
-    Optional<UserEntity> checkUserByEmail(@Param("userEmail") String email);
+    Optional<UserEntity> findByEmail(@Param("userEmail") String email);
+
+    @Query(value = "UPDATE fullstack_proj.user_info SET user_password = :newPassword WHERE user_email = :userEmail",
+            nativeQuery = true)
+    @Transactional
+    void changePassword(@Param("userEmail") String userEmail,
+                        @Param("newPassword") String newPassword);
 
     @Query(value = "UPDATE fullstack_proj.user_info SET height = :height, weight = :weight, " +
             "gender = :gender, birth =:birth, active_coef = :activeCoef, " +

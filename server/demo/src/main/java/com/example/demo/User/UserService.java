@@ -1,6 +1,12 @@
 package com.example.demo.User;
 
+import com.example.demo.Jwt.JwtToken;
+import com.example.demo.Jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.User;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +20,12 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    private final JwtTokenProvider jwtTokenProvider;
     private final BCryptPasswordEncoder encoder;
 
     public UserDto getUserInfo(SigninRequestDto signinRequestDto) {
-        String encodePassword = encoder.encode(signinRequestDto.getUserPassword());
-        Optional<UserEntity> userInfo = userRepository.checkUser(signinRequestDto.getUserEmail(), encodePassword);
+        Optional<UserEntity> userInfo = userRepository.findByEmail(signinRequestDto.getUserEmail());
         return userInfo.map(userEntity -> UserDto.builder()
                 .userEmail(userEntity.getUserEmail())
                 .userPassword(userEntity.getUserPassword())
@@ -30,9 +37,23 @@ public class UserService {
                 .build()).orElse(null);
     }
 
-    public Boolean signIn(SigninRequestDto signinRequestDto){
-        Optional<UserEntity> userInfo = userRepository.checkUser(signinRequestDto.getUserEmail(), signinRequestDto.getUserPassword());
-        return userInfo.isPresent();
+    public JwtToken signIn(SigninRequestDto signinRequestDto){
+        Optional<UserEntity> user = userRepository.findByEmail(signinRequestDto.getUserEmail());
+        if (user.isPresent()){
+            if (encoder.matches(signinRequestDto.getUserPassword(), user.get().getUserPassword())){
+                UsernamePasswordAuthenticationToken authenticationToken =
+                        new UsernamePasswordAuthenticationToken(signinRequestDto.getUserEmail(), signinRequestDto.getUserPassword());
+                Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+
+                return jwtTokenProvider.generateToken(authentication);
+            }
+            else{
+                return null;
+            }
+        }
+        else{
+            return null;
+        }
     }
 
     public void signUp(UserDto userDto){
@@ -49,8 +70,12 @@ public class UserService {
                         .build());
     }
 
+    public void changePassword(String userEmail, String newPassword){
+        userRepository.changePassword(userEmail, newPassword);
+    }
+
     public Boolean SetOptions(String userEmail, SetOptionRequestDto setOptionRequestDto){
-        if (userRepository.checkUserByEmail(userEmail).isPresent()){
+        if (userRepository.findByEmail(userEmail).isPresent()){
             int age = Period.between(setOptionRequestDto.getBirth().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), LocalDate.now()).getYears();;
             double BMR = 0;
             if (setOptionRequestDto.getGender() == 1){

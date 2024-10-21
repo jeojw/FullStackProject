@@ -1,5 +1,6 @@
 package com.example.demo.User;
 
+import com.example.demo.Jwt.JwtToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,10 +20,7 @@ public class UserController {
     }
 
     @PostMapping("/api/signIn")
-    public ResponseEntity<Boolean> signIn(@RequestBody @Validated SigninRequestDto signinRequestDto){
-        String encodedPassword = encoder.encode(signinRequestDto.getUserPassword());
-        signinRequestDto.setUserPassword(encodedPassword);
-
+    public ResponseEntity<JwtToken> signIn(@RequestBody @Validated SigninRequestDto signinRequestDto){
         return ResponseEntity.ok(userService.signIn(signinRequestDto));
     }
 
@@ -31,6 +29,13 @@ public class UserController {
         String encodedPassword = encoder.encode(userDto.getUserPassword());
         userDto.setUserPassword(encodedPassword);
         userService.signUp(userDto);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/api/changePassword")
+    public ResponseEntity<?> changePassword(@RequestBody @Validated ChangePasswordDto changePasswordDto){
+        String encodedPassword = encoder.encode(changePasswordDto.getNewPassword());
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
