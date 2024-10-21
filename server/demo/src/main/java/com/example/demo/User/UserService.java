@@ -20,15 +20,13 @@ public class UserService {
         String encodePassword = encoder.encode(signinRequestDto.getUserPassword());
         Optional<UserEntity> userInfo = userRepository.checkUser(signinRequestDto.getUserEmail(), encodePassword);
         return userInfo.map(userEntity -> UserDto.builder()
-                .UserEmail(userEntity.getUserEmail())
-                .UserPassword(userEntity.getUserPassword())
-                .Gender(userEntity.getGender())
-                .Birth(userEntity.getBirth())
-                .age(userEntity.getAge())
-                .Height(userEntity.getHeight())
-                .Weight(userEntity.getWeight())
-                .BMR(userEntity.getBMR())
-                .ActiveCoef(userEntity.getActiveCoef())
+                .userEmail(userEntity.getUserEmail())
+                .userPassword(userEntity.getUserPassword())
+                .gender(userEntity.getGender())
+                .birth(userEntity.getBirth())
+                .height(userEntity.getHeight())
+                .weight(userEntity.getWeight())
+                .activeCoef(userEntity.getActiveCoef())
                 .build()).orElse(null);
     }
 
@@ -39,14 +37,15 @@ public class UserService {
 
     public void signUp(UserDto userDto){
         userRepository.save(UserEntity.builder()
-                        .UserEmail(userDto.getUserEmail())
-                        .UserPassword(userDto.getUserPassword())
-                        .Gender(userDto.getGender())
-                        .Birth(userDto.getBirth())
+                        .userEmail(userDto.getUserEmail())
+                        .userPassword(userDto.getUserPassword())
+                        .gender(userDto.getGender())
+                        .birth(userDto.getBirth())
                         .age(userDto.getAge())
-                        .Height(userDto.getHeight())
-                        .Weight(userDto.getWeight())
-                        .ActiveCoef(userDto.getActiveCoef())
+                        .height(userDto.getHeight())
+                        .weight(userDto.getWeight())
+                        .activeCoef(userDto.getActiveCoef())
+                        .BMR(userDto.getBMR())
                         .build());
     }
 

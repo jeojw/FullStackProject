@@ -8,9 +8,9 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 public class RiceDto {
-    private String Name;
-    private double Calorie;
-    private double Carbohydrate;
-    private double Protein;
-    private double Province;
+    private String name;
+    private double calorie;
+    private double carbohydrate;
+    private double protein;
+    private double province;
 }

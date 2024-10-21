@@ -30,6 +30,7 @@ public class UserController {
     public ResponseEntity<?> signUp(@RequestBody @Validated UserDto userDto){
         String encodedPassword = encoder.encode(userDto.getUserPassword());
         userDto.setUserPassword(encodedPassword);
+        userService.signUp(userDto);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

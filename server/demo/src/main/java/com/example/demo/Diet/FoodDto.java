@@ -8,10 +8,10 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 public class FoodDto {
-    private String Name;
-    private String Classification;
-    private double Calorie;
-    private double Carbohydrate;
-    private double Protein;
-    private double Province;
+    private String name;
+    private String classification;
+    private double calorie;
+    private double carbohydrate;
+    private double protein;
+    private double province;
 }

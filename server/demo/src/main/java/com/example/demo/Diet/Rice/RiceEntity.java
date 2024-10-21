@@ -18,17 +18,17 @@ public class RiceEntity {
     private Long id;
 
     @Column(nullable = false)
-    private String Name;
+    private String name;
 
     @Column(nullable = false)
-    private double Calorie;
+    private double calorie;
 
     @Column(nullable = false)
-    private double Carbohydrate;
+    private double carbohydrate;
 
     @Column(nullable = false)
-    private double Protein;
+    private double protein;
 
     @Column(nullable = false)
-    private double Province;
+    private double province;
 }

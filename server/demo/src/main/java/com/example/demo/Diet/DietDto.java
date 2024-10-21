@@ -9,7 +9,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@Data
 @Builder
 @AllArgsConstructor
 public class DietDto {

@@ -19,22 +19,22 @@ public class SideDishEntity {
     private Long id;
 
     @Column(nullable = false)
-    private String Name;
+    private String name;
 
     @Column(nullable = false)
-    private String Classification;
+    private String classification;
 
     @Column(nullable = false)
-    private double Calorie;
+    private double calorie;
 
     @Column(nullable = false)
-    private double Carbohydrate;
+    private double carbohydrate;
 
     @Column(nullable = false)
-    private double Protein;
+    private double protein;
 
     @Column(nullable = false)
-    private double Province;
+    private double province;
 
     @ManyToOne
     @JoinColumn(name = "diet_list_id")

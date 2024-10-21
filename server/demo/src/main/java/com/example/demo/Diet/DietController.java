@@ -17,7 +17,7 @@ public class DietController {
 
     @PostMapping("/api/searchDietList")
     public ResponseEntity<List<DietDto>> getDietList(@RequestParam("BMR") double BMR,
-                                                     @RequestParam("activeCoef") double activeCoef){
+                                                     @RequestParam("activeCoef") int activeCoef){
         return ResponseEntity.ok(dietService.getDietList(BMR, activeCoef));
     }
 
