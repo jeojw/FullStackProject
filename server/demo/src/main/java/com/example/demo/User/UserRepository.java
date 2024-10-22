@@ -3,6 +3,7 @@ package com.example.demo.User;
 import jakarta.transaction.Transactional;
 import org.apache.catalina.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -18,6 +19,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     @Query(value = "UPDATE fullstack_proj.user_info SET user_password = :newPassword WHERE user_email = :userEmail",
             nativeQuery = true)
+    @Modifying
     @Transactional
     void changePassword(@Param("userEmail") String userEmail,
                         @Param("newPassword") String newPassword);
@@ -26,6 +28,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
             "gender = :gender, birth =:birth, active_coef = :activeCoef, " +
             "age = :age, bmr = :bmr WHERE user_email = :userEmail",
     nativeQuery = true)
+    @Modifying
     @Transactional
     void setOptions(@Param("userEmail") String userEmail,
                     @Param("height") double height, @Param("weight") double weight,

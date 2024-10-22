@@ -48,10 +48,10 @@ public class MailSendService {
         else{
             title = "비밀번호 찾기 인증 이메일 입니다.";
         }
-        String content =
-                "인증 번호는 + authNumber + 입니다." +
-                        "<br>" +
-                        "인증번호를 제대로 입력해주세요";
+        String content = String.format("인증 번호는 %d 입니다." +
+                "<br>" +
+                "인증번호를 제대로 입력해주세요", authNumber
+                );
         mailSend(setFrom, toMail, title, content);
         return Integer.toString(authNumber);
     }

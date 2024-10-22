@@ -28,11 +28,12 @@ public class UserService {
         Optional<UserEntity> userInfo = userRepository.findByEmail(signinRequestDto.getUserEmail());
         return userInfo.map(userEntity -> UserDto.builder()
                 .userEmail(userEntity.getUserEmail())
-                .userPassword(userEntity.getUserPassword())
                 .gender(userEntity.getGender())
                 .birth(userEntity.getBirth())
+                .age(userEntity.getAge())
                 .height(userEntity.getHeight())
                 .weight(userEntity.getWeight())
+                .BMR(userEntity.getBMR())
                 .activeCoef(userEntity.getActiveCoef())
                 .build()).orElse(null);
     }
@@ -74,8 +75,8 @@ public class UserService {
         userRepository.changePassword(userEmail, newPassword);
     }
 
-    public Boolean SetOptions(String userEmail, SetOptionRequestDto setOptionRequestDto){
-        if (userRepository.findByEmail(userEmail).isPresent()){
+    public Boolean SetOptions(SetOptionRequestDto setOptionRequestDto){
+        if (userRepository.findByEmail(setOptionRequestDto.getUserEmail()).isPresent()){
             int age = Period.between(setOptionRequestDto.getBirth().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), LocalDate.now()).getYears();;
             double BMR = 0;
             if (setOptionRequestDto.getGender() == 1){
@@ -84,7 +85,7 @@ public class UserService {
             else{
                 BMR = 655.1 + (9.563 * setOptionRequestDto.getWeight()) + (1.850 * setOptionRequestDto.getHeight()) - (4.676  * age);
             }
-            userRepository.setOptions(userEmail, setOptionRequestDto.getHeight(), setOptionRequestDto.getWeight(),
+            userRepository.setOptions(setOptionRequestDto.getUserEmail(), setOptionRequestDto.getHeight(), setOptionRequestDto.getWeight(),
                     setOptionRequestDto.getGender() ,setOptionRequestDto.getBirth(), age, BMR, setOptionRequestDto.getActiveCoef());
 
             return true;

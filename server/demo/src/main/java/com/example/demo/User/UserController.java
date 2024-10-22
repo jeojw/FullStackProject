@@ -37,12 +37,13 @@ public class UserController {
     public ResponseEntity<?> changePassword(@RequestBody @Validated ChangePasswordDto changePasswordDto){
         String encodedPassword = encoder.encode(changePasswordDto.getNewPassword());
 
+        userService.changePassword(changePasswordDto.getUserEmail(), encodedPassword);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/api/setOption")
-    public ResponseEntity<Boolean> setOptions(@RequestBody @Validated SetOptionRequestDto requestDto,
-                                              @RequestParam("userEmail") String userEmail){
-        return ResponseEntity.ok(userService.SetOptions(userEmail, requestDto));
+    public ResponseEntity<Boolean> setOptions(@RequestBody @Validated SetOptionRequestDto requestDto){
+        return ResponseEntity.ok(userService.SetOptions(requestDto));
     }
 }

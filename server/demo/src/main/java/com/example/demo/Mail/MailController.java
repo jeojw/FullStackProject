@@ -17,7 +17,7 @@ public class MailController {
         return ResponseEntity.ok(mailService.joinEmail(emailDto.getEmail(), emailDto.getType()));
     }
 
-    @PostMapping("/api/mailauthCheck")
+    @PostMapping("/api/mailAuthCheck")
     public ResponseEntity<Boolean> authCheck(@RequestBody @Valid EmailCheckDto emailCheckDto){
         Boolean Checked = mailService.checkAuthNum(emailCheckDto.getEmail(), emailCheckDto.getAuthNum());
         return ResponseEntity.ok(Checked);

@@ -10,9 +10,10 @@ import java.util.Date;
 @Getter
 @Setter
 public class SetOptionRequestDto {
-    private int Gender;
-    private Date Birth;
-    private double Height;
-    private double Weight;
-    private int ActiveCoef;
+    private String userEmail;
+    private int gender;
+    private Date birth;
+    private double height;
+    private double weight;
+    private int activeCoef;
 }

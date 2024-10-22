@@ -32,7 +32,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/signIn").permitAll() // signIn 요청 허용
                         .requestMatchers("/api/signUp").permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers("/api/mailSend").permitAll()
+                        .requestMatchers("/api/mailAuthCheck").permitAll()
+                        .anyRequest().permitAll()
                 )
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
                         UsernamePasswordAuthenticationFilter.class); // JWT 필터 추가
