@@ -7,6 +7,7 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:diet_planner/flutter_flow/custom_functions.dart' as functions;
 import 'home_page_model.dart';
 export 'home_page_model.dart';
 
@@ -27,43 +28,39 @@ class _HomePageWidgetState extends State<HomePageWidget> {
     super.initState();
     _model = createModel(context, () => HomePageModel());
 
+    print(FFAppState().accessToken);
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       _model.apiResultw1o = await GetInfoDataCall.call();
-
       if ((_model.apiResultw1o?.succeeded ?? true)) {
-        FFAppState().UserEmail = getJsonField(
-          (_model.apiResultw1o?.jsonBody ?? ''),
-          r'''$.userEmail''',
-        ).toString().toString();
         FFAppState().BirthText = getJsonField(
           (_model.apiResultw1o?.jsonBody ?? ''),
           r'''$.birth''',
-        ).toString().toString();
+        ).toString();
         FFAppState().Gender = getJsonField(
           (_model.apiResultw1o?.jsonBody ?? ''),
           r'''$.gender''',
-        );
+        )!;
         FFAppState().Age = getJsonField(
           (_model.apiResultw1o?.jsonBody ?? ''),
           r'''$.age''',
-        );
+        )!;
         FFAppState().Height = getJsonField(
           (_model.apiResultw1o?.jsonBody ?? ''),
           r'''$.height''',
-        );
+        )!;
         FFAppState().Weight = getJsonField(
           (_model.apiResultw1o?.jsonBody ?? ''),
           r'''$.weight''',
-        );
+        )!;
         FFAppState().ActiveCoef = getJsonField(
           (_model.apiResultw1o?.jsonBody ?? ''),
           r'''$.activeCoef''',
-        );
+        )!;
         FFAppState().BMR = getJsonField(
           (_model.apiResultw1o?.jsonBody ?? ''),
-          r'''$.BMR''',
-        );
+          r'''$.bmr''',
+        )!;
         safeSetState(() {});
       }
     });

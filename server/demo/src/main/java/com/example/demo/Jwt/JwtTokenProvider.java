@@ -30,9 +30,7 @@ public class JwtTokenProvider {
     }
 
     public JwtToken generateToken(Authentication authentication){
-        String authorities = authentication.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(","));
+        String authorities = "user";
 
         long now = (new Date()).getTime();
 
@@ -43,6 +41,8 @@ public class JwtTokenProvider {
                 .setExpiration(accessTokenExpiresln)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
+
+        System.out.println("Auth claim: " + authorities);
 
         String refreshToken = Jwts.builder()
                 .setExpiration(new Date(now + 86400000))

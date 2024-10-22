@@ -43,8 +43,11 @@ public class UserService {
         if (user.isPresent()){
             if (encoder.matches(signinRequestDto.getUserPassword(), user.get().getUserPassword())){
                 UsernamePasswordAuthenticationToken authenticationToken =
-                        new UsernamePasswordAuthenticationToken(signinRequestDto.getUserEmail(), signinRequestDto.getUserPassword());
-                Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+                        new UsernamePasswordAuthenticationToken(signinRequestDto.getUserEmail(),
+                                signinRequestDto.getUserPassword());
+
+                Authentication authentication =
+                        authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
                 return jwtTokenProvider.generateToken(authentication);
             }

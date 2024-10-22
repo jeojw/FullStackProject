@@ -3,12 +3,11 @@ package com.example.demo.Security;
 import com.example.demo.User.UserEntity;
 import com.example.demo.User.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 
 @Service
 @RequiredArgsConstructor
@@ -17,9 +16,15 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserEntity user = userRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        return new org.springframework.security.core.userdetails.User(
-                user.getUserEmail(), user.getUserPassword(), new ArrayList<>()); // 권한은 필요에 따라 추가
+        return userRepository.findByEmail(username)
+                .map(this::createUserDetails)
+                .orElseThrow(() -> new UsernameNotFoundException("해당하는 회원을 찾을 수 없습니다."));
+    }
+
+    private UserDetails createUserDetails(UserEntity user){
+        return User.builder()
+                .username(user.getUserEmail())
+                .password(user.getUserPassword())
+                .build();
     }
 }

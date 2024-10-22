@@ -16,8 +16,8 @@ class GetInfoDataCall {
 
     final ffApiRequestBody = '''
 {
-  "UserEmail": "$userEmail",
-  "UserPassword": "$userPassword"
+  "userEmail": "$userEmail",
+  "userPassword": "$userPassword"
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'GetInfoData',
@@ -215,7 +215,7 @@ class SearchDietListsCall {
 
     final ffApiRequestBody = '''
 {
-  "BMR": "$BMR",
+  "bmr": "$BMR",
   "activeCoef": "$activeCoef"
 }''';
     return ApiManager.instance.makeApiCall(
