@@ -15,13 +15,19 @@ public class UserController {
     private final BCryptPasswordEncoder encoder;
 
     @PostMapping("/api/getUserInfo")
-    public ResponseEntity<UserDto> getUserInfo(@RequestBody SigninRequestDto signinRequestDto){
+    public ResponseEntity<UserDto> getUserInfo(@RequestBody @Validated SigninRequestDto signinRequestDto){
         return ResponseEntity.ok(userService.getUserInfo(signinRequestDto));
     }
 
     @PostMapping("/api/signIn")
     public ResponseEntity<JwtToken> signIn(@RequestBody @Validated SigninRequestDto signinRequestDto){
-        return ResponseEntity.ok(userService.signIn(signinRequestDto));
+        JwtToken token = userService.signIn(signinRequestDto);
+
+        if (token == null) {
+            return ResponseEntity.badRequest().body(null);
+        }
+
+        return ResponseEntity.ok(token);
     }
 
     @PostMapping("/api/signUp")

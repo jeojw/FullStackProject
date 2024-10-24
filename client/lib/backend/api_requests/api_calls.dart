@@ -11,8 +11,9 @@ const _kPrivateApiFunctionName = 'ffPrivateApiCall';
 
 class GetInfoDataCall {
   static Future<ApiCallResponse> call() async {
-    final userEmail = FFAppState().UserEmail;
-    final userPassword = FFAppState().UserPassword;
+    final userEmail = await FFAppState().readFromSecureStorage('userEmail');
+    final userPassword =
+        await FFAppState().readFromSecureStorage('userPassword');
 
     final ffApiRequestBody = '''
 {
@@ -21,7 +22,7 @@ class GetInfoDataCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'GetInfoData',
-      apiUrl: 'http://192.168.45.7:8080/api/getUserInfo',
+      apiUrl: 'http://localhost:8080/api/getUserInfo',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -41,8 +42,9 @@ class GetInfoDataCall {
 
 class SignInCall {
   static Future<ApiCallResponse> call() async {
-    final userEmail = FFAppState().UserEmail;
-    final userPassword = FFAppState().UserPassword;
+    String? userEmail = await FFAppState().readFromSecureStorage('userEmail');
+    String? userPassword =
+        await FFAppState().readFromSecureStorage('userPassword');
 
     final ffApiRequestBody = '''
 {
@@ -51,7 +53,7 @@ class SignInCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'SignIn',
-      apiUrl: 'http://192.168.45.7:8080/api/signIn',
+      apiUrl: 'http://localhost:8080/api/signIn',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -76,7 +78,7 @@ class SetOptionCall {
     final height = FFAppState().Height;
     final weight = FFAppState().Weight;
     final activeCoef = FFAppState().ActiveCoef;
-    final accessToken = FFAppState().accessToken;
+    final accessToken = await FFAppState().readFromSecureStorage('accessToken');
 
     final ffApiRequestBody = '''
 {
@@ -88,7 +90,7 @@ class SetOptionCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'SetOption',
-      apiUrl: 'http://192.168.45.7:8080/api/setOption',
+      apiUrl: 'http://localhost:8080/api/setOption',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -109,8 +111,9 @@ class SetOptionCall {
 
 class SingUpCall {
   static Future<ApiCallResponse> call() async {
-    final userEmail = FFAppState().UserEmail;
-    final userPassword = FFAppState().UserPassword;
+    final userEmail = await FFAppState().readFromSecureStorage('userEmail');
+    final userPassword =
+        await FFAppState().readFromSecureStorage('userPassword');
     final gender = FFAppState().Gender;
     final birthText = FFAppState().BirthText;
     final height = FFAppState().Height;
@@ -129,7 +132,7 @@ class SingUpCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'SingUp',
-      apiUrl: 'http://192.168.45.7:8080/api/signUp',
+      apiUrl: 'http://localhost:8080/api/signUp',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -149,7 +152,7 @@ class SingUpCall {
 
 class MailSendCall {
   static Future<ApiCallResponse> call() async {
-    final userEmail = FFAppState().UserEmail;
+    final userEmail = await FFAppState().readFromSecureStorage('userEmail');
     final mailType = FFAppState().MailType;
 
     final ffApiRequestBody = '''
@@ -159,7 +162,7 @@ class MailSendCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'MailSend',
-      apiUrl: 'http://192.168.45.7:8080/api/mailSend',
+      apiUrl: 'http://localhost:8080/api/mailSend',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -179,8 +182,8 @@ class MailSendCall {
 
 class MailAuthCall {
   static Future<ApiCallResponse> call() async {
-    final userEmail = FFAppState().UserEmail;
-    final authNum = FFAppState().AuthNum;
+    final userEmail = await FFAppState().readFromSecureStorage('userEmail');
+    final authNum = FFAppState().readFromSecureStorage('authNum');
 
     final ffApiRequestBody = '''
 {
@@ -189,7 +192,7 @@ class MailAuthCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'MailAuth',
-      apiUrl: 'http://192.168.45.7:8080/api/mailAuthCheck',
+      apiUrl: 'http://localhost:8080/api/mailAuthCheck',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -211,7 +214,7 @@ class SearchDietListsCall {
   static Future<ApiCallResponse> call() async {
     final BMR = FFAppState().BMR;
     final activeCoef = FFAppState().ActiveCoef;
-    final accessToken = FFAppState().accessToken;
+    final accessToken = FFAppState().readFromSecureStorage('accessToken');
 
     final ffApiRequestBody = '''
 {
@@ -220,7 +223,7 @@ class SearchDietListsCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'SearchDietLists',
-      apiUrl: 'http://192.168.45.7:8080/api/searchDietList',
+      apiUrl: 'http://localhost:8080/api/searchDietList',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -241,8 +244,8 @@ class SearchDietListsCall {
 
 class ChangePasswordCall {
   static Future<ApiCallResponse> call() async {
-    final userEmail = FFAppState().UserEmail;
-    final newPassword = FFAppState().NewPassword;
+    final userEmail = FFAppState().readFromSecureStorage('userEmail');
+    final newPassword = FFAppState().readFromSecureStorage('newPassword');
 
     final ffApiRequestBody = '''
 {
@@ -251,7 +254,7 @@ class ChangePasswordCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'ChangePassword',
-      apiUrl: 'http://192.168.45.7:8080/api/changePassword',
+      apiUrl: 'http://localhost:8080/api/changePassword',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -284,7 +287,7 @@ class SortDietListCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'SortDietList',
-      apiUrl: 'http://192.168.45.7:8080/api/sortDietList',
+      apiUrl: 'http://localhost:8080/api/sortDietList',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -311,7 +314,7 @@ class GetDietInfoCall {
 
     return ApiManager.instance.makeApiCall(
       callName: 'GetDietInfo',
-      apiUrl: 'http://192.168.45.7:8080/api/dietInfo/${id}',
+      apiUrl: 'http://localhost:8080/api/dietInfo/${id}',
       callType: ApiCallType.GET,
       headers: {'Authorization': 'Bearer $accessToken'},
       params: {},
