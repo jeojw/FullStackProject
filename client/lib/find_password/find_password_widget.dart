@@ -331,6 +331,30 @@ class _FindPasswordWidgetState extends State<FindPasswordWidget> {
                         ),
                       ),
                     ),
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 225, 0, 0),
+                      child: FFButtonWidget(
+                        onPressed: () async {
+                          context.pushNamed('AuthPage');
+                        },
+                        text: 'Go Back',
+                        options: FFButtonOptions(
+                          height: 40,
+                          padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                          iconPadding:
+                              EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                          color: FlutterFlowTheme.of(context).primary,
+                          textStyle:
+                              FlutterFlowTheme.of(context).titleSmall.override(
+                                    fontFamily: 'Inter Tight',
+                                    color: Colors.white,
+                                    letterSpacing: 0.0,
+                                  ),
+                          elevation: 0,
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),

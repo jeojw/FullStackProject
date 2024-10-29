@@ -11,9 +11,8 @@ const _kPrivateApiFunctionName = 'ffPrivateApiCall';
 
 class GetInfoDataCall {
   static Future<ApiCallResponse> call() async {
-    final userEmail = await FFAppState().readFromSecureStorage('userEmail');
-    final userPassword =
-        await FFAppState().readFromSecureStorage('userPassword');
+    final userEmail = await FFAppState().getUserEmail();
+    final userPassword = await FFAppState().getUserPassword();
 
     final ffApiRequestBody = '''
 {
@@ -42,9 +41,8 @@ class GetInfoDataCall {
 
 class SignInCall {
   static Future<ApiCallResponse> call() async {
-    String? userEmail = await FFAppState().readFromSecureStorage('userEmail');
-    String? userPassword =
-        await FFAppState().readFromSecureStorage('userPassword');
+    String? userEmail = await FFAppState().getUserEmail();
+    String? userPassword = await FFAppState().getUserPassword();
 
     final ffApiRequestBody = '''
 {
@@ -73,20 +71,21 @@ class SignInCall {
 
 class SetOptionCall {
   static Future<ApiCallResponse> call() async {
+    final userEmail = await FFAppState().getUserEmail();
     final gender = FFAppState().Gender;
     final birthText = FFAppState().BirthText;
     final height = FFAppState().Height;
     final weight = FFAppState().Weight;
     final activeCoef = FFAppState().ActiveCoef;
-    final accessToken = await FFAppState().readFromSecureStorage('accessToken');
-
+    final accessToken = await FFAppState().getAccessToken();
     final ffApiRequestBody = '''
 {
-  "Gender": "$gender",
-  "Birth": "$birthText",
-  "Height": "$height",
-  "Weight": "$weight",
-  "ActiveCoef": "$activeCoef"
+  "userEmail": "$userEmail",
+  "gender": "$gender",
+  "birth": "$birthText",
+  "height": "$height",
+  "weight": "$weight",
+  "activeCoef": "$activeCoef"
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'SetOption',
@@ -111,9 +110,8 @@ class SetOptionCall {
 
 class SingUpCall {
   static Future<ApiCallResponse> call() async {
-    final userEmail = await FFAppState().readFromSecureStorage('userEmail');
-    final userPassword =
-        await FFAppState().readFromSecureStorage('userPassword');
+    final userEmail = await FFAppState().getUserEmail();
+    final userPassword = await FFAppState().getUserPassword();
     final gender = FFAppState().Gender;
     final birthText = FFAppState().BirthText;
     final height = FFAppState().Height;
@@ -152,7 +150,7 @@ class SingUpCall {
 
 class MailSendCall {
   static Future<ApiCallResponse> call() async {
-    final userEmail = await FFAppState().readFromSecureStorage('userEmail');
+    final userEmail = await FFAppState().getUserEmail();
     final mailType = FFAppState().MailType;
 
     final ffApiRequestBody = '''
@@ -182,7 +180,7 @@ class MailSendCall {
 
 class MailAuthCall {
   static Future<ApiCallResponse> call() async {
-    final userEmail = await FFAppState().readFromSecureStorage('userEmail');
+    final userEmail = await FFAppState().getUserEmail();
     final authNum = FFAppState().readFromSecureStorage('authNum');
 
     final ffApiRequestBody = '''
@@ -214,7 +212,7 @@ class SearchDietListsCall {
   static Future<ApiCallResponse> call() async {
     final BMR = FFAppState().BMR;
     final activeCoef = FFAppState().ActiveCoef;
-    final accessToken = FFAppState().readFromSecureStorage('accessToken');
+    final accessToken = FFAppState().getAccessToken();
 
     final ffApiRequestBody = '''
 {
@@ -244,8 +242,8 @@ class SearchDietListsCall {
 
 class ChangePasswordCall {
   static Future<ApiCallResponse> call() async {
-    final userEmail = FFAppState().readFromSecureStorage('userEmail');
-    final newPassword = FFAppState().readFromSecureStorage('newPassword');
+    final userEmail = FFAppState().getUserEmail();
+    final newPassword = FFAppState().getNewPassword();
 
     final ffApiRequestBody = '''
 {
@@ -277,7 +275,7 @@ class SortDietListCall {
     final dietList = FFAppState().DietList;
     final nutrientOption = FFAppState().NutrientOption;
     final sortOption = FFAppState().SortOption;
-    final accessToken = FFAppState().accessToken;
+    final accessToken = FFAppState().getAccessToken();
 
     final ffApiRequestBody = '''
 {
@@ -310,7 +308,7 @@ class GetDietInfoCall {
   static Future<ApiCallResponse> call({
     int? id,
   }) async {
-    final accessToken = FFAppState().accessToken;
+    final accessToken = FFAppState().getAccessToken();
 
     return ApiManager.instance.makeApiCall(
       callName: 'GetDietInfo',

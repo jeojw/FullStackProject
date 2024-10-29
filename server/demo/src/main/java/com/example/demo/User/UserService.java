@@ -80,7 +80,7 @@ public class UserService {
 
     public Boolean SetOptions(SetOptionRequestDto setOptionRequestDto){
         if (userRepository.findByEmail(setOptionRequestDto.getUserEmail()).isPresent()){
-            int age = Period.between(setOptionRequestDto.getBirth().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), LocalDate.now()).getYears();;
+            int age = Period.between(setOptionRequestDto.getBirth(), LocalDate.now()).getYears();;
             double BMR = 0;
             if (setOptionRequestDto.getGender() == 1){
                 BMR = 66.5 + (13.75 * setOptionRequestDto.getWeight()) + (5.003 * setOptionRequestDto.getHeight()) - (6.75 * age);

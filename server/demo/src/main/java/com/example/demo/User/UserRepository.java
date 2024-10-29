@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Optional;
 
@@ -33,6 +34,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     void setOptions(@Param("userEmail") String userEmail,
                     @Param("height") double height, @Param("weight") double weight,
                     @Param("gender") int gender,
-                    @Param("birth") Date birth, @Param("age") int age,
+                    @Param("birth") LocalDate birth, @Param("age") int age,
                     @Param("bmr") double bmr, @Param("activeCoef") int activeCoef);
 }

@@ -13,6 +13,10 @@ int convertToInt(double value) {
   return value.round();
 }
 
+double convertToDouble(int value) {
+  return value.toDouble();
+}
+
 int? genderConvenrToInt(String? gender) {
   if (gender == "Male") {
     return 1;

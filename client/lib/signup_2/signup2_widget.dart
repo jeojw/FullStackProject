@@ -102,47 +102,72 @@ class _Signup2WidgetState extends State<Signup2Widget> {
                       color: FlutterFlowTheme.of(context).alternate,
                     ),
                     Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(
-                          20.0, 10.0, 200.0, 30.0),
-                      child: FlutterFlowDropDown<String>(
-                        controller: _model.setGenderValueController ??=
-                            FormFieldController<String>(null),
-                        options: ['Male', 'Female'],
-                        onChanged: (val) async {
-                          safeSetState(() => _model.setGenderValue = val);
-                          if (_model.setGenderValue == 'Male') {
-                            FFAppState().Gender = 1;
-                            safeSetState(() {});
-                          } else {
-                            FFAppState().Gender = 2;
-                            safeSetState(() {});
-                          }
-                        },
-                        width: 180.0,
-                        height: 40.0,
-                        textStyle:
-                            FlutterFlowTheme.of(context).bodyMedium.override(
-                                  fontFamily: 'Inter',
-                                  letterSpacing: 0.0,
-                                ),
-                        hintText: 'Select Gender',
-                        icon: Icon(
-                          Icons.keyboard_arrow_down_rounded,
-                          color: FlutterFlowTheme.of(context).secondaryText,
-                          size: 24.0,
-                        ),
-                        fillColor:
-                            FlutterFlowTheme.of(context).secondaryBackground,
-                        elevation: 2.0,
-                        borderColor: Colors.black,
-                        borderWidth: 0.0,
-                        borderRadius: 24.0,
-                        margin: EdgeInsetsDirectional.fromSTEB(
-                            12.0, 0.0, 12.0, 0.0),
-                        hidesUnderline: true,
-                        isOverButton: false,
-                        isSearchable: false,
-                        isMultiSelect: false,
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 30),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
+                            child: Text(
+                              functions
+                                  .genderConverToString(FFAppState().Gender)!,
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .override(
+                                    fontFamily: 'Inter',
+                                    fontSize: 24,
+                                    letterSpacing: 0.0,
+                                  ),
+                            ),
+                          ),
+                          Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(20, 10, 200, 10),
+                            child: FlutterFlowDropDown<String>(
+                              controller: _model.setGenderValueController ??=
+                                  FormFieldController<String>(null),
+                              options: ['Male', 'Female'],
+                              onChanged: (val) async {
+                                safeSetState(() => _model.setGenderValue = val);
+                                if (_model.setGenderValue == 'Male') {
+                                  FFAppState().Gender = 1;
+                                  safeSetState(() {});
+                                } else {
+                                  FFAppState().Gender = 2;
+                                  safeSetState(() {});
+                                }
+                              },
+                              width: 180,
+                              height: 40,
+                              textStyle: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .override(
+                                    fontFamily: 'Inter',
+                                    letterSpacing: 0.0,
+                                  ),
+                              hintText: 'Select Gender',
+                              icon: Icon(
+                                Icons.keyboard_arrow_down_rounded,
+                                color:
+                                    FlutterFlowTheme.of(context).secondaryText,
+                                size: 24,
+                              ),
+                              fillColor: FlutterFlowTheme.of(context)
+                                  .secondaryBackground,
+                              elevation: 2,
+                              borderColor: Colors.black,
+                              borderWidth: 0,
+                              borderRadius: 24,
+                              margin:
+                                  EdgeInsetsDirectional.fromSTEB(12, 0, 12, 0),
+                              hidesUnderline: true,
+                              isOverButton: false,
+                              isSearchable: false,
+                              isMultiSelect: false,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     Row(
@@ -463,7 +488,7 @@ class _Signup2WidgetState extends State<Signup2Widget> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Text(
-                                    'Collapsed body text',
+                                    '활동 계수 결정 기준',
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .override(

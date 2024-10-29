@@ -43,17 +43,19 @@ class FFAppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  String _UserEmail = '';
-  String get UserEmail => _UserEmail;
+  Future<String?> getUserEmail() async {
+    return await readFromSecureStorage('userEmail');
+  }
+
   set UserEmail(String value) {
-    _UserEmail = value;
     saveToSecureStorage('userEmail', value);
   }
 
-  String _UserPassword = '';
-  String get UserPassword => _UserPassword;
+  Future<String?> getUserPassword() async {
+    return await readFromSecureStorage('userPassword');
+  }
+
   set UserPassword(String value) {
-    _UserPassword = value;
     saveToSecureStorage('userPassword', value);
   }
 
@@ -105,10 +107,11 @@ class FFAppState extends ChangeNotifier {
     _MailType = value;
   }
 
-  String _AuthNum = '';
-  String get AuthNum => _AuthNum;
+  Future<String?> getAuthNum() async {
+    return await readFromSecureStorage('authNum');
+  }
+
   set AuthNum(String value) {
-    _AuthNum = value;
     saveToSecureStorage('authNum', value);
   }
 
@@ -141,10 +144,11 @@ class FFAppState extends ChangeNotifier {
     DietList.insert(index, value);
   }
 
-  String _NewPassword = '';
-  String get NewPassword => _NewPassword;
+  Future<String?> getNewPassword() async {
+    return await readFromSecureStorage('newPassword');
+  }
+
   set NewPassword(String value) {
-    _NewPassword = value;
     saveToSecureStorage('newPassword', value);
   }
 
@@ -172,25 +176,19 @@ class FFAppState extends ChangeNotifier {
     _DietInfo = value;
   }
 
-  String _accessToken = '';
-  String get accessToken => _accessToken;
+  Future<String?> getAccessToken() async {
+    return await readFromSecureStorage('accessToken');
+  }
+
   set accessToken(String value) {
-    _accessToken = value;
     saveToSecureStorage('accessToken', value);
   }
 
-  Future<void> loadAccessToken() async {
-    _accessToken = (await readFromSecureStorage('accessToken')) ?? "";
+  Future<String?> getRefreshToken() async {
+    return await readFromSecureStorage('refreshToken');
   }
 
-  String _refreshToken = '';
-  String get refreshToken => _refreshToken;
   set refreshToken(String value) {
-    _refreshToken = value;
     saveToSecureStorage('refreshToken', value);
-  }
-
-  Future<void> loadRefreshToken() async {
-    _refreshToken = (await readFromSecureStorage('refreshToken')) ?? "";
   }
 }

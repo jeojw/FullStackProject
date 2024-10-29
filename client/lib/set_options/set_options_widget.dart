@@ -126,49 +126,72 @@ class _SetOptionsWidgetState extends State<SetOptionsWidget> {
                       color: FlutterFlowTheme.of(context).alternate,
                     ),
                     Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(
-                          20.0, 10.0, 200.0, 30.0),
-                      child: FlutterFlowDropDown<String>(
-                        controller: _model.setGenderValueController ??=
-                            FormFieldController<String>(null),
-                        options: ['Male', 'Female'],
-                        onChanged: (val) async {
-                          safeSetState(() => _model.setGenderValue = val);
-                          safeSetState(() {
-                            _model.setGenderValueController?.value =
-                                formatNumber(
-                              FFAppState().Gender,
-                              formatType: FormatType.custom,
-                              format: '',
-                              locale: '',
-                            );
-                          });
-                        },
-                        width: 180.0,
-                        height: 40.0,
-                        textStyle:
-                            FlutterFlowTheme.of(context).bodyMedium.override(
-                                  fontFamily: 'Inter',
-                                  letterSpacing: 0.0,
-                                ),
-                        hintText: 'Select Gender',
-                        icon: Icon(
-                          Icons.keyboard_arrow_down_rounded,
-                          color: FlutterFlowTheme.of(context).secondaryText,
-                          size: 24.0,
-                        ),
-                        fillColor:
-                            FlutterFlowTheme.of(context).secondaryBackground,
-                        elevation: 2.0,
-                        borderColor: Colors.black,
-                        borderWidth: 0.0,
-                        borderRadius: 24.0,
-                        margin: EdgeInsetsDirectional.fromSTEB(
-                            12.0, 0.0, 12.0, 0.0),
-                        hidesUnderline: true,
-                        isOverButton: false,
-                        isSearchable: false,
-                        isMultiSelect: false,
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 30),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
+                            child: Text(
+                              functions
+                                  .genderConverToString(FFAppState().Gender)!,
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .override(
+                                    fontFamily: 'Inter',
+                                    fontSize: 24,
+                                    letterSpacing: 0.0,
+                                  ),
+                            ),
+                          ),
+                          Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(20, 10, 200, 10),
+                            child: FlutterFlowDropDown<String>(
+                              controller: _model.setGenderValueController ??=
+                                  FormFieldController<String>(null),
+                              options: ['Male', 'Female'],
+                              onChanged: (val) async {
+                                safeSetState(() => _model.setGenderValue = val);
+                                if (_model.setGenderValue == 'Male') {
+                                  FFAppState().Gender = 1;
+                                  safeSetState(() {});
+                                } else {
+                                  FFAppState().Gender = 2;
+                                  safeSetState(() {});
+                                }
+                              },
+                              width: 180,
+                              height: 40,
+                              textStyle: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .override(
+                                    fontFamily: 'Inter',
+                                    letterSpacing: 0.0,
+                                  ),
+                              hintText: 'Select Gender',
+                              icon: Icon(
+                                Icons.keyboard_arrow_down_rounded,
+                                color:
+                                    FlutterFlowTheme.of(context).secondaryText,
+                                size: 24,
+                              ),
+                              fillColor: FlutterFlowTheme.of(context)
+                                  .secondaryBackground,
+                              elevation: 2,
+                              borderColor: Colors.black,
+                              borderWidth: 0,
+                              borderRadius: 24,
+                              margin:
+                                  EdgeInsetsDirectional.fromSTEB(12, 0, 12, 0),
+                              hidesUnderline: true,
+                              isOverButton: false,
+                              isSearchable: false,
+                              isMultiSelect: false,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     Row(
@@ -468,14 +491,17 @@ class _SetOptionsWidgetState extends State<SetOptionsWidget> {
                         inactiveColor: FlutterFlowTheme.of(context).alternate,
                         min: 1.0,
                         max: 5.0,
-                        value: _model.sliderValue ??= 1.0,
+                        value: _model.sliderValue ??
+                            FFAppState().ActiveCoef.toDouble(),
                         divisions: 4,
                         onChanged: (newValue) async {
                           newValue = double.parse(newValue.toStringAsFixed(1));
-                          safeSetState(() => _model.sliderValue = newValue);
                           safeSetState(() {
                             _model.sliderValue =
-                                FFAppState().ActiveCoef.toDouble();
+                                double.parse(newValue.toStringAsFixed(1));
+                            // Update the FFAppState with the new value
+                            FFAppState().ActiveCoef = newValue
+                                .toInt(); // Convert back to int if necessary
                           });
                         },
                       ),
@@ -505,7 +531,7 @@ class _SetOptionsWidgetState extends State<SetOptionsWidget> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Text(
-                                    'Collapsed body text',
+                                    '활동 계수 결정 기준',
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .override(
@@ -581,6 +607,19 @@ class _SetOptionsWidgetState extends State<SetOptionsWidget> {
                         EdgeInsetsDirectional.fromSTEB(40.0, 20.0, 0.0, 0.0),
                     child: FFButtonWidget(
                       onPressed: () async {
+                        FFAppState().Gender = functions.genderConvenrToInt(
+                            _model.setGenderValueController?.value)!;
+
+                        double? heightValue = double.tryParse(
+                            _model.heightTextController?.text ?? '');
+                        FFAppState().Height = heightValue!;
+
+                        double? weightValue = double.tryParse(
+                            _model.weightTextController?.text ?? '');
+                        FFAppState().Weight = weightValue!;
+
+                        FFAppState().ActiveCoef = _model.sliderValue as int;
+
                         _model.apiResultw1d = await SetOptionCall.call();
 
                         if ((_model.apiResultw1d?.succeeded ?? true)) {

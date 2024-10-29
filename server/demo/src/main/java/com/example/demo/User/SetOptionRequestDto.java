@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 @Getter
@@ -12,7 +12,7 @@ import java.util.Date;
 public class SetOptionRequestDto {
     private String userEmail;
     private int gender;
-    private Date birth;
+    private LocalDate birth;
     private double height;
     private double weight;
     private int activeCoef;
