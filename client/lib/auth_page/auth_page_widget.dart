@@ -262,22 +262,20 @@ class _AuthPageWidgetState extends State<AuthPageWidget> {
                                 0.0, 30.0, 0.0, 0.0),
                             child: FFButtonWidget(
                               onPressed: () async {
-                                FFAppState().UserEmail =
-                                    _model.inputEmailTextController.text;
-                                FFAppState().UserPassword =
-                                    _model.inputPWTextController.text;
+                                await FFAppState().setUserEmail(_model.inputEmailTextController.text);
+                                await FFAppState().setUserPassword(_model.inputPWTextController.text);
                                 safeSetState(() {});
                                 _model.apiResult8jy = await SignInCall.call();
 
                                 if ((_model.apiResult8jy?.succeeded ?? true)) {
-                                  FFAppState().accessToken = getJsonField(
+                                  await FFAppState().setAccessToken(getJsonField(
                                     (_model.apiResult8jy?.jsonBody ?? ''),
                                     r'''$.accessToken''',
-                                  ).toString();
-                                  FFAppState().refreshToken = getJsonField(
+                                  ).toString());
+                                  await FFAppState().setRefreshToken(getJsonField(
                                     (_model.apiResult8jy?.jsonBody ?? ''),
                                     r'''$.refreshToken''',
-                                  ).toString();
+                                  ).toString());
                                   safeSetState(() {});
 
                                   context.pushNamed('HomePage');

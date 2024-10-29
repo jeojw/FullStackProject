@@ -168,8 +168,7 @@ class _FindPasswordWidgetState extends State<FindPasswordWidget> {
                           _model.apiResultiww = await MailSendCall.call();
 
                           if ((_model.apiResultiww?.succeeded ?? true)) {
-                            FFAppState().AuthNum =
-                                (_model.apiResultiww?.bodyText ?? '');
+                            await FFAppState().setAuthNum((_model.apiResultiww?.bodyText ?? ''));
                             safeSetState(() {});
                           } else {
                             await showDialog(

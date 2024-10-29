@@ -105,8 +105,7 @@ class _Signup1WidgetState extends State<Signup1Widget> {
                             controller: _model.inputEmailTextController,
                             focusNode: _model.inputEmailFocusNode,
                             onFieldSubmitted: (_) async {
-                              FFAppState().UserEmail =
-                                  _model.inputEmailTextController.text;
+                              await FFAppState().setUserEmail( _model.inputEmailTextController.text);
                               safeSetState(() {});
                             },
                             autofocus: false,
@@ -181,15 +180,13 @@ class _Signup1WidgetState extends State<Signup1Widget> {
                           EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 170.0, 10.0),
                       child: FFButtonWidget(
                         onPressed: () async {
-                          FFAppState().UserEmail =
-                              _model.inputEmailTextController.text;
+                          await FFAppState().setUserEmail( _model.inputEmailTextController.text);
                           FFAppState().MailType = 'signIn';
                           safeSetState(() {});
                           _model.apiResultlc4 = await MailSendCall.call();
 
                           if ((_model.apiResultlc4?.succeeded ?? true)) {
-                            FFAppState().AuthNum =
-                                (_model.apiResultlc4?.bodyText ?? '');
+                            await FFAppState().setAuthNum((_model.apiResultlc4?.bodyText ?? ''));
                             safeSetState(() {});
                           } else {
                             await showDialog(
@@ -408,8 +405,7 @@ class _Signup1WidgetState extends State<Signup1Widget> {
                             controller: _model.inputPasswordTextController,
                             focusNode: _model.inputPasswordFocusNode,
                             onFieldSubmitted: (_) async {
-                              FFAppState().UserPassword =
-                                  _model.inputPasswordTextController.text;
+                              await FFAppState().setUserPassword(_model.inputPasswordTextController.text);
                               safeSetState(() {});
                             },
                             autofocus: false,
@@ -616,10 +612,9 @@ class _Signup1WidgetState extends State<Signup1Widget> {
                   onPressed: () async {
                     if (_model.inputPasswordTextController.text ==
                         _model.checkPasswordTextController.text) {
-                      FFAppState().UserPassword =
-                          _model.inputPasswordTextController.text;
+                      await FFAppState().setUserPassword(_model.inputPasswordTextController.text);
                       safeSetState(() {});
-                      FFAppState().deleteAuthNum();
+                      await FFAppState().deleteAuthNum();
                       context.pushNamed('Signup_2');
                     }
                     else{

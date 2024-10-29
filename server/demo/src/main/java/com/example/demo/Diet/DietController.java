@@ -16,7 +16,7 @@ public class DietController {
     private final DietService dietService;
 
     @PostMapping("/api/getDietList")
-    public ResponseEntity<List<DietDto>> getDietList(@Param("userEMail") String userEmail){
+    public ResponseEntity<List<DietDto>> getDietList(@Param("userEmil") String userEmail){
         return ResponseEntity.ok(dietService.getDietList(userEmail));
     }
 

@@ -41,8 +41,11 @@ class GetInfoDataCall {
 
 class SignInCall {
   static Future<ApiCallResponse> call() async {
-    String? userEmail = await FFAppState().getUserEmail();
-    String? userPassword = await FFAppState().getUserPassword();
+    final userEmail = await FFAppState().getUserEmail();
+    final userPassword = await FFAppState().getUserPassword();
+
+    print(userEmail);
+    print(userPassword);
 
     final ffApiRequestBody = '''
 {
@@ -77,7 +80,7 @@ class SetOptionCall {
     final height = FFAppState().Height;
     final weight = FFAppState().Weight;
     final activeCoef = FFAppState().ActiveCoef;
-    String? accessToken = await FFAppState().getAccessToken();
+    final accessToken = await FFAppState().getAccessToken();
     final ffApiRequestBody = '''
 {
   "userEmail": "$userEmail",
@@ -183,7 +186,7 @@ class MailSendCall {
 class MailAuthCall {
   static Future<ApiCallResponse> call() async {
     final userEmail = await FFAppState().getUserEmail();
-    final authNum = FFAppState().readFromSecureStorage('authNum');
+    final authNum = await FFAppState().readFromSecureStorage('authNum');
 
     final ffApiRequestBody = '''
 {
@@ -212,17 +215,19 @@ class MailAuthCall {
 
 class GetDietListCall{
   static Future<ApiCallResponse> call() async {
-    String? userEmail = await FFAppState().getUserEmail();
-    String? accessToken = await FFAppState().getAccessToken();
+    final userEmail = await FFAppState().getUserEmail();
+    final accessToken = await FFAppState().getAccessToken();
 
     return ApiManager.instance.makeApiCall(
       callName: 'GetDietLists',
       apiUrl: 'http://localhost:8080/api/getDietList',
-      callType: ApiCallType.GET,
+      callType: ApiCallType.POST,
       headers: {
         'Authorization': 'Bearer $accessToken'
       },
-      params: {},
+      params: {
+        'userEmail': '$userEmail'
+      },
       returnBody: true,
       encodeBodyUtf8: false,
       decodeUtf8: false,
@@ -235,10 +240,10 @@ class GetDietListCall{
 
 class SearchDietListsCall {
   static Future<ApiCallResponse> call() async {
-    String? userEmail = await FFAppState().getUserEmail();
+    final userEmail = await FFAppState().getUserEmail();
     final BMR = FFAppState().BMR;
     final activeCoef = FFAppState().ActiveCoef;
-    String? accessToken = await FFAppState().getAccessToken();
+    final accessToken = await FFAppState().getAccessToken();
 
     final ffApiRequestBody = '''
 {
@@ -269,8 +274,8 @@ class SearchDietListsCall {
 
 class ChangePasswordCall {
   static Future<ApiCallResponse> call() async {
-    final userEmail = FFAppState().getUserEmail();
-    final newPassword = FFAppState().getNewPassword();
+    final userEmail = await FFAppState().getUserEmail();
+    final newPassword = await FFAppState().getNewPassword();
 
     final ffApiRequestBody = '''
 {
@@ -299,11 +304,11 @@ class ChangePasswordCall {
 
 class SortDietListCall {
   static Future<ApiCallResponse> call() async {
-    String? userEmail = await FFAppState().getUserEmail();
+    final userEmail = await FFAppState().getUserEmail();
     final dietList = FFAppState().DietList;
     final nutrientOption = FFAppState().NutrientOption;
     final sortOption = FFAppState().SortOption;
-    String? accessToken = await FFAppState().getAccessToken();
+    final accessToken = await FFAppState().getAccessToken();
 
     final ffApiRequestBody = '''
 {
@@ -337,8 +342,8 @@ class GetDietInfoCall {
   static Future<ApiCallResponse> call({
     int? id,
   }) async {
-    String? userEmail = await FFAppState().getUserEmail();
-    String? accessToken = await FFAppState().getAccessToken();
+    final userEmail = await FFAppState().getUserEmail();
+    final accessToken = await FFAppState().getAccessToken();
 
     return ApiManager.instance.makeApiCall(
       callName: 'GetDietInfo',

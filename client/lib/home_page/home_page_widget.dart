@@ -30,14 +30,6 @@ class _HomePageWidgetState extends State<HomePageWidget> {
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      _model.apiResultw07 = await GetDietListCall.call();
-      if ((_model.apiResultw07?.succeeded ?? true)) {
-        FFAppState().DietList =
-            (_model.apiResultw07?.jsonBody ?? '')
-                .toList()
-                .cast<dynamic>();
-        safeSetState(() {});
-      }
       _model.apiResultw1o = await GetInfoDataCall.call();
       if ((_model.apiResultw1o?.succeeded ?? true)) {
         FFAppState().BirthText = getJsonField(
@@ -187,26 +179,21 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 padding: EdgeInsetsDirectional.fromSTEB(50, 0, 0, 70),
                 child: FFButtonWidget(
                   onPressed: () async {
-                    if (FFAppState().DietList.isNotEmpty){
+                    if (FFAppState().DietList.isEmpty){
+                      if (FFAppState().DietList.isEmpty){
+                        var _shouldSetState = false;
+                        _model.apiResultw07 = await GetDietListCall.call();
+
+                        _shouldSetState = true;
+                        if ((_model.apiResultw07?.succeeded ?? true)) {
+                          FFAppState().DietList =
+                              (_model.apiResultw07?.jsonBody ?? '')
+                                  .toList()
+                                  .cast<dynamic>();
+                          safeSetState(() {});
+                        }
+                      }
                       context.pushNamed('DietList');
-                    }
-                    else{
-                      await showDialog(
-                        context: context,
-                        builder: (alertDialogContext) {
-                          return AlertDialog(
-                            title: Text('Show Diet List'),
-                            content: Text('Current Diet list is empty!'),
-                            actions: [
-                              TextButton(
-                                onPressed: () =>
-                                    Navigator.pop(alertDialogContext),
-                                child: Text('Ok'),
-                              ),
-                            ],
-                          );
-                        },
-                      );
                     }
                   },
                   text: 'Show Diets',

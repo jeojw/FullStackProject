@@ -47,16 +47,16 @@ class FFAppState extends ChangeNotifier {
     return await readFromSecureStorage('userEmail');
   }
 
-  set UserEmail(String value) {
-    saveToSecureStorage('userEmail', value);
+  Future<void> setUserEmail(String value) async {
+    await saveToSecureStorage('userEmail', value);
   }
 
-  Future<String?> getUserPassword() async {
-    return await readFromSecureStorage('userPassword');
+  Future<String?> getUserPassword() {
+    return readFromSecureStorage('userPassword');
   }
 
-  set UserPassword(String value) {
-    saveToSecureStorage('userPassword', value);
+  Future<void> setUserPassword(String value) async {
+    await saveToSecureStorage('userPassword', value);
   }
 
   String _BirthText = '';
@@ -111,12 +111,12 @@ class FFAppState extends ChangeNotifier {
     return await readFromSecureStorage('authNum');
   }
 
-  set AuthNum(String value) {
-    saveToSecureStorage('authNum', value);
+  Future<void> setAuthNum(String value) async {
+    await saveToSecureStorage('authNum', value);
   }
 
-  void deleteAuthNum(){
-    deleteFromSecureStorage('authNum');
+  Future<void> deleteAuthNum() async {
+    await deleteFromSecureStorage('authNum');
   }
 
   List<dynamic> _DietList = [];
@@ -152,8 +152,8 @@ class FFAppState extends ChangeNotifier {
     return await readFromSecureStorage('newPassword');
   }
 
-  set NewPassword(String value) {
-    saveToSecureStorage('newPassword', value);
+  Future<void> setNewPassword (String value) async {
+    await saveToSecureStorage('newPassword', value);
   }
 
   String _NutrientOption = '';
@@ -184,15 +184,15 @@ class FFAppState extends ChangeNotifier {
     return await readFromSecureStorage('accessToken');
   }
 
-  set accessToken(String value) {
-    saveToSecureStorage('accessToken', value);
+  Future<void> setAccessToken(String value) async {
+    await saveToSecureStorage('accessToken', value);
   }
 
   Future<String?> getRefreshToken() async {
     return await readFromSecureStorage('refreshToken');
   }
 
-  set refreshToken(String value) {
-    saveToSecureStorage('refreshToken', value);
+  Future<void> setRefreshToken(String value) async {
+    await saveToSecureStorage('refreshToken', value);
   }
 }

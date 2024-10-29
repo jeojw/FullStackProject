@@ -304,8 +304,7 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                         onPressed: () async {
                           if (_model.inputPasswordTextController.text ==
                               _model.checkPasswordTextController.text) {
-                            FFAppState().NewPassword =
-                                _model.inputPasswordTextController.text;
+                            await FFAppState().setNewPassword(_model.inputPasswordTextController.text);
                             safeSetState(() {});
                             _model.apiResult477 =
                                 await ChangePasswordCall.call();
