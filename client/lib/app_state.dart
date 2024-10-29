@@ -115,6 +115,10 @@ class FFAppState extends ChangeNotifier {
     saveToSecureStorage('authNum', value);
   }
 
+  void deleteAuthNum(){
+    deleteFromSecureStorage('authNum');
+  }
+
   List<dynamic> _DietList = [];
   List<dynamic> get DietList => _DietList;
   set DietList(List<dynamic> value) {

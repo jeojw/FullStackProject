@@ -311,34 +311,55 @@ class _Signup1WidgetState extends State<Signup1Widget> {
                                 10.0, 0.0, 20.0, 0.0),
                             child: FFButtonWidget(
                               onPressed: () async {
-                                _model.apiResultkps = await MailAuthCall.call();
+                                if (FFAppState().getAuthNum() != '') {
+                                  _model.apiResultkps =
+                                      await MailAuthCall.call();
 
-                                if ((_model.apiResultkps?.succeeded ?? true)) {
-                                  await showDialog(
-                                    context: context,
-                                    builder: (alertDialogContext) {
-                                      return AlertDialog(
-                                        title: Text('Auth Email'),
-                                        content:
-                                            Text('Email Auth is Succeeded!!'),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () => Navigator.pop(
-                                                alertDialogContext),
-                                            child: Text('Ok'),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
+                                  if ((_model.apiResultkps?.succeeded ??
+                                      true)) {
+                                    await showDialog(
+                                      context: context,
+                                      builder: (alertDialogContext) {
+                                        return AlertDialog(
+                                          title: Text('Auth Email'),
+                                          content:
+                                              Text('Email Auth is Succeeded!!'),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () => Navigator.pop(
+                                                  alertDialogContext),
+                                              child: Text('Ok'),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  } else {
+                                    await showDialog(
+                                      context: context,
+                                      builder: (alertDialogContext) {
+                                        return AlertDialog(
+                                          title: Text('Auth Email'),
+                                          content:
+                                              Text('Auth number is incorrect!'),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () => Navigator.pop(
+                                                  alertDialogContext),
+                                              child: Text('Ok'),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  }
                                 } else {
                                   await showDialog(
                                     context: context,
                                     builder: (alertDialogContext) {
                                       return AlertDialog(
-                                        title: Text('Auth Email'),
-                                        content:
-                                            Text('Auth number is incorrect!'),
+                                        title: Text('Auth  Email'),
+                                        content: Text('Auth email is failed!'),
                                         actions: [
                                           TextButton(
                                             onPressed: () => Navigator.pop(
@@ -598,8 +619,26 @@ class _Signup1WidgetState extends State<Signup1Widget> {
                       FFAppState().UserPassword =
                           _model.inputPasswordTextController.text;
                       safeSetState(() {});
-
+                      FFAppState().deleteAuthNum();
                       context.pushNamed('Signup_2');
+                    }
+                    else{
+                      await showDialog(
+                        context: context,
+                        builder: (alertDialogContext) {
+                          return AlertDialog(
+                            title: Text('Sign up'),
+                            content: Text('Password is incorrect!'),
+                            actions: [
+                              TextButton(
+                                onPressed: () =>
+                                    Navigator.pop(alertDialogContext),
+                                child: Text('Ok'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
                     }
                   },
                   text: 'Next',

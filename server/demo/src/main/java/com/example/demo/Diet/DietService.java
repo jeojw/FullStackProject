@@ -9,19 +9,20 @@ import com.example.demo.Diet.SideDish.SideDishRepository;
 import com.example.demo.Diet.Soup.SoupDto;
 import com.example.demo.Diet.Soup.SoupEntity;
 import com.example.demo.Diet.Soup.SoupRepository;
+import com.example.demo.User.UserEntity;
+import com.example.demo.User.UserRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 public class DietService {
 
+    private final UserRepository userRepository;
     private final DietRepository dietRepository;
     private final RiceRepository riceRepository;
     private final SoupRepository soupRepository;
@@ -45,76 +46,130 @@ public class DietService {
     private final List<List<FoodDto>> FoodSets = new ArrayList<>();
     private final List<List<FoodDto>> DietList = new ArrayList<>();
 
-    public List<DietDto> getDietList(double BMR, int activeCoef){
-        List<DietEntity> entityList;
-        List<DietDto> dtoList = new ArrayList<>();
+    public List<DietDto> getDietList(String userEmail){
+        Optional<UserEntity> userEntity = userRepository.findByEmail(userEmail);
+        if (userEntity.isPresent()){
+            List<DietEntity> entityList = dietRepository.returnSearchDiets(userEntity.get().getId());
+            List<DietDto> dtoList = new ArrayList<>();
 
-        double calorie = BMR * activeCoef;
-        double min_carb = calorie * 0.55 / 12;
-        double max_carb = calorie * 0.65 / 12;
-        double min_protein = calorie * 0.07 / 12;
-        double max_protein = calorie * 0.2 / 12;
-        double min_province = calorie * 0.15 / 27;
-        double max_province = calorie * 0.25 / 27;
-
-        double carb = min_carb * 0.5 + max_carb * 0.5;
-        double protein = min_protein * 0.5 + max_protein * 0.5;
-        double province = min_province * 0.5 + max_province * 0.5;
-
-        riceList.sort(Comparator.comparing(RiceEntity::getCarbohydrate).reversed());
-        soupEntityList.sort(Comparator.comparing(SoupEntity::getCarbohydrate).reversed());
-        sideDishEntityList_1.sort(Comparator.comparing(SideDishEntity::getProtein).reversed());
-        sideDishEntityList_2.sort(Comparator.comparing(SideDishEntity::getProvince).reversed());
-        sideDishEntityList_3.sort(Comparator.comparing(SideDishEntity::getProtein).reversed()
-                .thenComparing(Comparator.comparing(SideDishEntity::getProvince).reversed()));
-
-        FoodSets.add(ChangeRiceToFood(riceList));
-        FoodSets.add(ChangeSoupToFood(soupEntityList));
-        FoodSets.add(ChangeSideDishToFood(sideDishEntityList_1));
-        FoodSets.add(ChangeSideDishToFood(sideDishEntityList_2));
-        FoodSets.add(ChangeSideDishToFood(sideDishEntityList_3));
-
-        SetDietList(new ArrayList<>(), 0,
-                0, 0, 0,
-                carb, protein, province);
-        StoreDietList(DietList);
-        entityList = dietRepository.returnSearchDiets();
-
-        for (DietEntity entity : entityList){
-            List<SideDishDto> tmpList = new ArrayList<>();
-            for (SideDishEntity sideDishEntity : entity.getSideDish()){
-                tmpList.add(SideDishDto.builder()
-                                .name(sideDishEntity.getName())
-                                .classification(sideDishEntity.getClassification())
-                                .calorie(sideDishEntity.getCalorie())
-                                .carbohydrate(sideDishEntity.getCarbohydrate())
-                                .protein(sideDishEntity.getProtein())
-                                .province(sideDishEntity.getProvince())
-                                .build());
+            for (DietEntity entity : entityList){
+                List<SideDishDto> tmpList = new ArrayList<>();
+                for (SideDishEntity sideDishEntity : entity.getSideDish()){
+                    tmpList.add(SideDishDto.builder()
+                            .name(sideDishEntity.getName())
+                            .classification(sideDishEntity.getClassification())
+                            .calorie(sideDishEntity.getCalorie())
+                            .carbohydrate(sideDishEntity.getCarbohydrate())
+                            .protein(sideDishEntity.getProtein())
+                            .province(sideDishEntity.getProvince())
+                            .build());
+                }
+                dtoList.add(DietDto.builder()
+                        .Id(entity.getId())
+                        .Rice(RiceDto.builder()
+                                .name(entity.getRice().getName())
+                                .calorie(entity.getRice().getCalorie())
+                                .protein(entity.getRice().getProtein())
+                                .province(entity.getRice().getProvince())
+                                .build())
+                        .Soup(SoupDto.builder()
+                                .name(entity.getSoup().getName())
+                                .calorie(entity.getRice().getCalorie())
+                                .carbohydrate(entity.getRice().getCarbohydrate())
+                                .protein(entity.getRice().getProtein())
+                                .province(entity.getRice().getProvince())
+                                .build())
+                        .SideDishList(tmpList)
+                        .Calorie(entity.getCalorie())
+                        .Carbohydrate(entity.getCarbohydrate())
+                        .Protein(entity.getProtein())
+                        .Province(entity.getProvince())
+                        .build());
             }
-            dtoList.add(DietDto.builder()
-                    .Id(entity.getId())
-                    .Rice(RiceDto.builder()
-                            .name(entity.getRice().getName())
-                            .calorie(entity.getRice().getCalorie())
-                            .protein(entity.getRice().getProtein())
-                            .province(entity.getRice().getProvince())
-                            .build())
-                    .Soup(SoupDto.builder()
-                            .name(entity.getSoup().getName())
-                            .calorie(entity.getRice().getCalorie())
-                            .carbohydrate(entity.getRice().getCarbohydrate())
-                            .protein(entity.getRice().getProtein())
-                            .province(entity.getRice().getProvince())
-                            .build())
-                    .SideDishList(tmpList)
-                    .Calorie(entity.getCalorie())
-                    .Carbohydrate(entity.getCarbohydrate())
-                    .Protein(entity.getProtein())
-                    .Province(entity.getProvince())
-                    .build());
+            return dtoList;
         }
-        return dtoList;
+        else{
+            return null;
+        }
+    }
+
+    public List<DietDto> searchDietList(String userEmail, double BMR, int activeCoef){
+        Optional<UserEntity> userEntity = userRepository.findByEmail(userEmail);
+        if (userEntity.isPresent()){
+            List<DietEntity> entityList;
+            List<DietDto> dtoList = new ArrayList<>();
+
+            double calorie = BMR * activeCoef;
+            double min_carb = calorie * 0.55 / 12;
+            double max_carb = calorie * 0.65 / 12;
+            double min_protein = calorie * 0.07 / 12;
+            double max_protein = calorie * 0.2 / 12;
+            double min_province = calorie * 0.15 / 27;
+            double max_province = calorie * 0.25 / 27;
+
+            double carb = min_carb * 0.5 + max_carb * 0.5;
+            double protein = min_protein * 0.5 + max_protein * 0.5;
+            double province = min_province * 0.5 + max_province * 0.5;
+
+            riceList.sort(Comparator.comparing(RiceEntity::getCarbohydrate).reversed());
+            soupEntityList.sort(Comparator.comparing(SoupEntity::getCarbohydrate).reversed());
+            sideDishEntityList_1.sort(Comparator.comparing(SideDishEntity::getProtein).reversed());
+            sideDishEntityList_2.sort(Comparator.comparing(SideDishEntity::getProvince).reversed());
+            sideDishEntityList_3.sort(Comparator.comparing(SideDishEntity::getProtein).reversed()
+                    .thenComparing(Comparator.comparing(SideDishEntity::getProvince).reversed()));
+
+            FoodSets.add(ChangeRiceToFood(riceList));
+            FoodSets.add(ChangeSoupToFood(soupEntityList));
+            FoodSets.add(ChangeSideDishToFood(sideDishEntityList_1));
+            FoodSets.add(ChangeSideDishToFood(sideDishEntityList_2));
+            FoodSets.add(ChangeSideDishToFood(sideDishEntityList_3));
+
+            dietRepository.deleteDietList();
+            SetDietList(new ArrayList<>(), 0,
+                    0, 0, 0,
+                    carb, protein, province);
+            StoreDietList(userEntity.get(), DietList);
+            entityList = dietRepository.returnSearchDiets(userEntity.get().getId());
+
+            for (DietEntity entity : entityList){
+                List<SideDishDto> tmpList = new ArrayList<>();
+                for (SideDishEntity sideDishEntity : entity.getSideDish()){
+                    tmpList.add(SideDishDto.builder()
+                            .name(sideDishEntity.getName())
+                            .classification(sideDishEntity.getClassification())
+                            .calorie(sideDishEntity.getCalorie())
+                            .carbohydrate(sideDishEntity.getCarbohydrate())
+                            .protein(sideDishEntity.getProtein())
+                            .province(sideDishEntity.getProvince())
+                            .build());
+                }
+                dtoList.add(DietDto.builder()
+                        .Id(entity.getId())
+                        .Rice(RiceDto.builder()
+                                .name(entity.getRice().getName())
+                                .calorie(entity.getRice().getCalorie())
+                                .protein(entity.getRice().getProtein())
+                                .province(entity.getRice().getProvince())
+                                .build())
+                        .Soup(SoupDto.builder()
+                                .name(entity.getSoup().getName())
+                                .calorie(entity.getRice().getCalorie())
+                                .carbohydrate(entity.getRice().getCarbohydrate())
+                                .protein(entity.getRice().getProtein())
+                                .province(entity.getRice().getProvince())
+                                .build())
+                        .SideDishList(tmpList)
+                        .Calorie(entity.getCalorie())
+                        .Carbohydrate(entity.getCarbohydrate())
+                        .Protein(entity.getProtein())
+                        .Province(entity.getProvince())
+                        .build());
+            }
+            return dtoList;
+        }
+        else{
+            return null;
+        }
     }
 
     public DietDto getDiet(Long id){
@@ -159,7 +214,7 @@ public class DietService {
         }
     }
 
-    public void StoreDietList(List<List<FoodDto>> DietList){
+    public void StoreDietList(UserEntity user, List<List<FoodDto>> DietList){
         if (!DietList.isEmpty()){
             for (List<FoodDto> foodDtos : DietList) {
                 List<SideDishEntity> sideDishEntityList = new ArrayList<>();
@@ -170,7 +225,8 @@ public class DietService {
                 DietEntity dietEntity = new DietEntity(
                         riceRepository.getRiceEntity(foodDtos.get(0).getName()),
                         soupRepository.getSoupEntity(foodDtos.get(1).getName()),
-                        sideDishEntityList
+                        sideDishEntityList,
+                        user
                 );
 
                 dietRepository.save(dietEntity);

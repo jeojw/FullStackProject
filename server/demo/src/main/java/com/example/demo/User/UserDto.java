@@ -1,11 +1,13 @@
 package com.example.demo.User;
 
+import com.example.demo.Diet.DietDto;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.List;
 
 @Getter
 @Setter
@@ -22,6 +24,7 @@ public class UserDto {
     private double weight;
     private double BMR;
     private int activeCoef;
+    private List<DietDto> dietList;
 
     @JsonCreator
     public UserDto(
@@ -31,7 +34,8 @@ public class UserDto {
             @JsonProperty("birth") LocalDate birth,
             @JsonProperty("height") double height,
             @JsonProperty("weight") double weight,
-            @JsonProperty("activeCoef") int activeCoef) {
+            @JsonProperty("activeCoef") int activeCoef,
+            @JsonProperty("dietList") List<DietDto> dietList) {
         this.userEmail = userEmail;
         this.userPassword = userPassword;
         this.gender = gender;
@@ -39,6 +43,7 @@ public class UserDto {
         this.height = height;
         this.weight = weight;
         this.activeCoef = activeCoef;
+        this.dietList = dietList;
 
         this.age = Period.between(birth, LocalDate.now()).getYears();
         if (gender == 1) {

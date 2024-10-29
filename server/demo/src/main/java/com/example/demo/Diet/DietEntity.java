@@ -1,11 +1,9 @@
 package com.example.demo.Diet;
 
-import com.example.demo.Diet.Rice.RiceDto;
 import com.example.demo.Diet.Rice.RiceEntity;
-import com.example.demo.Diet.SideDish.SideDishDto;
 import com.example.demo.Diet.SideDish.SideDishEntity;
-import com.example.demo.Diet.Soup.SoupDto;
 import com.example.demo.Diet.Soup.SoupEntity;
+import com.example.demo.User.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,6 +11,7 @@ import java.util.List;
 
 @Getter
 @Entity
+@NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "DietList")
 public class DietEntity {
@@ -27,6 +26,10 @@ public class DietEntity {
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name="soup_table_id")
     private SoupEntity soup;
+
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JoinColumn(name="user_id")
+    private UserEntity user;
 
     @OneToMany(mappedBy = "dietEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SideDishEntity> sideDish;
@@ -43,11 +46,12 @@ public class DietEntity {
     @Column(nullable = false)
     private double Province;
 
-    public DietEntity(RiceEntity rice, SoupEntity soup, List<SideDishEntity> sideDishDtoList)
+    public DietEntity(RiceEntity rice, SoupEntity soup, List<SideDishEntity> sideDishDtoList, UserEntity user)
     {
         this.rice = rice;
         this.soup = soup;
         this.sideDish = sideDishDtoList;
+        this.user = user;
 
         this.Calorie = rice.getCalorie() + soup.getCalorie() + sideDishDtoList.stream().mapToDouble(SideDishEntity::getCalorie).sum();
         this.Carbohydrate = rice.getCarbohydrate() + soup.getCarbohydrate() + sideDishDtoList.stream().mapToDouble(SideDishEntity::getCarbohydrate).sum();

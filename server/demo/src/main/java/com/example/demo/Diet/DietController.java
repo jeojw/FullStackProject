@@ -1,6 +1,7 @@
 package com.example.demo.Diet;
 
 import com.example.demo.BodyInfoDto;
+import io.lettuce.core.dynamic.annotation.Param;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -14,9 +15,14 @@ public class DietController {
 
     private final DietService dietService;
 
+    @PostMapping("/api/getDietList")
+    public ResponseEntity<List<DietDto>> getDietList(@Param("userEMail") String userEmail){
+        return ResponseEntity.ok(dietService.getDietList(userEmail));
+    }
+
     @PostMapping("/api/searchDietList")
-    public ResponseEntity<List<DietDto>> getDietList(@RequestBody @Validated BodyInfoDto bodyInfoDto){
-        return ResponseEntity.ok(dietService.getDietList(bodyInfoDto.getBMR(), bodyInfoDto.getActiveCoef()));
+    public ResponseEntity<List<DietDto>> searchDietList(@RequestBody @Validated BodyInfoDto bodyInfoDto){
+        return ResponseEntity.ok(dietService.searchDietList(bodyInfoDto.getUserEmail(), bodyInfoDto.getBMR(), bodyInfoDto.getActiveCoef()));
     }
 
     @GetMapping("/api/sortDietList")

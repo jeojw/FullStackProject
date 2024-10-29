@@ -6,6 +6,7 @@ import lombok.Getter;
 @Data
 @Getter
 public class BodyInfoDto {
+    private String userEmail;
     private double BMR;
     private int activeCoef;
 }

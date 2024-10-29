@@ -287,17 +287,37 @@ class _FindPasswordWidgetState extends State<FindPasswordWidget> {
                           EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 240.0, 0.0),
                       child: FFButtonWidget(
                         onPressed: () async {
-                          _model.apiResultgpo = await MailAuthCall.call();
+                          if (FFAppState().getAuthNum() != '') {
+                            _model.apiResultgpo = await MailAuthCall.call();
 
-                          if ((_model.apiResultgpo?.succeeded ?? true)) {
-                            context.pushNamed('ChangePassword');
+                            if ((_model.apiResultgpo?.succeeded ?? true)) {
+                              FFAppState().deleteAuthNum();
+                              context.pushNamed('ChangePassword');
+                            } else {
+                              await showDialog(
+                                context: context,
+                                builder: (alertDialogContext) {
+                                  return AlertDialog(
+                                    title: Text('Auth Email'),
+                                    content: Text('Auth num is incorrect!'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () =>
+                                            Navigator.pop(alertDialogContext),
+                                        child: Text('Ok'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            }
                           } else {
                             await showDialog(
                               context: context,
                               builder: (alertDialogContext) {
                                 return AlertDialog(
                                   title: Text('Auth Email'),
-                                  content: Text('Auth num is incorrect!'),
+                                  content: Text('Auth email is failed!'),
                                   actions: [
                                     TextButton(
                                       onPressed: () =>

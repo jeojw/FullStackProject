@@ -1,3 +1,5 @@
+import 'package:expandable/expandable.dart';
+
 import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_data_table.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
@@ -77,12 +79,12 @@ class _DietListWidgetState extends State<DietListWidget> {
                   children: [
                     Padding(
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 10.0),
+                          const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 10.0),
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 20.0, 0.0, 20.0, 0.0),
                             child: Text(
                               'Sort Option',
@@ -101,7 +103,7 @@ class _DietListWidgetState extends State<DietListWidget> {
                               FlutterFlowDropDown<String>(
                                 controller: _model.dropDownValueController1 ??=
                                     FormFieldController<String>(null),
-                                options: [
+                                options: const [
                                   'Calorie',
                                   'Carbohydrate',
                                   'Protein',
@@ -130,7 +132,7 @@ class _DietListWidgetState extends State<DietListWidget> {
                                 borderColor: Colors.transparent,
                                 borderWidth: 0.0,
                                 borderRadius: 8.0,
-                                margin: EdgeInsetsDirectional.fromSTEB(
+                                margin: const EdgeInsetsDirectional.fromSTEB(
                                     12.0, 0.0, 12.0, 0.0),
                                 hidesUnderline: true,
                                 isOverButton: false,
@@ -140,7 +142,7 @@ class _DietListWidgetState extends State<DietListWidget> {
                               FlutterFlowDropDown<String>(
                                 controller: _model.dropDownValueController2 ??=
                                     FormFieldController<String>(null),
-                                options: ['Upper', 'Lower'],
+                                options: const ['Upper', 'Lower'],
                                 onChanged: (val) => safeSetState(
                                     () => _model.dropDownValue2 = val),
                                 width: MediaQuery.sizeOf(context).width * 0.35,
@@ -164,7 +166,7 @@ class _DietListWidgetState extends State<DietListWidget> {
                                 borderColor: Colors.transparent,
                                 borderWidth: 0.0,
                                 borderRadius: 8.0,
-                                margin: EdgeInsetsDirectional.fromSTEB(
+                                margin: const EdgeInsetsDirectional.fromSTEB(
                                     12.0, 0.0, 12.0, 0.0),
                                 hidesUnderline: true,
                                 isOverButton: false,
@@ -174,7 +176,7 @@ class _DietListWidgetState extends State<DietListWidget> {
                             ],
                           ),
                           Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 30.0, 0.0, 0.0, 0.0),
                             child: FFButtonWidget(
                               onPressed: () async {
@@ -213,9 +215,9 @@ class _DietListWidgetState extends State<DietListWidget> {
                               text: 'Sort',
                               options: FFButtonOptions(
                                 height: 40.0,
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     16.0, 0.0, 16.0, 0.0),
-                                iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                iconPadding: const EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 0.0, 0.0),
                                 color: FlutterFlowTheme.of(context).primary,
                                 textStyle: FlutterFlowTheme.of(context)
@@ -340,7 +342,7 @@ class _DietListWidgetState extends State<DietListWidget> {
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
                                     Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
                                           0.0, 0.0, 0.0, 5.0),
                                       child: Text(
                                         'Hello World',
@@ -353,7 +355,7 @@ class _DietListWidgetState extends State<DietListWidget> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
                                           0.0, 0.0, 0.0, 5.0),
                                       child: Text(
                                         'Hello World',
@@ -403,9 +405,9 @@ class _DietListWidgetState extends State<DietListWidget> {
                                   text: 'Button',
                                   options: FFButtonOptions(
                                     height: 40.0,
-                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
                                         16.0, 0.0, 16.0, 0.0),
-                                    iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                    iconPadding: const EdgeInsetsDirectional.fromSTEB(
                                         0.0, 0.0, 0.0, 0.0),
                                     color: FlutterFlowTheme.of(context).primary,
                                     textStyle: FlutterFlowTheme.of(context)
@@ -442,6 +444,99 @@ class _DietListWidgetState extends State<DietListWidget> {
                         },
                       ),
                     ),
+                    Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Expanded(
+                          child: Container(
+                            width: double.infinity,
+                            height: 200,
+                            color: Color(0x00000000),
+                            child: ExpandableNotifier(
+                              initialExpanded: false,
+                              child: ExpandablePanel(
+                                header: Text(
+                                  'SideDishes',
+                                  style:
+                                      FlutterFlowTheme.of(context)
+                                          .titleLarge
+                                          .override(
+                                            fontFamily:
+                                                'Inter Tight',
+                                            color: Colors.black,
+                                            fontSize: 14,
+                                            letterSpacing: 0.0,
+                                          ),
+                                ),
+                                collapsed: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      'more information',
+                                      style: FlutterFlowTheme.of(
+                                              context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily: 'Inter',
+                                            color:
+                                                Color(0x8A000000),
+                                            letterSpacing: 0.0,
+                                          ),
+                                    ),
+                                  ],
+                                ),
+                                expanded: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Text(
+                                      'Expanded body text',
+                                      style: FlutterFlowTheme.of(
+                                              context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily: 'Inter',
+                                            color:
+                                                Color(0x8A000000),
+                                            letterSpacing: 0.0,
+                                          ),
+                                    ),
+                                    Text(
+                                      'Hello World',
+                                      style: FlutterFlowTheme.of(
+                                              context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily: 'Inter',
+                                            letterSpacing: 0.0,
+                                          ),
+                                    ),
+                                    Text(
+                                      'Hello World',
+                                      style: FlutterFlowTheme.of(
+                                              context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily: 'Inter',
+                                            letterSpacing: 0.0,
+                                          ),
+                                    ),
+                                  ],
+                                ),
+                                theme: const ExpandableThemeData(
+                                  tapHeaderToExpand: true,
+                                  tapBodyToExpand: false,
+                                  tapBodyToCollapse: false,
+                                  headerAlignment:
+                                      ExpandablePanelHeaderAlignment
+                                          .center,
+                                  hasIcon: true,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                     FFButtonWidget(
                       onPressed: () async {
                         context.pushNamed('HomePage');
@@ -449,10 +544,10 @@ class _DietListWidgetState extends State<DietListWidget> {
                       text: 'Go Back',
                       options: FFButtonOptions(
                         height: 40.0,
-                        padding: EdgeInsetsDirectional.fromSTEB(
+                        padding: const EdgeInsetsDirectional.fromSTEB(
                             16.0, 0.0, 16.0, 0.0),
                         iconPadding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                            const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                         color: FlutterFlowTheme.of(context).primary,
                         textStyle:
                             FlutterFlowTheme.of(context).titleSmall.override(

@@ -77,7 +77,7 @@ class SetOptionCall {
     final height = FFAppState().Height;
     final weight = FFAppState().Weight;
     final activeCoef = FFAppState().ActiveCoef;
-    final accessToken = await FFAppState().getAccessToken();
+    String? accessToken = await FFAppState().getAccessToken();
     final ffApiRequestBody = '''
 {
   "userEmail": "$userEmail",
@@ -117,6 +117,7 @@ class SingUpCall {
     final height = FFAppState().Height;
     final weight = FFAppState().Weight;
     final activeCoef = FFAppState().ActiveCoef;
+    final dietList = [];
 
     final ffApiRequestBody = '''
 {
@@ -126,7 +127,8 @@ class SingUpCall {
   "birth": "$birthText",
   "height": "$height",
   "weight": "$weight",
-  "activeCoef": "$activeCoef"
+  "activeCoef": "$activeCoef",
+  "dietList": "$dietList"
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'SingUp',
@@ -208,14 +210,39 @@ class MailAuthCall {
   }
 }
 
+class GetDietListCall{
+  static Future<ApiCallResponse> call() async {
+    String? userEmail = await FFAppState().getUserEmail();
+    String? accessToken = await FFAppState().getAccessToken();
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'GetDietLists',
+      apiUrl: 'http://localhost:8080/api/getDietList',
+      callType: ApiCallType.GET,
+      headers: {
+        'Authorization': 'Bearer $accessToken'
+      },
+      params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
 class SearchDietListsCall {
   static Future<ApiCallResponse> call() async {
+    String? userEmail = await FFAppState().getUserEmail();
     final BMR = FFAppState().BMR;
     final activeCoef = FFAppState().ActiveCoef;
-    final accessToken = FFAppState().getAccessToken();
+    String? accessToken = await FFAppState().getAccessToken();
 
     final ffApiRequestBody = '''
 {
+  "userEmail": "$userEmail",
   "bmr": "$BMR",
   "activeCoef": "$activeCoef"
 }''';
@@ -272,13 +299,15 @@ class ChangePasswordCall {
 
 class SortDietListCall {
   static Future<ApiCallResponse> call() async {
+    String? userEmail = await FFAppState().getUserEmail();
     final dietList = FFAppState().DietList;
     final nutrientOption = FFAppState().NutrientOption;
     final sortOption = FFAppState().SortOption;
-    final accessToken = FFAppState().getAccessToken();
+    String? accessToken = await FFAppState().getAccessToken();
 
     final ffApiRequestBody = '''
 {
+  "userEmail": $userEmail, 
   "dietList": $dietList,
   "nutrient": "$nutrientOption",
   "sortOption": "$sortOption"
@@ -308,14 +337,17 @@ class GetDietInfoCall {
   static Future<ApiCallResponse> call({
     int? id,
   }) async {
-    final accessToken = FFAppState().getAccessToken();
+    String? userEmail = await FFAppState().getUserEmail();
+    String? accessToken = await FFAppState().getAccessToken();
 
     return ApiManager.instance.makeApiCall(
       callName: 'GetDietInfo',
       apiUrl: 'http://localhost:8080/api/dietInfo/${id}',
-      callType: ApiCallType.GET,
+      callType: ApiCallType.POST,
       headers: {'Authorization': 'Bearer $accessToken'},
-      params: {},
+      params: {
+        'userEmail': '$userEmail'
+      },
       returnBody: true,
       encodeBodyUtf8: false,
       decodeUtf8: false,

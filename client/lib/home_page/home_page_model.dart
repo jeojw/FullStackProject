@@ -12,6 +12,7 @@ class HomePageModel extends FlutterFlowModel<HomePageWidget> {
 
   // Stores action output result for [Backend Call - API (SearchDietLists)] action in SearchButton widget.
   ApiCallResponse? apiResultc04;
+  ApiCallResponse? apiResultw07;
   ApiCallResponse? apiResultw1o;
 
   @override
