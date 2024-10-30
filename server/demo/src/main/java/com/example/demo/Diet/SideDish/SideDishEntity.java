@@ -1,11 +1,13 @@
 package com.example.demo.Diet.SideDish;
 
-import com.example.demo.Diet.DietEntity;
+import com.example.demo.Diet.DietSideDish.DietSideDishEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Getter
 @Entity
@@ -36,7 +38,6 @@ public class SideDishEntity {
     @Column(nullable = false)
     private double province;
 
-    @ManyToOne
-    @JoinColumn(name = "diet_list_id")
-    private DietEntity dietEntity;
+    @OneToMany(mappedBy = "sideDish", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DietSideDishEntity> dietSideDishes;
 }

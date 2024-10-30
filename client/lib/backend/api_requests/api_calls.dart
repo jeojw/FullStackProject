@@ -30,8 +30,8 @@ class GetInfoDataCall {
       body: ffApiRequestBody,
       bodyType: BodyType.JSON,
       returnBody: true,
-      encodeBodyUtf8: false,
-      decodeUtf8: false,
+      encodeBodyUtf8: true,
+      decodeUtf8: true,
       cache: false,
       isStreamingApi: false,
       alwaysAllowBody: false,
@@ -43,10 +43,6 @@ class SignInCall {
   static Future<ApiCallResponse> call() async {
     final userEmail = await FFAppState().getUserEmail();
     final userPassword = await FFAppState().getUserPassword();
-
-    print(userEmail);
-    print(userPassword);
-
     final ffApiRequestBody = '''
 {
   "userEmail": "$userEmail",
@@ -63,8 +59,8 @@ class SignInCall {
       body: ffApiRequestBody,
       bodyType: BodyType.JSON,
       returnBody: true,
-      encodeBodyUtf8: false,
-      decodeUtf8: false,
+      encodeBodyUtf8: true,
+      decodeUtf8: true,
       cache: false,
       isStreamingApi: false,
       alwaysAllowBody: false,
@@ -102,8 +98,8 @@ class SetOptionCall {
       body: ffApiRequestBody,
       bodyType: BodyType.JSON,
       returnBody: true,
-      encodeBodyUtf8: false,
-      decodeUtf8: false,
+      encodeBodyUtf8: true,
+      decodeUtf8: true,
       cache: false,
       isStreamingApi: false,
       alwaysAllowBody: false,
@@ -144,8 +140,8 @@ class SingUpCall {
       body: ffApiRequestBody,
       bodyType: BodyType.JSON,
       returnBody: true,
-      encodeBodyUtf8: false,
-      decodeUtf8: false,
+      encodeBodyUtf8: true,
+      decodeUtf8: true,
       cache: false,
       isStreamingApi: false,
       alwaysAllowBody: false,
@@ -174,8 +170,8 @@ class MailSendCall {
       body: ffApiRequestBody,
       bodyType: BodyType.JSON,
       returnBody: true,
-      encodeBodyUtf8: false,
-      decodeUtf8: false,
+      encodeBodyUtf8: true,
+      decodeUtf8: true,
       cache: false,
       isStreamingApi: false,
       alwaysAllowBody: false,
@@ -204,8 +200,8 @@ class MailAuthCall {
       body: ffApiRequestBody,
       bodyType: BodyType.JSON,
       returnBody: true,
-      encodeBodyUtf8: false,
-      decodeUtf8: false,
+      encodeBodyUtf8: true,
+      decodeUtf8: true,
       cache: false,
       isStreamingApi: false,
       alwaysAllowBody: false,
@@ -220,17 +216,16 @@ class GetDietListCall{
 
     return ApiManager.instance.makeApiCall(
       callName: 'GetDietLists',
-      apiUrl: 'http://localhost:8080/api/getDietList',
+      apiUrl: 'http://localhost:8080/api/getDietList?userEmail=$userEmail',
       callType: ApiCallType.POST,
       headers: {
-        'Authorization': 'Bearer $accessToken'
+        'Authorization': 'Bearer $accessToken',
+        'Content-Type': 'application/json'
       },
-      params: {
-        'userEmail': '$userEmail'
-      },
+      params: {},
       returnBody: true,
-      encodeBodyUtf8: false,
-      decodeUtf8: false,
+      encodeBodyUtf8: true,
+      decodeUtf8: true,
       cache: false,
       isStreamingApi: false,
       alwaysAllowBody: false,
@@ -263,8 +258,8 @@ class SearchDietListsCall {
       body: ffApiRequestBody,
       bodyType: BodyType.JSON,
       returnBody: true,
-      encodeBodyUtf8: false,
-      decodeUtf8: false,
+      encodeBodyUtf8: true,
+      decodeUtf8: true,
       cache: false,
       isStreamingApi: false,
       alwaysAllowBody: false,
@@ -293,8 +288,8 @@ class ChangePasswordCall {
       body: ffApiRequestBody,
       bodyType: BodyType.JSON,
       returnBody: true,
-      encodeBodyUtf8: false,
-      decodeUtf8: false,
+      encodeBodyUtf8: true,
+      decodeUtf8: true,
       cache: false,
       isStreamingApi: false,
       alwaysAllowBody: false,
@@ -312,8 +307,8 @@ class SortDietListCall {
 
     final ffApiRequestBody = '''
 {
-  "userEmail": $userEmail, 
-  "dietList": $dietList,
+  "userEmail": "$userEmail", 
+  "dietList": ${jsonEncode(dietList)},
   "nutrient": "$nutrientOption",
   "sortOption": "$sortOption"
 }''';
@@ -329,8 +324,8 @@ class SortDietListCall {
       body: ffApiRequestBody,
       bodyType: BodyType.JSON,
       returnBody: true,
-      encodeBodyUtf8: false,
-      decodeUtf8: false,
+      encodeBodyUtf8: true,
+      decodeUtf8: true,
       cache: false,
       isStreamingApi: false,
       alwaysAllowBody: false,
@@ -354,8 +349,8 @@ class GetDietInfoCall {
         'userEmail': '$userEmail'
       },
       returnBody: true,
-      encodeBodyUtf8: false,
-      decodeUtf8: false,
+      encodeBodyUtf8: true,
+      decodeUtf8: true,
       cache: false,
       isStreamingApi: false,
       alwaysAllowBody: false,

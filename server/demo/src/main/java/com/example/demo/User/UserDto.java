@@ -1,12 +1,14 @@
 package com.example.demo.User;
 
 import com.example.demo.Diet.DietDto;
+import com.example.demo.Diet.DietEntity;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -25,6 +27,25 @@ public class UserDto {
     private double BMR;
     private int activeCoef;
     private List<DietDto> dietList;
+
+    public static UserDto toUserDto(UserEntity userEntity){
+        List<DietDto> dtoList = new ArrayList<>();
+        for (DietEntity entity : userEntity.getDietList()){
+            dtoList.add(DietDto.toDietDto(entity));
+        }
+        return UserDto.builder()
+                .userEmail(userEntity.getUserEmail())
+                .userPassword(userEntity.getUserPassword())
+                .gender(userEntity.getGender())
+                .birth(userEntity.getBirth())
+                .age(userEntity.getAge())
+                .height(userEntity.getHeight())
+                .weight(userEntity.getWeight())
+                .BMR(userEntity.getBMR())
+                .activeCoef(userEntity.getActiveCoef())
+                .dietList(dtoList)
+                .build();
+    }
 
     @JsonCreator
     public UserDto(

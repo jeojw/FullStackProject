@@ -19,13 +19,14 @@ class DietListModel extends FlutterFlowModel<DietListWidget> {
   // State field(s) for DropDown widget.
   String? dropDownValue2;
   FormFieldController<String>? dropDownValueController2;
-  // Stores action output result for [Backend Call - API (SearchDietLists)] action in Button widget.
-  ApiCallResponse? apiResultrlt;
+
   // State field(s) for PaginatedDataTable widget.
   final paginatedDataTableController =
       FlutterFlowDataTableController<dynamic>();
   // Stores action output result for [Backend Call - API (GetDietInfo)] action in Button widget.
   ApiCallResponse? apiResultodd;
+  // Stores action output result for [Backend Call - API (SearchDietLists)] action in Button widget.
+  ApiCallResponse? apiResultsort;
 
   @override
   void initState(BuildContext context) {}

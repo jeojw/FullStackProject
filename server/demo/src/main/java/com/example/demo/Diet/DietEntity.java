@@ -1,12 +1,13 @@
 package com.example.demo.Diet;
 
+import com.example.demo.Diet.DietSideDish.DietSideDishEntity;
 import com.example.demo.Diet.Rice.RiceEntity;
-import com.example.demo.Diet.SideDish.SideDishEntity;
 import com.example.demo.Diet.Soup.SoupEntity;
 import com.example.demo.User.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -31,31 +32,44 @@ public class DietEntity {
     @JoinColumn(name="user_id")
     private UserEntity user;
 
-    @OneToMany(mappedBy = "dietEntity", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<SideDishEntity> sideDish;
+    @OneToMany(mappedBy = "diet", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DietSideDishEntity> dietSideDishes;
 
     @Column(nullable = false)
-    private double Calorie;
+    private double calorie;
 
     @Column(nullable = false)
-    private double Carbohydrate;
+    private double carbohydrate;
 
     @Column(nullable = false)
-    private double Protein;
+    private double protein;
 
     @Column(nullable = false)
-    private double Province;
+    private double province;
 
-    public DietEntity(RiceEntity rice, SoupEntity soup, List<SideDishEntity> sideDishDtoList, UserEntity user)
+    public DietEntity(RiceEntity rice, SoupEntity soup, UserEntity user)
     {
         this.rice = rice;
         this.soup = soup;
-        this.sideDish = sideDishDtoList;
         this.user = user;
+        this.dietSideDishes = dietSideDishes != null ? dietSideDishes : new ArrayList<>();
 
-        this.Calorie = rice.getCalorie() + soup.getCalorie() + sideDishDtoList.stream().mapToDouble(SideDishEntity::getCalorie).sum();
-        this.Carbohydrate = rice.getCarbohydrate() + soup.getCarbohydrate() + sideDishDtoList.stream().mapToDouble(SideDishEntity::getCarbohydrate).sum();
-        this.Protein = rice.getProtein() + soup.getProtein() + sideDishDtoList.stream().mapToDouble(SideDishEntity::getProtein).sum();
-        this.Province = rice.getProvince() + soup.getProvince() + sideDishDtoList.stream().mapToDouble(SideDishEntity::getProvince).sum();
+        this.calorie = rice.getCalorie() + soup.getCalorie() + dietSideDishes.stream()
+                .mapToDouble(dietSideDish -> dietSideDish.getSideDish().getCalorie())
+                .sum();
+        this.carbohydrate = rice.getCarbohydrate() + soup.getCarbohydrate() + dietSideDishes.stream()
+                .mapToDouble(dietSideDish -> dietSideDish.getSideDish().getCarbohydrate())
+                .sum();
+        this.protein = rice.getProtein() + soup.getProtein() + dietSideDishes.stream()
+                .mapToDouble(dietSideDish -> dietSideDish.getSideDish().getProtein())
+                .sum();
+        this.province = rice.getProvince() + soup.getProvince() + dietSideDishes.stream()
+                .mapToDouble(dietSideDish -> dietSideDish.getSideDish().getProvince())
+                .sum();
+    }
+
+    public void addDietSideDish(DietSideDishEntity dietSideDish) {
+        dietSideDish.setDiet(this);
+        this.dietSideDishes.add(dietSideDish);
     }
 }

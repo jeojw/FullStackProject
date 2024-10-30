@@ -6,6 +6,7 @@ import lombok.*;
 @Setter
 @Data
 @Builder
+@NoArgsConstructor
 @AllArgsConstructor
 public class SoupDto {
     private String name;
@@ -13,4 +14,14 @@ public class SoupDto {
     private double carbohydrate;
     private double protein;
     private double province;
+
+    public static SoupDto toSoupDto(SoupEntity soupEntity){
+        return SoupDto.builder()
+                .name(soupEntity.getName())
+                .calorie(soupEntity.getCalorie())
+                .carbohydrate(soupEntity.getCarbohydrate())
+                .protein(soupEntity.getProtein())
+                .province(soupEntity.getProvince())
+                .build();
+    }
 }

@@ -6,6 +6,7 @@ import lombok.*;
 @Setter
 @Data
 @Builder
+@NoArgsConstructor
 @AllArgsConstructor
 public class SideDishDto {
     private String name;
@@ -14,4 +15,15 @@ public class SideDishDto {
     private double carbohydrate;
     private double protein;
     private double province;
+
+    public static SideDishDto toSideDishDto(SideDishEntity sideDishEntity){
+        return SideDishDto.builder()
+                .name(sideDishEntity.getName())
+                .classification(sideDishEntity.getClassification())
+                .calorie(sideDishEntity.getCalorie())
+                .carbohydrate(sideDishEntity.getCarbohydrate())
+                .protein(sideDishEntity.getProtein())
+                .province(sideDishEntity.getProvince())
+                .build();
+    }
 }

@@ -60,10 +60,12 @@ class _HomePageWidgetState extends State<HomePageWidget> {
           (_model.apiResultw1o?.jsonBody ?? ''),
           r'''$.bmr''',
         )!;
-        FFAppState().DietList = getJsonField(
+        dynamic dietList = getJsonField(
           (_model.apiResultw1o?.jsonBody ?? ''),
           r'''$.dietList''',
-        )!;
+        ) ?? [];
+
+        FFAppState().DietList = dietList;
         safeSetState(() {});
       }
     });
@@ -193,6 +195,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                           safeSetState(() {});
                         }
                       }
+                    }
+                    else{
                       context.pushNamed('DietList');
                     }
                   },

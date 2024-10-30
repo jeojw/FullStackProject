@@ -34,58 +34,7 @@ public class UserService {
 
     public UserDto getUserInfo(SigninRequestDto signinRequestDto) {
         Optional<UserEntity> userInfo = userRepository.findByEmail(signinRequestDto.getUserEmail());
-        if (userInfo.isPresent()){
-            List<DietDto> dtoList = new ArrayList<>();
-            List<DietEntity> entityList = userInfo.get().getDietList();
-            for (DietEntity entity : entityList){
-                List<SideDishDto> tmpList = new ArrayList<>();
-                for (SideDishEntity sideDishEntity : entity.getSideDish()){
-                    tmpList.add(SideDishDto.builder()
-                            .name(sideDishEntity.getName())
-                            .classification(sideDishEntity.getClassification())
-                            .calorie(sideDishEntity.getCalorie())
-                            .carbohydrate(sideDishEntity.getCarbohydrate())
-                            .protein(sideDishEntity.getProtein())
-                            .province(sideDishEntity.getProvince())
-                            .build());
-                }
-                dtoList.add(DietDto.builder()
-                        .Id(entity.getId())
-                        .Rice(RiceDto.builder()
-                                .name(entity.getRice().getName())
-                                .calorie(entity.getRice().getCalorie())
-                                .protein(entity.getRice().getProtein())
-                                .province(entity.getRice().getProvince())
-                                .build())
-                        .Soup(SoupDto.builder()
-                                .name(entity.getSoup().getName())
-                                .calorie(entity.getRice().getCalorie())
-                                .carbohydrate(entity.getRice().getCarbohydrate())
-                                .protein(entity.getRice().getProtein())
-                                .province(entity.getRice().getProvince())
-                                .build())
-                        .SideDishList(tmpList)
-                        .Calorie(entity.getCalorie())
-                        .Carbohydrate(entity.getCarbohydrate())
-                        .Protein(entity.getProtein())
-                        .Province(entity.getProvince())
-                        .build());
-            }
-            return userInfo.map(userEntity -> UserDto.builder()
-                    .userEmail(userEntity.getUserEmail())
-                    .gender(userEntity.getGender())
-                    .birth(userEntity.getBirth())
-                    .age(userEntity.getAge())
-                    .height(userEntity.getHeight())
-                    .weight(userEntity.getWeight())
-                    .BMR(userEntity.getBMR())
-                    .activeCoef(userEntity.getActiveCoef())
-                    .dietList(dtoList)
-                    .build()).orElse(null);
-        }
-        else{
-            return null;
-        }
+        return userInfo.map(UserDto::toUserDto).orElse(null);
     }
 
     public JwtToken signIn(SigninRequestDto signinRequestDto){
