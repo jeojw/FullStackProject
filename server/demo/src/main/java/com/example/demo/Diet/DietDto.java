@@ -17,14 +17,14 @@ import java.util.List;
 @AllArgsConstructor
 public class DietDto {
     private Long Id;
-    private RiceDto Rice;
-    private SoupDto Soup;
-    private List<DietSideDishDto> DietSideDishList;
+    private RiceDto rice;
+    private SoupDto soup;
+    private List<DietSideDishDto> dietSideDishList;
 
-    private double Calorie;
-    private double Carbohydrate;
-    private double Protein;
-    private double Province;
+    private double calorie;
+    private double carbohydrate;
+    private double protein;
+    private double province;
 
     public static DietDto toDietDto(DietEntity dietEntity){
         List<DietSideDishDto> dtoList = new ArrayList<>();
@@ -33,34 +33,21 @@ public class DietDto {
         }
         return DietDto.builder()
                 .Id(dietEntity.getId())
-                .Rice(RiceDto.toRiceDto(dietEntity.getRice()))
-                .Soup(SoupDto.toSoupDto(dietEntity.getSoup()))
-                .DietSideDishList(dtoList)
-                .Calorie(dietEntity.getCalorie())
-                .Carbohydrate(dietEntity.getCarbohydrate())
-                .Protein(dietEntity.getProtein())
-                .Province(dietEntity.getProvince())
+                .rice(RiceDto.toRiceDto(dietEntity.getRice()))
+                .soup(SoupDto.toSoupDto(dietEntity.getSoup()))
+                .dietSideDishList(dtoList)
+                .calorie(dietEntity.getCalorie())
+                .carbohydrate(dietEntity.getCarbohydrate())
+                .protein(dietEntity.getProtein())
+                .province(dietEntity.getProvince())
                 .build();
     }
 
     public DietDto(Long id, RiceDto rice, SoupDto soup, List<DietSideDishDto> dietSideDishDtoList)
     {
         this.Id = id;
-        this.Rice = rice;
-        this.Soup = soup;
-        this.DietSideDishList = dietSideDishDtoList;
-
-        this.Calorie = rice.getCalorie() + soup.getCalorie() + dietSideDishDtoList.stream()
-                .mapToDouble(dietSideDish -> dietSideDish.getSideDishDto().getCalorie())
-                .sum();
-        this.Carbohydrate = rice.getCarbohydrate() + soup.getCarbohydrate() + dietSideDishDtoList.stream()
-                .mapToDouble(dietSideDish -> dietSideDish.getSideDishDto().getCarbohydrate())
-                .sum();
-        this.Protein = rice.getProtein() + soup.getProtein() + dietSideDishDtoList.stream()
-                .mapToDouble(dietSideDish -> dietSideDish.getSideDishDto().getProtein())
-                .sum();
-        this.Province = rice.getProvince() + soup.getProvince() + dietSideDishDtoList.stream()
-                .mapToDouble(dietSideDish -> dietSideDish.getSideDishDto().getProvince())
-                .sum();
+        this.rice = rice;
+        this.soup = soup;
+        this.dietSideDishList = dietSideDishDtoList;
     }
 }

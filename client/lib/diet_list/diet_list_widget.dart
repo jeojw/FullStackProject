@@ -358,6 +358,7 @@ class _DietListWidgetState extends State<DietListWidget> {
 
                                     if ((_model.apiResultodd?.succeeded ??
                                         true)) {
+                                      FFAppState().DietInfo = _model.apiResultodd?.jsonBody;
                                       context.pushNamed(
                                         'DietInfo',
                                         queryParameters: {
@@ -371,7 +372,7 @@ class _DietListWidgetState extends State<DietListWidget> {
 
                                     safeSetState(() {});
                                   },
-                                  text: 'Button',
+                                  text: 'Info',
                                   options: FFButtonOptions(
                                     height: 40.0,
                                     padding: const EdgeInsetsDirectional.fromSTEB(

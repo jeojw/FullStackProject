@@ -335,19 +335,16 @@ class SortDietListCall {
 
 class GetDietInfoCall {
   static Future<ApiCallResponse> call({
-    int? id,
+    required int? id,
   }) async {
-    final userEmail = await FFAppState().getUserEmail();
     final accessToken = await FFAppState().getAccessToken();
 
     return ApiManager.instance.makeApiCall(
       callName: 'GetDietInfo',
-      apiUrl: 'http://localhost:8080/api/dietInfo/${id}',
-      callType: ApiCallType.POST,
+      apiUrl: 'http://localhost:8080/api/dietInfo/${id.toString()}',
+      callType: ApiCallType.GET,
       headers: {'Authorization': 'Bearer $accessToken'},
-      params: {
-        'userEmail': '$userEmail'
-      },
+      params: {},
       returnBody: true,
       encodeBodyUtf8: true,
       decodeUtf8: true,

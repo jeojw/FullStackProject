@@ -6,13 +6,11 @@ import com.example.demo.Diet.DietSideDish.DietSideDishRepository;
 import com.example.demo.Diet.Rice.RiceDto;
 import com.example.demo.Diet.Rice.RiceEntity;
 import com.example.demo.Diet.Rice.RiceRepository;
-import com.example.demo.Diet.SideDish.SideDishDto;
 import com.example.demo.Diet.SideDish.SideDishEntity;
 import com.example.demo.Diet.SideDish.SideDishRepository;
 import com.example.demo.Diet.Soup.SoupDto;
 import com.example.demo.Diet.Soup.SoupEntity;
 import com.example.demo.Diet.Soup.SoupRepository;
-import com.example.demo.User.UserDto;
 import com.example.demo.User.UserEntity;
 import com.example.demo.User.UserRepository;
 import jakarta.annotation.PostConstruct;
@@ -106,21 +104,7 @@ public class DietService {
             entityList = dietRepository.returnSearchDiets(userEntity.get().getId());
 
             for (DietEntity entity : entityList){
-                List<DietSideDishDto> dietSideDishDtoList = new ArrayList<>();
-
-                for (DietSideDishEntity dietSideDishEntity : entity.getDietSideDishes()){
-                    dietSideDishDtoList.add(DietSideDishDto.toDietSideDishDto(dietSideDishEntity));
-                }
-                dtoList.add(DietDto.builder()
-                        .Id(entity.getId())
-                        .Rice(RiceDto.toRiceDto(entity.getRice()))
-                        .Soup(SoupDto.toSoupDto(entity.getSoup()))
-                        .DietSideDishList(dietSideDishDtoList)
-                        .Calorie(entity.getCalorie())
-                        .Carbohydrate(entity.getCarbohydrate())
-                        .Protein(entity.getProtein())
-                        .Province(entity.getProvince())
-                        .build());
+                dtoList.add(DietDto.toDietDto(entity));
             }
             return dtoList;
         }
@@ -132,6 +116,7 @@ public class DietService {
     public DietDto getDiet(Long id){
         if (dietRepository.findById(id.intValue()).isPresent()){
             DietEntity entity = dietRepository.findById(id.intValue()).get();
+            System.out.print("list: " + entity.getDietSideDishes().get(0).getSideDish().getCalorie() + "\n");
             return DietDto.toDietDto(entity);
         }
          else{
@@ -147,7 +132,6 @@ public class DietService {
                         soupRepository.getSoupEntity(foodDtos.get(1).getName()),
                         user
                 );
-
                 for (int j = 2; j < foodDtos.size(); j++) {
                     DietSideDishEntity dietSideDishEntity = new DietSideDishEntity();
                     dietSideDishEntity.setUser(user);
@@ -159,6 +143,10 @@ public class DietService {
                         dietEntity.getCarbohydrate(),
                         dietEntity.getProtein(),
                         dietEntity.getProvince())){
+                    dietEntity.setCalorie();
+                    dietEntity.setCarbohydrate();
+                    dietEntity.setProtein();
+                    dietEntity.setProvince();
                     dietRepository.save(dietEntity);
                 }
             }

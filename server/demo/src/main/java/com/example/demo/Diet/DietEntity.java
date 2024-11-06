@@ -53,18 +53,57 @@ public class DietEntity {
         this.soup = soup;
         this.user = user;
         this.dietSideDishes = dietSideDishes != null ? dietSideDishes : new ArrayList<>();
+    }
 
-        this.calorie = rice.getCalorie() + soup.getCalorie() + dietSideDishes.stream()
-                .mapToDouble(dietSideDish -> dietSideDish.getSideDish().getCalorie())
+    public void setCalorie(){
+        this.calorie = rice.getCalorie() * 1.5 + soup.getCalorie() * 1.5 + dietSideDishes.stream()
+                .mapToDouble(dietSideDish -> {
+                    String classification = dietSideDish.getSideDish().getClassification();
+                    if (classification.equals("구이류") || classification.equals("찜류") || classification.equals("전·적 및 부침류")) {
+                        return dietSideDish.getSideDish().getCalorie();
+                    } else {
+                        return dietSideDish.getSideDish().getCalorie() * 0.5;
+                    }
+                })
                 .sum();
-        this.carbohydrate = rice.getCarbohydrate() + soup.getCarbohydrate() + dietSideDishes.stream()
-                .mapToDouble(dietSideDish -> dietSideDish.getSideDish().getCarbohydrate())
+    }
+
+    public void setCarbohydrate(){
+        this.carbohydrate = rice.getCarbohydrate() * 1.5 + soup.getCarbohydrate() * 1.5 + dietSideDishes.stream()
+                .mapToDouble(dietSideDish -> {
+                    String classification = dietSideDish.getSideDish().getClassification();
+                    if (classification.equals("구이류") || classification.equals("찜류") || classification.equals("전·적 및 부침류")) {
+                        return dietSideDish.getSideDish().getCarbohydrate();
+                    } else {
+                        return dietSideDish.getSideDish().getCarbohydrate() * 0.5;
+                    }
+                })
                 .sum();
-        this.protein = rice.getProtein() + soup.getProtein() + dietSideDishes.stream()
-                .mapToDouble(dietSideDish -> dietSideDish.getSideDish().getProtein())
+    }
+
+    public void setProtein(){
+        this.protein = rice.getProtein() * 1.5 + soup.getProtein() * 1.5 + dietSideDishes.stream()
+                .mapToDouble(dietSideDish -> {
+                    String classification = dietSideDish.getSideDish().getClassification();
+                    if (classification.equals("구이류") || classification.equals("찜류") || classification.equals("전·적 및 부침류")) {
+                        return dietSideDish.getSideDish().getProtein();
+                    } else {
+                        return dietSideDish.getSideDish().getProtein() * 0.5;
+                    }
+                })
                 .sum();
-        this.province = rice.getProvince() + soup.getProvince() + dietSideDishes.stream()
-                .mapToDouble(dietSideDish -> dietSideDish.getSideDish().getProvince())
+    }
+
+    public void setProvince(){
+        this.province = rice.getProvince() * 1.5 + soup.getProvince() * 1.5 + dietSideDishes.stream()
+                .mapToDouble(dietSideDish -> {
+                    String classification = dietSideDish.getSideDish().getClassification();
+                    if (classification.equals("구이류") || classification.equals("찜류") || classification.equals("전·적 및 부침류")) {
+                        return dietSideDish.getSideDish().getProvince();
+                    } else {
+                        return dietSideDish.getSideDish().getProvince() * 0.5;
+                    }
+                })
                 .sum();
     }
 

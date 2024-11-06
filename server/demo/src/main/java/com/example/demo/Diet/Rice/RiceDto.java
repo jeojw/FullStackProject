@@ -1,6 +1,5 @@
 package com.example.demo.Diet.Rice;
 
-import com.example.demo.Diet.DietDto;
 import lombok.*;
 
 @Getter
