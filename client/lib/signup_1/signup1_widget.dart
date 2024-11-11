@@ -589,8 +589,6 @@ class _Signup1WidgetState extends State<Signup1Widget> {
                                       _model
                                           .checkPasswordTextController.text) &&
                                   (_model.inputPasswordTextController.text !=
-                                          null &&
-                                      _model.inputPasswordTextController.text !=
                                           '')
                               ? 'Password correct!'
                               : 'Password diffeerent!',

@@ -15,8 +15,7 @@ class SetOptionsModel extends FlutterFlowModel<SetOptionsWidget> {
   ///  State fields for stateful widgets in this page.
 
   // State field(s) for SetGender widget.
-  String? setGenderValue;
-  FormFieldController<String>? setGenderValueController;
+  int? setGenderValue;
   DateTime? datePicked;
   // State field(s) for Height widget.
   FocusNode? heightFocusNode;

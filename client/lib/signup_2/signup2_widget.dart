@@ -1,3 +1,6 @@
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:toggle_switch/toggle_switch.dart';
+
 import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -124,48 +127,25 @@ class _Signup2WidgetState extends State<Signup2Widget> {
                           Padding(
                             padding:
                                 EdgeInsetsDirectional.fromSTEB(20, 10, 200, 10),
-                            child: FlutterFlowDropDown<String>(
-                              controller: _model.setGenderValueController ??=
-                                  FormFieldController<String>(null),
-                              options: ['Male', 'Female'],
-                              onChanged: (val) async {
-                                safeSetState(() => _model.setGenderValue = val);
-                                if (_model.setGenderValue == 'Male') {
-                                  FFAppState().Gender = 1;
-                                  safeSetState(() {});
-                                } else {
-                                  FFAppState().Gender = 2;
-                                  safeSetState(() {});
-                                }
+                            child: ToggleSwitch(
+                              minWidth: 90,
+                              minHeight: 40,
+                              initialLabelIndex: 0,
+                              cornerRadius: 20,
+                              activeFgColor: Colors.white,
+                              inactiveBgColor: Colors.grey,
+                              inactiveFgColor: Colors.white,
+                              totalSwitches: 2,
+                              labels: ['Male', 'Female'],
+                              icons:[FontAwesomeIcons.mars, FontAwesomeIcons.venus],
+                              activeBgColors: const [
+                                [Colors.blue],
+                                [Colors.pink]
+                              ],
+                              onToggle: (index) async {
+                                  _model.setGenderValue = index! + 1;
                               },
-                              width: 180,
-                              height: 40,
-                              textStyle: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .override(
-                                    fontFamily: 'Inter',
-                                    letterSpacing: 0.0,
-                                  ),
-                              hintText: 'Select Gender',
-                              icon: Icon(
-                                Icons.keyboard_arrow_down_rounded,
-                                color:
-                                    FlutterFlowTheme.of(context).secondaryText,
-                                size: 24,
-                              ),
-                              fillColor: FlutterFlowTheme.of(context)
-                                  .secondaryBackground,
-                              elevation: 2,
-                              borderColor: Colors.black,
-                              borderWidth: 0,
-                              borderRadius: 24,
-                              margin:
-                                  EdgeInsetsDirectional.fromSTEB(12, 0, 12, 0),
-                              hidesUnderline: true,
-                              isOverButton: false,
-                              isSearchable: false,
-                              isMultiSelect: false,
-                            ),
+                            )
                           ),
                         ],
                       ),
@@ -535,7 +515,7 @@ class _Signup2WidgetState extends State<Signup2Widget> {
                 child: FFButtonWidget(
                   onPressed: () async {
                     FFAppState().Gender =
-                        functions.genderConvenrToInt(_model.setGenderValue)!;
+                        _model.setGenderValue!;
                     FFAppState().BirthText =
                         dateTimeFormat('yyyy-MM-dd', _model.datePicked);
                     FFAppState().Height =

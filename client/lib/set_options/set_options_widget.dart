@@ -1,4 +1,5 @@
 import 'package:flutter/scheduler.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
@@ -14,6 +15,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'set_options_model.dart';
 export 'set_options_model.dart';
+import 'package:toggle_switch/toggle_switch.dart';
 
 class SetOptionsWidget extends StatefulWidget {
   const SetOptionsWidget({super.key});
@@ -33,9 +35,8 @@ class _SetOptionsWidgetState extends State<SetOptionsWidget> {
     _model = createModel(context, () => SetOptionsModel());
 
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      safeSetState(() {
-        _model.setGenderValueController?.value =
-            functions.genderConverToString(FFAppState().Gender)!;
+      safeSetState((){
+        _model.setGenderValue = FFAppState().Gender;
       });
       safeSetState(() {
         _model.heightTextController?.text = FFAppState().Height.toString();
@@ -62,7 +63,7 @@ class _SetOptionsWidgetState extends State<SetOptionsWidget> {
         ExpandableController(initialExpanded: false);
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
 
-    print(FFAppState().ActiveCoef);
+    print(FFAppState().Gender);
   }
 
   @override
@@ -134,64 +135,26 @@ class _SetOptionsWidgetState extends State<SetOptionsWidget> {
                         children: [
                           Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
-                            child: Text(
-                              functions
-                                  .genderConverToString(FFAppState().Gender)!,
-                              style: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .override(
-                                    fontFamily: 'Inter',
-                                    fontSize: 24,
-                                    letterSpacing: 0.0,
-                                  ),
-                            ),
-                          ),
-                          Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(20, 10, 200, 10),
-                            child: FlutterFlowDropDown<String>(
-                              controller: _model.setGenderValueController ??=
-                                  FormFieldController<String>(null),
-                              options: ['Male', 'Female'],
-                              onChanged: (val) async {
-                                safeSetState(() => _model.setGenderValue = val);
-                                if (_model.setGenderValue == 'Male') {
-                                  FFAppState().Gender = 1;
-                                  safeSetState(() {});
-                                } else {
-                                  FFAppState().Gender = 2;
-                                  safeSetState(() {});
-                                }
+                                EdgeInsetsDirectional.fromSTEB(20, 10, 200, 0),
+                            child: ToggleSwitch(
+                              minWidth: 90,
+                              minHeight: 40,
+                              initialLabelIndex: _model.setGenderValue! - 1,
+                              cornerRadius: 20,
+                              activeFgColor: Colors.white,
+                              inactiveBgColor: Colors.grey,
+                              inactiveFgColor: Colors.white,
+                              totalSwitches: 2,
+                              labels: ['Male', 'Female'],
+                              icons:[FontAwesomeIcons.mars, FontAwesomeIcons.venus],
+                              activeBgColors: const [
+                                [Colors.blue],
+                                [Colors.pink]
+                              ],
+                              onToggle: (index) async {
+                                  _model.setGenderValue = index! + 1;
                               },
-                              width: 180,
-                              height: 40,
-                              textStyle: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .override(
-                                    fontFamily: 'Inter',
-                                    letterSpacing: 0.0,
-                                  ),
-                              hintText: 'Select Gender',
-                              icon: Icon(
-                                Icons.keyboard_arrow_down_rounded,
-                                color:
-                                    FlutterFlowTheme.of(context).secondaryText,
-                                size: 24,
-                              ),
-                              fillColor: FlutterFlowTheme.of(context)
-                                  .secondaryBackground,
-                              elevation: 2,
-                              borderColor: Colors.black,
-                              borderWidth: 0,
-                              borderRadius: 24,
-                              margin:
-                                  EdgeInsetsDirectional.fromSTEB(12, 0, 12, 0),
-                              hidesUnderline: true,
-                              isOverButton: false,
-                              isSearchable: false,
-                              isMultiSelect: false,
-                            ),
+                            )
                           ),
                         ],
                       ),
@@ -609,8 +572,7 @@ class _SetOptionsWidgetState extends State<SetOptionsWidget> {
                         EdgeInsetsDirectional.fromSTEB(40.0, 20.0, 0.0, 0.0),
                     child: FFButtonWidget(
                       onPressed: () async {
-                        FFAppState().Gender = functions.genderConvenrToInt(
-                            _model.setGenderValueController?.value)!;
+                        FFAppState().Gender = _model.setGenderValue!;
 
                         double? heightValue = double.tryParse(
                             _model.heightTextController?.text ?? '');
