@@ -70,6 +70,7 @@ public class UserService {
                         .weight(userDto.getWeight())
                         .activeCoef(userDto.getActiveCoef())
                         .BMR(userDto.getBMR())
+                        .dietList(new ArrayList<>())
                         .build());
     }
 

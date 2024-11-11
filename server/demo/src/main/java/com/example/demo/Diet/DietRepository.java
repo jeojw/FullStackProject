@@ -21,18 +21,18 @@ public interface DietRepository extends JpaRepository<DietEntity, Integer> {
     void disableForeignKeyChecks();
 
     @Modifying
-    @Query(value = "TRUNCATE TABLE fullstack_proj.diet_list;", nativeQuery = true)
+    @Query(value = "DELETE FROM fullstack_proj.diet_list WHERE user_id = :userId;", nativeQuery = true)
     @Transactional
-    void truncateDietList();
+    void deleteDietListById(@Param("userId") Long id);
 
     @Modifying
     @Query(value = "SET FOREIGN_KEY_CHECKS = 1;", nativeQuery = true)
     @Transactional
     void enableForeignKeyChecks();
 
-    default void deleteDietList() {
+    default void deleteDietList(Long id) {
         disableForeignKeyChecks();
-        truncateDietList();
+        deleteDietListById(id);
         enableForeignKeyChecks();
     }
 

@@ -12,6 +12,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
 
 
 @Configuration
@@ -27,12 +28,20 @@ public class SecurityConfig {
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 세션 정책 설정
                 )
+                .cors(cors -> cors.configurationSource(request -> {
+                    CorsConfiguration config = new CorsConfiguration();
+                    config.addAllowedOrigin("*");
+                    config.addAllowedMethod("*");
+                    config.addAllowedHeader("*");
+                    return config;
+                }))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/signIn").permitAll() // signIn 요청 허용
-                        .requestMatchers("/api/signUp").permitAll()
-                        .requestMatchers("/api/mailSend").permitAll()
-                        .requestMatchers("/api/mailAuthCheck").permitAll()
-                        .anyRequest().permitAll()// 수정 요망!!!!
+                        .requestMatchers("/api/signIn",
+                                "/api/signUp",
+                                "/api/mailSend",
+                                "/api/mailAuthCheck",
+                                "/api/changePassword").permitAll()
+                        .anyRequest().authenticated()
                 )
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
                         UsernamePasswordAuthenticationFilter.class); // JWT 필터 추가

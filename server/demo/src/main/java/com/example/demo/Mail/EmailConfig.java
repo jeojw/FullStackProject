@@ -17,6 +17,14 @@ public class EmailConfig {
         mailSender.setUsername("jeongjw0804@gmail.com");
         mailSender.setPassword("sfjd lcxk ruqw pmwk");
 
+        Properties javaMailProperties = getProperties();
+
+        mailSender.setJavaMailProperties(javaMailProperties);
+
+        return mailSender;
+    }
+
+    private static Properties getProperties() {
         Properties javaMailProperties = new Properties();
         javaMailProperties.put("mail.transport.protocol", "smtp");
         javaMailProperties.put("mail.smtp.auth", "true");
@@ -25,9 +33,6 @@ public class EmailConfig {
         javaMailProperties.put("mail.debug", "true");
         javaMailProperties.put("mail.smtp.ssl.trust", "smtp.naver.com");
         javaMailProperties.put("mail.smtp.ssl.protocols", "TLSv1.2");
-
-        mailSender.setJavaMailProperties(javaMailProperties);
-
-        return mailSender;
+        return javaMailProperties;
     }
 }

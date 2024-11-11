@@ -1,14 +1,11 @@
 package com.example.demo.Diet;
 
-import com.example.demo.Diet.DietSideDish.DietSideDishDto;
 import com.example.demo.Diet.DietSideDish.DietSideDishEntity;
 import com.example.demo.Diet.DietSideDish.DietSideDishRepository;
-import com.example.demo.Diet.Rice.RiceDto;
 import com.example.demo.Diet.Rice.RiceEntity;
 import com.example.demo.Diet.Rice.RiceRepository;
 import com.example.demo.Diet.SideDish.SideDishEntity;
 import com.example.demo.Diet.SideDish.SideDishRepository;
-import com.example.demo.Diet.Soup.SoupDto;
 import com.example.demo.Diet.Soup.SoupEntity;
 import com.example.demo.Diet.Soup.SoupRepository;
 import com.example.demo.User.UserEntity;
@@ -30,23 +27,30 @@ public class DietService {
     private final SideDishRepository sideDishRepository;
     private final DietSideDishRepository dietSideDishRepository;
 
-    private List<RiceEntity> riceList;
-    private List<SoupEntity> soupEntityList;
-    private List<SideDishEntity> sideDishEntityList_1;
-    private List<SideDishEntity> sideDishEntityList_2;
-    private List<SideDishEntity> sideDishEntityList_3;
+    private final List<List<FoodDto>> FoodSets = new ArrayList<>();
+    private final List<List<FoodDto>> DietList = new ArrayList<>();
 
     @PostConstruct
     public void init() {
-        riceList = riceRepository.getRiceEntityList();
-        soupEntityList = soupRepository.getSoupEntityList();
-        sideDishEntityList_1 = sideDishRepository.getSideDishEntityList_1();
-        sideDishEntityList_2 = sideDishRepository.getSideDishEntityList_2();
-        sideDishEntityList_3 = sideDishRepository.getSideDishEntityList_3();
-    }
+        List<RiceEntity> riceList = riceRepository.getRiceEntityList();
+        List<SoupEntity> soupEntityList = soupRepository.getSoupEntityList();
+        List<SideDishEntity> sideDishEntityList_1 = sideDishRepository.getSideDishEntityList_1();
+        List<SideDishEntity> sideDishEntityList_2 = sideDishRepository.getSideDishEntityList_2();
+        List<SideDishEntity> sideDishEntityList_3 = sideDishRepository.getSideDishEntityList_3();
 
-    private final List<List<FoodDto>> FoodSets = new ArrayList<>();
-    private final List<List<FoodDto>> DietList = new ArrayList<>();
+        riceList.sort(Comparator.comparing(RiceEntity::getCarbohydrate).reversed());
+        soupEntityList.sort(Comparator.comparing(SoupEntity::getCarbohydrate).reversed());
+        sideDishEntityList_1.sort(Comparator.comparing(SideDishEntity::getProtein).reversed());
+        sideDishEntityList_2.sort(Comparator.comparing(SideDishEntity::getProvince).reversed());
+        sideDishEntityList_3.sort(Comparator.comparing(SideDishEntity::getProtein).reversed()
+                .thenComparing(Comparator.comparing(SideDishEntity::getProvince).reversed()));
+
+        FoodSets.add(ChangeRiceToFood(riceList));
+        FoodSets.add(ChangeSoupToFood(soupEntityList));
+        FoodSets.add(ChangeSideDishToFood(sideDishEntityList_1));
+        FoodSets.add(ChangeSideDishToFood(sideDishEntityList_2));
+        FoodSets.add(ChangeSideDishToFood(sideDishEntityList_3));
+    }
 
     public List<DietDto> getDietList(String userEmail){
         Optional<UserEntity> userEntity = userRepository.findByEmail(userEmail);
@@ -82,21 +86,8 @@ public class DietService {
             double protein = min_protein * 0.5 + max_protein * 0.5;
             double province = min_province * 0.5 + max_province * 0.5;
 
-            riceList.sort(Comparator.comparing(RiceEntity::getCarbohydrate).reversed());
-            soupEntityList.sort(Comparator.comparing(SoupEntity::getCarbohydrate).reversed());
-            sideDishEntityList_1.sort(Comparator.comparing(SideDishEntity::getProtein).reversed());
-            sideDishEntityList_2.sort(Comparator.comparing(SideDishEntity::getProvince).reversed());
-            sideDishEntityList_3.sort(Comparator.comparing(SideDishEntity::getProtein).reversed()
-                    .thenComparing(Comparator.comparing(SideDishEntity::getProvince).reversed()));
-
-            FoodSets.add(ChangeRiceToFood(riceList));
-            FoodSets.add(ChangeSoupToFood(soupEntityList));
-            FoodSets.add(ChangeSideDishToFood(sideDishEntityList_1));
-            FoodSets.add(ChangeSideDishToFood(sideDishEntityList_2));
-            FoodSets.add(ChangeSideDishToFood(sideDishEntityList_3));
-
-            dietSideDishRepository.deleteDietSideList();
-            dietRepository.deleteDietList();
+            dietSideDishRepository.deleteDietSideList(userEntity.get().getId());
+            dietRepository.deleteDietList(userEntity.get().getId());
             SetDietList(new ArrayList<>(), 0,
                     0, 0, 0,
                     carb, protein, province);
@@ -116,7 +107,6 @@ public class DietService {
     public DietDto getDiet(Long id){
         if (dietRepository.findById(id.intValue()).isPresent()){
             DietEntity entity = dietRepository.findById(id.intValue()).get();
-            System.out.print("list: " + entity.getDietSideDishes().get(0).getSideDish().getCalorie() + "\n");
             return DietDto.toDietDto(entity);
         }
          else{
@@ -156,29 +146,23 @@ public class DietService {
     public void SetDietList(List<FoodDto> indices, int depth,
                             double sum_carbohydrate, double sum_protein, double sum_province,
                             double carbohydrate, double protein, double province) {
+
         if (depth >= FoodSets.size()) {
             return;
         }
 
-        if (indices.size() <= FoodSets.size() &&
-                (sum_carbohydrate >= carbohydrate * 0.9 && sum_carbohydrate <= carbohydrate * 1.1) &&
-                (sum_protein >= protein * 0.9 && sum_protein <= protein * 1.1) &&
-                (sum_province >= province * 0.9 && sum_province <= province * 1.1)) {
+        if (isValidDiet(sum_carbohydrate, sum_protein, sum_province, carbohydrate, protein, province)) {
             DietList.add(new ArrayList<>(indices));
             return;
         }
 
-        double localCoef; // 로컬 변수 사용
-        if (depth < 2) {
-            localCoef = 1.5;
-        } else if (depth == 2) {
-            localCoef = 1;
-        } else {
-            localCoef = 0.5;
-        }
+        double localCoef = getLocalCoef(depth);
 
         for (FoodDto food : FoodSets.get(depth)) {
-            if (sum_carbohydrate > carbohydrate || sum_protein > protein || sum_province > province) {
+            // 목표를 초과한 값은 더 이상 처리하지 않음
+            if (sum_carbohydrate + food.getCarbohydrate() * localCoef > carbohydrate ||
+                    sum_protein + food.getProtein() * localCoef > protein ||
+                    sum_province + food.getProvince() * localCoef > province) {
                 continue;
             }
 
@@ -189,6 +173,23 @@ public class DietService {
                     sum_province + food.getProvince() * localCoef,
                     carbohydrate, protein, province);
             indices.remove(indices.size() - 1);
+        }
+    }
+
+    private boolean isValidDiet(double sum_carbohydrate, double sum_protein, double sum_province,
+                                double carbohydrate, double protein, double province) {
+        return sum_carbohydrate >= carbohydrate * 0.9 && sum_carbohydrate <= carbohydrate * 1.1 &&
+                sum_protein >= protein * 0.9 && sum_protein <= protein * 1.1 &&
+                sum_province >= province * 0.9 && sum_province <= province * 1.1;
+    }
+
+    private double getLocalCoef(int depth) {
+        if (depth < 2) {
+            return 1.5;
+        } else if (depth == 2) {
+            return 1;
+        } else {
+            return 0.5;
         }
     }
 

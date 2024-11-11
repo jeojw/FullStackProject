@@ -544,6 +544,7 @@ class _Signup2WidgetState extends State<Signup2Widget> {
                         double.parse(_model.weightTextController.text);
                     FFAppState().ActiveCoef =
                         functions.convertToInt(_model.sliderValue!);
+                    FFAppState().DietList = [];
                     safeSetState(() {});
                     _model.apiResulthgg = await SingUpCall.call();
 

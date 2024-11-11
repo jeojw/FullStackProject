@@ -13,6 +13,7 @@ class GetInfoDataCall {
   static Future<ApiCallResponse> call() async {
     final userEmail = await FFAppState().getUserEmail();
     final userPassword = await FFAppState().getUserPassword();
+    final accessToken = await FFAppState().getAccessToken();
 
     final ffApiRequestBody = '''
 {
@@ -25,6 +26,7 @@ class GetInfoDataCall {
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': 'Bearer $accessToken'
       },
       params: {},
       body: ffApiRequestBody,
@@ -127,7 +129,7 @@ class SingUpCall {
   "height": "$height",
   "weight": "$weight",
   "activeCoef": "$activeCoef",
-  "dietList": "$dietList"
+  "dietList": $dietList
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'SingUp',

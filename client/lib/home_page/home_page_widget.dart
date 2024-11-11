@@ -32,42 +32,44 @@ class _HomePageWidgetState extends State<HomePageWidget> {
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       _model.apiResultw1o = await GetInfoDataCall.call();
       if ((_model.apiResultw1o?.succeeded ?? true)) {
-        FFAppState().BirthText = getJsonField(
-          (_model.apiResultw1o?.jsonBody ?? ''),
-          r'''$.birth''',
-        ).toString();
-        FFAppState().Gender = getJsonField(
-          (_model.apiResultw1o?.jsonBody ?? ''),
-          r'''$.gender''',
-        )!;
-        FFAppState().Age = getJsonField(
-          (_model.apiResultw1o?.jsonBody ?? ''),
-          r'''$.age''',
-        )!;
-        FFAppState().Height = getJsonField(
-          (_model.apiResultw1o?.jsonBody ?? ''),
-          r'''$.height''',
-        )!;
-        FFAppState().Weight = getJsonField(
-          (_model.apiResultw1o?.jsonBody ?? ''),
-          r'''$.weight''',
-        )!;
-        FFAppState().ActiveCoef = getJsonField(
-          (_model.apiResultw1o?.jsonBody ?? ''),
-          r'''$.activeCoef''',
-        )!;
-        FFAppState().BMR = getJsonField(
-          (_model.apiResultw1o?.jsonBody ?? ''),
-          r'''$.bmr''',
-        )!;
-        dynamic dietList = getJsonField(
-          (_model.apiResultw1o?.jsonBody ?? ''),
-          r'''$.dietList''',
-        ) ?? [];
+          FFAppState().BirthText = getJsonField(
+            (_model.apiResultw1o?.jsonBody ?? ''),
+            r'''$.birth''',
+          ).toString();
+          FFAppState().Gender = getJsonField(
+            (_model.apiResultw1o?.jsonBody ?? ''),
+            r'''$.gender''',
+          )!;
+          FFAppState().Age = getJsonField(
+            (_model.apiResultw1o?.jsonBody ?? ''),
+            r'''$.age''',
+          )!;
+          FFAppState().Height = getJsonField(
+            (_model.apiResultw1o?.jsonBody ?? ''),
+            r'''$.height''',
+          )!;
+          FFAppState().Weight = getJsonField(
+            (_model.apiResultw1o?.jsonBody ?? ''),
+            r'''$.weight''',
+          )!;
+          FFAppState().ActiveCoef = getJsonField(
+            (_model.apiResultw1o?.jsonBody ?? ''),
+            r'''$.activeCoef''',
+          )!;
+          FFAppState().BMR = getJsonField(
+            (_model.apiResultw1o?.jsonBody ?? ''),
+            r'''$.bmr''',
+          )!;
+          if (FFAppState().DietList.isEmpty){
+            List<dynamic> dietList = getJsonField(
+            (_model.apiResultw1o?.jsonBody ?? ''),
+            r'''$.dietList''',
+            ) ?? [];
 
-        FFAppState().DietList = dietList;
-        safeSetState(() {});
-      }
+            FFAppState().DietList = dietList;
+          }
+          safeSetState(() {});
+        }
     });
   }
 
@@ -182,18 +184,16 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 child: FFButtonWidget(
                   onPressed: () async {
                     if (FFAppState().DietList.isEmpty){
-                      if (FFAppState().DietList.isEmpty){
-                        var _shouldSetState = false;
-                        _model.apiResultw07 = await GetDietListCall.call();
+                      var _shouldSetState = false;
+                      _model.apiResultw07 = await GetDietListCall.call();
 
-                        _shouldSetState = true;
-                        if ((_model.apiResultw07?.succeeded ?? true)) {
-                          FFAppState().DietList =
-                              (_model.apiResultw07?.jsonBody ?? '')
-                                  .toList()
-                                  .cast<dynamic>();
-                          safeSetState(() {});
-                        }
+                      _shouldSetState = true;
+                      if ((_model.apiResultw07?.succeeded ?? true)) {
+                        FFAppState().DietList =
+                            (_model.apiResultw07?.jsonBody ?? '')
+                                .toList()
+                                .cast<dynamic>();
+                        safeSetState(() {});
                       }
                     }
                     else{

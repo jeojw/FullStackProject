@@ -329,7 +329,7 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                               await FFAppState()
                                   .deleteFromSecureStorage('newPassword');
 
-                              context.pushNamed('HomePage');
+                              context.pushNamed('AuthPage');
                             } else {
                               await showDialog(
                                 context: context,

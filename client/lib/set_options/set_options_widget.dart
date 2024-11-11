@@ -61,6 +61,8 @@ class _SetOptionsWidgetState extends State<SetOptionsWidget> {
     _model.expandableExpandableController =
         ExpandableController(initialExpanded: false);
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
+
+    print(FFAppState().ActiveCoef);
   }
 
   @override

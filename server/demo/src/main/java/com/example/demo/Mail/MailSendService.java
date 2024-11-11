@@ -29,12 +29,12 @@ public class MailSendService {
 
     public void makeRandomNumber(){
         Random r = new Random();
-        String randomNumber = "";
+        StringBuilder randomNumber = new StringBuilder();
         for (int i = 0; i < 6; i++){
-            randomNumber += Integer.toString(r.nextInt(10));
+            randomNumber.append(Integer.toString(r.nextInt(10)));
         }
 
-        authNumber = Integer.parseInt(randomNumber);
+        authNumber = Integer.parseInt(randomNumber.toString());
     }
 
     public String joinEmail(String email, String type){
