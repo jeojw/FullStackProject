@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface SideDishRepository extends JpaRepository<SideDishEntity, Long> {
     @Query(value = "SELECT * FROM fullstack_proj.side_dish_table WHERE classification = '찜류'" +
@@ -23,4 +24,7 @@ public interface SideDishRepository extends JpaRepository<SideDishEntity, Long> 
 
     @Query(value = "SELECT * FROM fullstack_proj.side_dish_table WHERE name = :name", nativeQuery = true)
     SideDishEntity getSideDishEntity(@Param("name") String name);
+
+    @Query(value = "SELECT id FROM fullstack_proj.side_dish_table WHERE LIKE %:name%", nativeQuery = true)
+    Optional<List<Long>> getSideDishEntityId(@Param("name") String name);
 }

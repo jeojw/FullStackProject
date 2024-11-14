@@ -68,6 +68,40 @@ public class DietService {
         }
     }
 
+    public List<DietDto> searchDietListByName(SearchDtoName searchDtoName){
+        Optional<UserEntity> user = userRepository.findByEmail(searchDtoName.getUserEmail());
+        List<DietDto> returnList = new ArrayList<>();
+        if (user.isPresent()){
+            Optional<List<Long>> riceIdList = riceRepository.getRiceEntityId(searchDtoName.getSearchRice());
+            Optional<List<Long>> soupIdList = soupRepository.getSoupEntityId(searchDtoName.getSearchRice());
+            Optional<List<Long>> sideDishIdList = sideDishRepository.getSideDishEntityId(searchDtoName.getSearchSideDish());
+            if (riceIdList.isPresent() && soupIdList.isPresent() && sideDishIdList.isPresent()){
+                Optional<List<DietEntity>> searchList = dietRepository.searchDietList(user.get().getId(), riceIdList.get(), soupIdList.get());
+                if (searchList.isPresent()){
+                    for (DietEntity entity: searchList.get()){
+                        if (dietSideDishRepository.existsByUserIdAndDietIdAndSideDishIdIn(user.get().getId(), entity.getId(), sideDishIdList.get())) {
+                            returnList.add(DietDto.toDietDto(entity));
+                        }
+                    }
+                    return returnList;
+                }
+                else{
+                    return null;
+                }
+            }
+            else{
+                return null;
+            }
+        }
+        else{
+            return null;
+        }
+    }
+
+    public List<DietDto> searchDietListByNutrient(SearchDtoName searchDtoName){
+        return null;
+    }
+
     public List<DietDto> searchDietList(String userEmail, double BMR, int activeCoef){
         Optional<UserEntity> userEntity = userRepository.findByEmail(userEmail);
         if (userEntity.isPresent()){

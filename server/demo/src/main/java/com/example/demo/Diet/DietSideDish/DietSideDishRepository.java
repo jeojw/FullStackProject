@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface DietSideDishRepository extends JpaRepository<DietSideDishEntity, Long> {
     @Modifying
@@ -29,4 +31,7 @@ public interface DietSideDishRepository extends JpaRepository<DietSideDishEntity
         deleteDietListById(id);
         enableForeignKeyChecks();
     }
+
+    boolean existsByUserIdAndDietIdAndSideDishIdIn(Long userId, Long dietId, List<Long> sideDishId);
+
 }

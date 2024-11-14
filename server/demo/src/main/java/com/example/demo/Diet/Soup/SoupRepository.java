@@ -14,4 +14,7 @@ public interface SoupRepository extends JpaRepository<SoupEntity, Long> {
 
     @Query(value = "SELECT * FROM fullstack_proj.soup_table WHERE name = :name", nativeQuery = true)
     SoupEntity getSoupEntity(@Param("name") String name);
+
+    @Query(value = "SELECT id FROM fullstack_proj.soup_table WHERE LIKE %:name%", nativeQuery = true)
+    Optional<List<Long>> getSoupEntityId(@Param("name") String name);
 }
