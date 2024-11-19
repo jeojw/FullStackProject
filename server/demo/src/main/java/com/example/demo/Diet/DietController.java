@@ -19,6 +19,11 @@ public class DietController {
         return ResponseEntity.ok(dietService.getDietList(userEmail));
     }
 
+    @PostMapping("/api/searchDietListByOption")
+    public ResponseEntity<List<DietDto>> searchDietListByOption(@RequestBody @Validated SearchDto searchDto){
+        return ResponseEntity.ok(dietService.searchDietListByOption(searchDto));
+    }
+
     @PostMapping("/api/searchDietList")
     public ResponseEntity<List<DietDto>> searchDietList(@RequestBody @Validated BodyInfoDto bodyInfoDto){
         return ResponseEntity.ok(dietService.searchDietList(bodyInfoDto.getUserEmail(), bodyInfoDto.getBMR(), bodyInfoDto.getActiveCoef()));
