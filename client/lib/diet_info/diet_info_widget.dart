@@ -104,6 +104,7 @@ class _DietInfoWidgetState extends State<DietInfoWidget> {
                                 'carbohydrate': left['rice']['carbohydrate'] * 1.5 ?? 0.0,
                                 'protein': left['rice']['protein'] * 1.5 ?? 0.0,
                                 'province': left['rice']['province'] * 1.5 ?? 0.0,
+                                'classification': '밥류'
                               });
                             }
 
@@ -115,6 +116,7 @@ class _DietInfoWidgetState extends State<DietInfoWidget> {
                                 'carbohydrate': left['soup']['carbohydrate'] * 1.5 ?? 0.0,
                                 'protein': left['soup']['protein'] * 1.5 ?? 0.0,
                                 'province': left['soup']['province'] * 1.5 ?? 0.0,
+                                'classification': '국, 찌개류'
                               });
                             }
 
@@ -137,6 +139,7 @@ class _DietInfoWidgetState extends State<DietInfoWidget> {
                                     'carbohydrate': sideDish['sideDishDto']['carbohydrate'] * coef ?? 0.0,
                                     'protein': sideDish['sideDishDto']['protein'] * coef ?? 0.0,
                                     'province': sideDish['sideDishDto']['province'] * coef ?? 0.0,
+                                    'classification': sideDish['sideDishDto']['classification']
                                   });
                                 }
                               }
@@ -148,7 +151,8 @@ class _DietInfoWidgetState extends State<DietInfoWidget> {
                             'calorie': left['calorie'],
                             'carbohydrate': left['carbohydrate'],
                             'protein': left['protein'],
-                            'province': left['province']
+                            'province': left['province'],
+                            'classification': '총 합'
                           });
 
                           return FlutterFlowDataTable<dynamic>(
@@ -225,12 +229,25 @@ class _DietInfoWidgetState extends State<DietInfoWidget> {
                                   ),
                                 ),
                               ),
+                              DataColumn2(
+                                label: DefaultTextStyle.merge(
+                                  softWrap: true,
+                                  child: Text(
+                                    'Classification',
+                                    style: FlutterFlowTheme.of(context)
+                                        .labelLarge
+                                        .override(
+                                          fontFamily: 'Inter',
+                                          letterSpacing: 0.0,
+                                        ),
+                                  ),
+                                ),
+                              ),
                             ],
                             dataRowBuilder: (leftItem, leftIndex, selected,
                                     onSelectChanged) {
-                                    print('Row $leftIndex: $leftItem');
                                 return DataRow(
-                              color: MaterialStateProperty.all(
+                              color: WidgetStateProperty.all(
                                 leftIndex % 2 == 0
                                     ? FlutterFlowTheme.of(context).secondaryBackground
                                     : FlutterFlowTheme.of(context).primaryBackground,
@@ -275,6 +292,15 @@ class _DietInfoWidgetState extends State<DietInfoWidget> {
                                 DataCell(
                                   Text(
                                     '${leftItem['province'].toStringAsFixed(1)}g', // 밥 칼로리
+                                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                          fontFamily: 'Inter',
+                                          letterSpacing: 0.0,
+                                        ),
+                                  ),
+                                ),
+                                DataCell(
+                                  Text(
+                                    leftItem['classification'],
                                     style: FlutterFlowTheme.of(context).bodyMedium.override(
                                           fontFamily: 'Inter',
                                           letterSpacing: 0.0,

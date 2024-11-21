@@ -302,9 +302,7 @@ class _DietListWidgetState extends State<DietListWidget> {
                                                               await SortDietListCall
                                                                   .call();
 
-                                                          if ((_model
-                                                                  .apiResultsort
-                                                                  ?.succeeded ??
+                                                          if ((_model.apiResultsort?.succeeded ??
                                                               true)) {
                                                             FFAppState()
                                                                 .DietList = [];
@@ -566,7 +564,7 @@ class _DietListWidgetState extends State<DietListWidget> {
                                                           ),
                                                       cursorColor:
                                                           FlutterFlowTheme.of(context).primaryText,
-                                                      validator: _model.searchRiceTextControllerValidator
+                                                      validator: _model.searchSoupTextControllerValidator
                                                           .asValidator(context),
                                                     ),
                                                   ),
@@ -579,8 +577,8 @@ class _DietListWidgetState extends State<DietListWidget> {
                                                   child: SizedBox(
                                                     width: 200.0,
                                                     child: TextFormField(
-                                                      controller: _model.searchRiceTextController,
-                                                      focusNode: _model.searchRiceFocusNode,
+                                                      controller: _model.searchSideDishTextController,
+                                                      focusNode: _model.searchSideDishFocusNode,
                                                       autofocus: false,
                                                       obscureText: false,
                                                       decoration: InputDecoration(
@@ -639,7 +637,7 @@ class _DietListWidgetState extends State<DietListWidget> {
                                                           ),
                                                       cursorColor:
                                                           FlutterFlowTheme.of(context).primaryText,
-                                                      validator: _model.searchRiceTextControllerValidator
+                                                      validator: _model.searchSideDishTextControllerValidator
                                                           .asValidator(context),
                                                     ),
                                                   ),
@@ -653,7 +651,6 @@ class _DietListWidgetState extends State<DietListWidget> {
                                             child: FFButtonWidget(
                                               text: 'Search',
                                               onPressed: () async {
-                                                safeSetState(() {});
                                                 _model.apiResultsearch =
                                                     await SearchDietListsByOptionCall.call(
                                                   rice: _model.searchRiceTextController.text,
@@ -663,15 +660,19 @@ class _DietListWidgetState extends State<DietListWidget> {
 
                                                 if ((_model.apiResultsearch?.succeeded ??
                                                     true)) {
-                                                    FFAppState()
-                                                    .DietList = (_model
-                                                            .apiResultsearch
-                                                            ?.jsonBody ??
-                                                        '')
-                                                    .toList()
-                                                    .cast<
+                                                      FFAppState()
+                                                                .DietList = [];
+                                                            safeSetState(() {});
+                                                      FFAppState()
+                                                      .DietList = (_model
+                                                              .apiResultsearch
+                                                              ?.jsonBody ??
+                                                          '')
+                                                      .toList()
+                                                      .cast<
                                                         dynamic>();
                                                         safeSetState(() {});
+                                                        FFAppState().isVisibleInitButton = true;
                                                 }
                                               },
                                               options: FFButtonOptions(
@@ -725,8 +726,19 @@ class _DietListWidgetState extends State<DietListWidget> {
                               padding: const EdgeInsetsDirectional.fromSTEB(
                                   16.0, 0.0, 16.0, 0.0),
                               child: FFButtonWidget(
-                                text: 'Init',
-                                onPressed: () async {},
+                                text: 'Init Diet List',
+                                onPressed: () async {
+                                  _model.apiResultInitList = await GetDietListCall.call();
+
+                                  if ((_model.apiResultInitList?.succeeded ?? true)) {
+                                    FFAppState().DietList =
+                                        (_model.apiResultInitList?.jsonBody ?? '')
+                                            .toList()
+                                            .cast<dynamic>();
+                                    safeSetState(() {});
+                                  }
+                                  FFAppState().isVisibleInitButton = false;
+                                },
                                 options: FFButtonOptions(
                                   height: 40.0,
                                   padding: const EdgeInsetsDirectional.fromSTEB(

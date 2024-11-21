@@ -112,7 +112,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
             mainAxisSize: MainAxisSize.max,
             children: [
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(55.0, 50.0, 0.0, 70.0),
+                padding: const EdgeInsetsDirectional.fromSTEB(55.0, 50.0, 0.0, 70.0),
                 child: FFButtonWidget(
                   onPressed: () async {
                     var _shouldSetState = false;
@@ -144,13 +144,13 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                         context: context,
                         builder: (alertDialogContext) {
                           return AlertDialog(
-                            title: Text('Search Diet List'),
-                            content: Text('API Call failed!'),
+                            title: const Text('Search Diet List'),
+                            content: const Text('API Call failed!'),
                             actions: [
                               TextButton(
                                 onPressed: () =>
                                     Navigator.pop(alertDialogContext),
-                                child: Text('Ok'),
+                                child: const Text('Ok'),
                               ),
                             ],
                           );
@@ -167,9 +167,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     width: MediaQuery.sizeOf(context).width * 0.7,
                     height: 60.0,
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                        const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
                     iconPadding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                        const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                     color: FlutterFlowTheme.of(context).primary,
                     textStyle: FlutterFlowTheme.of(context).titleSmall.override(
                           fontFamily: 'Inter Tight',
@@ -183,7 +183,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 ),
               ),
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(50, 0, 0, 70),
+                padding: const EdgeInsetsDirectional.fromSTEB(50, 0, 0, 70),
                 child: FFButtonWidget(
                   onPressed: () async {
                     if (FFAppState().DietList.isEmpty) {
@@ -206,8 +206,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   options: FFButtonOptions(
                     width: MediaQuery.sizeOf(context).width * 0.7,
                     height: 60,
-                    padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
-                    iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                    iconPadding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
                     color: FlutterFlowTheme.of(context).primary,
                     textStyle: FlutterFlowTheme.of(context).titleSmall.override(
                           fontFamily: 'Inter Tight',
@@ -221,7 +221,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 ),
               ),
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(50.0, 0.0, 0.0, 0.0),
+                padding: const EdgeInsetsDirectional.fromSTEB(50.0, 0.0, 0.0, 0.0),
                 child: FFButtonWidget(
                   onPressed: () async {
                     context.pushNamed('SetOptions');
@@ -231,9 +231,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     width: MediaQuery.sizeOf(context).width * 0.7,
                     height: 60.0,
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                        const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
                     iconPadding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                        const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                     color: FlutterFlowTheme.of(context).primary,
                     textStyle: FlutterFlowTheme.of(context).titleSmall.override(
                           fontFamily: 'Inter Tight',

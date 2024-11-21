@@ -42,6 +42,8 @@ class DietListModel extends FlutterFlowModel<DietListWidget> {
 
   ApiCallResponse? apiResultsearch;
 
+  ApiCallResponse? apiResultInitList;
+
   @override
   void initState(BuildContext context) {}
 
