@@ -40,7 +40,7 @@ public interface DietRepository extends JpaRepository<DietEntity, Integer> {
 
     boolean existsByCarbohydrateAndProteinAndProvince(double Carbohydrate, double Protein, double Province);
 
-    @Query(value = "SELECT * FROM fullstack_proj.diet_list WHERE rice_table_id IN :riceList, soup_table_id IN :soupList, user_id = :userId",
+    @Query(value = "SELECT * FROM fullstack_proj.diet_list WHERE rice_table_id IN :riceList and soup_table_id IN :soupList and user_id = :userId",
             nativeQuery = true)
     Optional<List<DietEntity>> searchDietList(@Param("userId") Long userId,
                                               @Param("riceList") List<Long> riceIdList,

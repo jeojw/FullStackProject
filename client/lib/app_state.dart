@@ -119,7 +119,7 @@ class FFAppState extends ChangeNotifier {
     await deleteFromSecureStorage('authNum');
   }
 
-  List<dynamic>_DietList = [];
+  List<dynamic> _DietList = [];
   List<dynamic> get DietList => _DietList;
   set DietList(List<dynamic> value) {
     _DietList = value;
@@ -152,7 +152,7 @@ class FFAppState extends ChangeNotifier {
     return await readFromSecureStorage('newPassword');
   }
 
-  Future<void> setNewPassword (String value) async {
+  Future<void> setNewPassword(String value) async {
     await saveToSecureStorage('newPassword', value);
   }
 
@@ -178,6 +178,12 @@ class FFAppState extends ChangeNotifier {
   dynamic get DietInfo => _DietInfo;
   set DietInfo(dynamic value) {
     _DietInfo = value;
+  }
+
+  bool _isVisibleInitButton = false;
+  bool get isVisibleInitButton => _isVisibleInitButton;
+  set isVisibleInitButton(bool value) {
+    _isVisibleInitButton = value;
   }
 
   Future<String?> getAccessToken() async {

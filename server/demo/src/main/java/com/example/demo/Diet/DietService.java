@@ -68,13 +68,13 @@ public class DietService {
         }
     }
 
-    public List<DietDto> searchDietListByName(SearchDtoName searchDtoName){
-        Optional<UserEntity> user = userRepository.findByEmail(searchDtoName.getUserEmail());
+    public List<DietDto> searchDietListByOption(SearchDto searchDto){
+        Optional<UserEntity> user = userRepository.findByEmail(searchDto.getUserEmail());
         List<DietDto> returnList = new ArrayList<>();
         if (user.isPresent()){
-            Optional<List<Long>> riceIdList = riceRepository.getRiceEntityId(searchDtoName.getSearchRice());
-            Optional<List<Long>> soupIdList = soupRepository.getSoupEntityId(searchDtoName.getSearchRice());
-            Optional<List<Long>> sideDishIdList = sideDishRepository.getSideDishEntityId(searchDtoName.getSearchSideDish());
+            Optional<List<Long>> riceIdList = riceRepository.getRiceEntityId(searchDto.getSearchRice().trim());
+            Optional<List<Long>> soupIdList = soupRepository.getSoupEntityId(searchDto.getSearchRice().trim());
+            Optional<List<Long>> sideDishIdList = sideDishRepository.getSideDishEntityId(searchDto.getSearchSideDish().trim());
             if (riceIdList.isPresent() && soupIdList.isPresent() && sideDishIdList.isPresent()){
                 Optional<List<DietEntity>> searchList = dietRepository.searchDietList(user.get().getId(), riceIdList.get(), soupIdList.get());
                 if (searchList.isPresent()){
@@ -96,10 +96,6 @@ public class DietService {
         else{
             return null;
         }
-    }
-
-    public List<DietDto> searchDietListByNutrient(SearchDtoName searchDtoName){
-        return null;
     }
 
     public List<DietDto> searchDietList(String userEmail, double BMR, int activeCoef){

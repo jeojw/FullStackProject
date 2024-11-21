@@ -25,6 +25,6 @@ public interface SideDishRepository extends JpaRepository<SideDishEntity, Long> 
     @Query(value = "SELECT * FROM fullstack_proj.side_dish_table WHERE name = :name", nativeQuery = true)
     SideDishEntity getSideDishEntity(@Param("name") String name);
 
-    @Query(value = "SELECT id FROM fullstack_proj.side_dish_table WHERE LIKE %:name%", nativeQuery = true)
+    @Query(value = "SELECT id FROM fullstack_proj.side_dish_table WHERE name LIKE %:name%", nativeQuery = true)
     Optional<List<Long>> getSideDishEntityId(@Param("name") String name);
 }

@@ -8,7 +8,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SearchDtoName {
+public class SearchDto {
     private String userEmail;
     private String searchRice;
     private String searchSoup;
