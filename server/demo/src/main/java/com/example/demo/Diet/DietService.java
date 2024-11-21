@@ -73,11 +73,12 @@ public class DietService {
         List<DietDto> returnList = new ArrayList<>();
         if (user.isPresent()){
             Optional<List<Long>> riceIdList = riceRepository.getRiceEntityId(searchDto.getSearchRice().trim());
-            Optional<List<Long>> soupIdList = soupRepository.getSoupEntityId(searchDto.getSearchRice().trim());
+            Optional<List<Long>> soupIdList = soupRepository.getSoupEntityId(searchDto.getSearchSoup().trim());
             Optional<List<Long>> sideDishIdList = sideDishRepository.getSideDishEntityId(searchDto.getSearchSideDish().trim());
 
             if (riceIdList.isPresent() && soupIdList.isPresent() && sideDishIdList.isPresent()){
                 Optional<List<DietEntity>> searchList = dietRepository.searchDietList(user.get().getId(), riceIdList.get(), soupIdList.get());
+                System.out.println("DietList: " + searchList + "\n");
                 if (searchList.isPresent()){
                     for (DietEntity entity: searchList.get()){
                         if (dietSideDishRepository.existsByUserIdAndDietIdAndSideDishIdIn(user.get().getId(), entity.getId(), sideDishIdList.get())) {
