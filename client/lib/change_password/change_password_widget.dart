@@ -78,7 +78,7 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                   children: [
                     Padding(
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 10.0, 10.0),
+                          const EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 10.0, 10.0),
                       child: Text(
                         'Change Password',
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -93,9 +93,9 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                       color: FlutterFlowTheme.of(context).alternate,
                     ),
                     Align(
-                      alignment: AlignmentDirectional(0.0, 0.0),
+                      alignment: const AlignmentDirectional(0.0, 0.0),
                       child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
+                        padding: const EdgeInsetsDirectional.fromSTEB(
                             0.0, 30.0, 0.0, 30.0),
                         child: Container(
                           width: 350.0,
@@ -123,14 +123,14 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                                     letterSpacing: 0.0,
                                   ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Colors.black,
                                   width: 1.0,
                                 ),
                                 borderRadius: BorderRadius.circular(24.0),
                               ),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Color(0x00000000),
                                   width: 1.0,
                                 ),
@@ -184,9 +184,9 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                       ),
                     ),
                     Align(
-                      alignment: AlignmentDirectional(0.0, 0.0),
+                      alignment: const AlignmentDirectional(0.0, 0.0),
                       child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
+                        padding: const EdgeInsetsDirectional.fromSTEB(
                             0.0, 30.0, 0.0, 15.0),
                         child: Container(
                           width: 350.0,
@@ -214,14 +214,14 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                                     letterSpacing: 0.0,
                                   ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Colors.black,
                                   width: 1.0,
                                 ),
                                 borderRadius: BorderRadius.circular(24.0),
                               ),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Color(0x00000000),
                                   width: 1.0,
                                 ),
@@ -276,15 +276,13 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                     ),
                     Padding(
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 200.0, 0.0),
+                          const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 200.0, 0.0),
                       child: Text(
                         valueOrDefault<String>(
                           (_model.inputPasswordTextController.text ==
                                       _model
                                           .checkPasswordTextController.text) &&
                                   (_model.inputPasswordTextController.text !=
-                                          null &&
-                                      _model.inputPasswordTextController.text !=
                                           '')
                               ? 'Password correct!'
                               : 'Password diffeerent!',
@@ -299,7 +297,7 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                     ),
                     Padding(
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 40.0, 180.0, 0.0),
+                          const EdgeInsetsDirectional.fromSTEB(0.0, 40.0, 180.0, 0.0),
                       child: FFButtonWidget(
                         onPressed: () async {
                           if (_model.inputPasswordTextController.text ==
@@ -314,13 +312,13 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                                 context: context,
                                 builder: (alertDialogContext) {
                                   return AlertDialog(
-                                    title: Text('Change Password'),
-                                    content: Text('Change password compleete!'),
+                                    title: const Text('Change Password'),
+                                    content: const Text('Change password compleete!'),
                                     actions: [
                                       TextButton(
                                         onPressed: () =>
                                             Navigator.pop(alertDialogContext),
-                                        child: Text('Ok'),
+                                        child: const Text('Ok'),
                                       ),
                                     ],
                                   );
@@ -335,13 +333,13 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                                 context: context,
                                 builder: (alertDialogContext) {
                                   return AlertDialog(
-                                    title: Text('Change password'),
-                                    content: Text('Change password failed'),
+                                    title: const Text('Change password'),
+                                    content: const Text('Change password failed'),
                                     actions: [
                                       TextButton(
                                         onPressed: () =>
                                             Navigator.pop(alertDialogContext),
-                                        child: Text('Ok'),
+                                        child: const Text('Ok'),
                                       ),
                                     ],
                                   );
@@ -353,13 +351,13 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                               context: context,
                               builder: (alertDialogContext) {
                                 return AlertDialog(
-                                  title: Text('Change password'),
-                                  content: Text('Passowords are incorrect'),
+                                  title: const Text('Change password'),
+                                  content: const Text('Passowords are incorrect'),
                                   actions: [
                                     TextButton(
                                       onPressed: () =>
                                           Navigator.pop(alertDialogContext),
-                                      child: Text('Ok'),
+                                      child: const Text('Ok'),
                                     ),
                                   ],
                                 );
@@ -372,9 +370,9 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                         text: 'Change Password',
                         options: FFButtonOptions(
                           height: 40.0,
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               16.0, 0.0, 16.0, 0.0),
-                          iconPadding: EdgeInsetsDirectional.fromSTEB(
+                          iconPadding: const EdgeInsetsDirectional.fromSTEB(
                               0.0, 0.0, 0.0, 0.0),
                           color: FlutterFlowTheme.of(context).primary,
                           textStyle:

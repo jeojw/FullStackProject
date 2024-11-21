@@ -357,6 +357,43 @@ class GetDietInfoCall {
   }
 }
 
+class SearchDietListsByOptionCall{
+  static Future<ApiCallResponse> call({
+    required String? rice,
+    required String? soup,
+    required String? sideDish
+  }) async {
+    final userEmail = await FFAppState().getUserEmail();
+    final accessToken = await FFAppState().getAccessToken();
+    final ffApiRequestBody = '''
+{
+  "userEmail": "$userEmail", 
+  "searchRice": "$rice",
+  "searchSoup": "$soup",
+  "searchSideDish": "$sideDish"
+}''';
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'SearchDietByOptions', 
+      apiUrl: 'http://localhost:8080/api/searchDietListByOption', 
+      callType: ApiCallType.POST,
+      headers: {
+        'Authorization': 'Bearer $accessToken', 
+        'Content-Type': 'application/json',
+        },
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: true,
+      decodeUtf8: true,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
 class ApiPagingParams {
   int nextPageNumber = 0;
   int numItems = 0;

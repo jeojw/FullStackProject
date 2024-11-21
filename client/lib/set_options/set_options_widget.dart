@@ -62,8 +62,6 @@ class _SetOptionsWidgetState extends State<SetOptionsWidget> {
     _model.expandableExpandableController =
         ExpandableController(initialExpanded: false);
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
-
-    print(FFAppState().Gender);
   }
 
   @override
@@ -113,7 +111,7 @@ class _SetOptionsWidgetState extends State<SetOptionsWidget> {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(
+                      padding: const EdgeInsetsDirectional.fromSTEB(
                           0.0, 20.0, 120.0, 10.0),
                       child: Text(
                         'Set Options',
@@ -129,13 +127,13 @@ class _SetOptionsWidgetState extends State<SetOptionsWidget> {
                       color: FlutterFlowTheme.of(context).alternate,
                     ),
                     Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 30),
+                      padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 30),
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(20, 10, 200, 0),
+                                const EdgeInsetsDirectional.fromSTEB(20, 10, 200, 0),
                             child: ToggleSwitch(
                               minWidth: 90,
                               minHeight: 40,
@@ -145,8 +143,8 @@ class _SetOptionsWidgetState extends State<SetOptionsWidget> {
                               inactiveBgColor: Colors.grey,
                               inactiveFgColor: Colors.white,
                               totalSwitches: 2,
-                              labels: ['Male', 'Female'],
-                              icons:[FontAwesomeIcons.mars, FontAwesomeIcons.venus],
+                              labels: const ['Male', 'Female'],
+                              icons:const [FontAwesomeIcons.mars, FontAwesomeIcons.venus],
                               activeBgColors: const [
                                 [Colors.blue],
                                 [Colors.pink]
@@ -163,7 +161,7 @@ class _SetOptionsWidgetState extends State<SetOptionsWidget> {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               20.0, 0.0, 0.0, 30.0),
                           child: Text(
                             FFAppState().BirthText,
@@ -178,7 +176,7 @@ class _SetOptionsWidgetState extends State<SetOptionsWidget> {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               10.0, 0.0, 10.0, 30.0),
                           child: FFButtonWidget(
                             onPressed: () async {
@@ -238,9 +236,9 @@ class _SetOptionsWidgetState extends State<SetOptionsWidget> {
                             text: 'Set Birth',
                             options: FFButtonOptions(
                               height: 40.0,
-                              padding: EdgeInsetsDirectional.fromSTEB(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
                                   16.0, 0.0, 16.0, 0.0),
-                              iconPadding: EdgeInsetsDirectional.fromSTEB(
+                              iconPadding: const EdgeInsetsDirectional.fromSTEB(
                                   0.0, 0.0, 0.0, 0.0),
                               color: FlutterFlowTheme.of(context).primary,
                               textStyle: FlutterFlowTheme.of(context)
@@ -262,9 +260,9 @@ class _SetOptionsWidgetState extends State<SetOptionsWidget> {
                       children: [
                         Expanded(
                           child: Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 20.0, 0.0, 10.0, 15.0),
-                            child: Container(
+                            child: SizedBox(
                               width: 200.0,
                               child: TextFormField(
                                 controller: _model.heightTextController,
@@ -302,14 +300,14 @@ class _SetOptionsWidgetState extends State<SetOptionsWidget> {
                                         letterSpacing: 0.0,
                                       ),
                                   enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
+                                    borderSide: const BorderSide(
                                       color: Colors.black,
                                       width: 1.0,
                                     ),
                                     borderRadius: BorderRadius.circular(24.0),
                                   ),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
+                                    borderSide: const BorderSide(
                                       color: Color(0x00000000),
                                       width: 1.0,
                                     ),
@@ -349,9 +347,9 @@ class _SetOptionsWidgetState extends State<SetOptionsWidget> {
                         ),
                         Expanded(
                           child: Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 0.0, 0.0, 20.0, 15.0),
-                            child: Container(
+                            child: SizedBox(
                               width: 200.0,
                               child: TextFormField(
                                 controller: _model.weightTextController,
@@ -389,14 +387,14 @@ class _SetOptionsWidgetState extends State<SetOptionsWidget> {
                                         letterSpacing: 0.0,
                                       ),
                                   enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
+                                    borderSide: const BorderSide(
                                       color: Colors.black,
                                       width: 1.0,
                                     ),
                                     borderRadius: BorderRadius.circular(24.0),
                                   ),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
+                                    borderSide: const BorderSide(
                                       color: Color(0x00000000),
                                       width: 1.0,
                                     ),
@@ -438,7 +436,7 @@ class _SetOptionsWidgetState extends State<SetOptionsWidget> {
                     ),
                     Padding(
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 240.0, 0.0),
+                          const EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 240.0, 0.0),
                       child: Text(
                         'Set Activity',
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -450,7 +448,7 @@ class _SetOptionsWidgetState extends State<SetOptionsWidget> {
                     ),
                     Padding(
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
+                          const EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
                       child: Slider(
                         activeColor: FlutterFlowTheme.of(context).primary,
                         inactiveColor: FlutterFlowTheme.of(context).alternate,
@@ -473,12 +471,12 @@ class _SetOptionsWidgetState extends State<SetOptionsWidget> {
                     ),
                     Expanded(
                       child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
+                        padding: const EdgeInsetsDirectional.fromSTEB(
                             20.0, 0.0, 20.0, 0.0),
                         child: Container(
                           width: double.infinity,
                           height: 200.0,
-                          color: Color(0x00000000),
+                          color: const Color(0x00000000),
                           child: ExpandableNotifier(
                             controller: _model.expandableExpandableController,
                             child: ExpandablePanel(
@@ -501,7 +499,7 @@ class _SetOptionsWidgetState extends State<SetOptionsWidget> {
                                         .bodyMedium
                                         .override(
                                           fontFamily: 'Inter',
-                                          color: Color(0x8A000000),
+                                          color: const Color(0x8A000000),
                                           letterSpacing: 0.0,
                                         ),
                                   ),
@@ -516,13 +514,13 @@ class _SetOptionsWidgetState extends State<SetOptionsWidget> {
                                         .bodyMedium
                                         .override(
                                           fontFamily: 'Inter',
-                                          color: Color(0x8A000000),
+                                          color: const Color(0x8A000000),
                                           letterSpacing: 0.0,
                                         ),
                                   ),
                                 ],
                               ),
-                              theme: ExpandableThemeData(
+                              theme: const ExpandableThemeData(
                                 tapHeaderToExpand: true,
                                 tapBodyToExpand: false,
                                 tapBodyToCollapse: false,
@@ -543,7 +541,7 @@ class _SetOptionsWidgetState extends State<SetOptionsWidget> {
                 children: [
                   Padding(
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(100.0, 20.0, 0.0, 0.0),
+                        const EdgeInsetsDirectional.fromSTEB(100.0, 20.0, 0.0, 0.0),
                     child: FFButtonWidget(
                       onPressed: () async {
                         context.pushNamed('HomePage');
@@ -551,10 +549,10 @@ class _SetOptionsWidgetState extends State<SetOptionsWidget> {
                       text: 'Undo',
                       options: FFButtonOptions(
                         height: 40.0,
-                        padding: EdgeInsetsDirectional.fromSTEB(
+                        padding: const EdgeInsetsDirectional.fromSTEB(
                             16.0, 0.0, 16.0, 0.0),
                         iconPadding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                            const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                         color: FlutterFlowTheme.of(context).primary,
                         textStyle:
                             FlutterFlowTheme.of(context).titleSmall.override(
@@ -569,7 +567,7 @@ class _SetOptionsWidgetState extends State<SetOptionsWidget> {
                   ),
                   Padding(
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(40.0, 20.0, 0.0, 0.0),
+                        const EdgeInsetsDirectional.fromSTEB(40.0, 20.0, 0.0, 0.0),
                     child: FFButtonWidget(
                       onPressed: () async {
                         FFAppState().Gender = _model.setGenderValue!;
@@ -591,13 +589,13 @@ class _SetOptionsWidgetState extends State<SetOptionsWidget> {
                             context: context,
                             builder: (alertDialogContext) {
                               return AlertDialog(
-                                title: Text('Change Info'),
-                                content: Text('Change information succeeded!'),
+                                title: const Text('Change Info'),
+                                content: const Text('Change information succeeded!'),
                                 actions: [
                                   TextButton(
                                     onPressed: () =>
                                         Navigator.pop(alertDialogContext),
-                                    child: Text('Ok'),
+                                    child: const Text('Ok'),
                                   ),
                                 ],
                               );
@@ -612,10 +610,10 @@ class _SetOptionsWidgetState extends State<SetOptionsWidget> {
                       text: 'Change',
                       options: FFButtonOptions(
                         height: 40.0,
-                        padding: EdgeInsetsDirectional.fromSTEB(
+                        padding: const EdgeInsetsDirectional.fromSTEB(
                             16.0, 0.0, 16.0, 0.0),
                         iconPadding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                            const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                         color: FlutterFlowTheme.of(context).primary,
                         textStyle:
                             FlutterFlowTheme.of(context).titleSmall.override(

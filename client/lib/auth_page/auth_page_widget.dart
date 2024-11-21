@@ -97,11 +97,11 @@ class _AuthPageWidgetState extends State<AuthPageWidget> {
                             ),
                           ),
                           Align(
-                            alignment: AlignmentDirectional(0.0, 0.0),
+                            alignment: const AlignmentDirectional(0.0, 0.0),
                             child: Padding(
                               padding: const EdgeInsetsDirectional.fromSTEB(
                                   0.0, 30.0, 0.0, 30.0),
-                              child: Container(
+                              child: SizedBox(
                                 width: 350.0,
                                 child: TextFormField(
                                   controller: _model.inputEmailTextController,
@@ -127,14 +127,14 @@ class _AuthPageWidgetState extends State<AuthPageWidget> {
                                           letterSpacing: 0.0,
                                         ),
                                     enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
+                                      borderSide: const BorderSide(
                                         color: Colors.black,
                                         width: 1.0,
                                       ),
                                       borderRadius: BorderRadius.circular(24.0),
                                     ),
                                     focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
+                                      borderSide: const BorderSide(
                                         color: Color(0x00000000),
                                         width: 1.0,
                                       ),
@@ -176,7 +176,7 @@ class _AuthPageWidgetState extends State<AuthPageWidget> {
                               ),
                             ),
                           ),
-                          Container(
+                          SizedBox(
                             width: 350.0,
                             child: TextFormField(
                               controller: _model.inputPWTextController,
@@ -200,14 +200,14 @@ class _AuthPageWidgetState extends State<AuthPageWidget> {
                                       letterSpacing: 0.0,
                                     ),
                                 enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
+                                  borderSide: const BorderSide(
                                     color: Colors.black,
                                     width: 1.0,
                                   ),
                                   borderRadius: BorderRadius.circular(24.0),
                                 ),
                                 focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
+                                  borderSide: const BorderSide(
                                     color: Color(0x00000000),
                                     width: 1.0,
                                   ),
@@ -284,14 +284,14 @@ class _AuthPageWidgetState extends State<AuthPageWidget> {
                                     context: context,
                                     builder: (alertDialogContext) {
                                       return AlertDialog(
-                                        title: Text('Sign in'),
-                                        content: Text(
+                                        title: const Text('Sign in'),
+                                        content: const Text(
                                             'User information is incorrect!'),
                                         actions: [
                                           TextButton(
                                             onPressed: () => Navigator.pop(
                                                 alertDialogContext),
-                                            child: Text('Ok'),
+                                            child: const Text('Ok'),
                                           ),
                                         ],
                                       );

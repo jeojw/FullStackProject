@@ -605,7 +605,7 @@ class _Signup1WidgetState extends State<Signup1Widget> {
                 ),
               ),
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0.0, 15.0, 0.0, 0.0),
+                padding: const EdgeInsetsDirectional.fromSTEB(0.0, 15.0, 0.0, 0.0),
                 child: FFButtonWidget(
                   onPressed: () async {
                     if (_model.inputPasswordTextController.text ==

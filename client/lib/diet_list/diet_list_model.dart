@@ -13,6 +13,18 @@ import 'package:provider/provider.dart';
 class DietListModel extends FlutterFlowModel<DietListWidget> {
   ///  State fields for stateful widgets in this page.
 
+  FocusNode? searchRiceFocusNode;
+  TextEditingController? searchRiceTextController;
+  String? Function(BuildContext, String?)? searchRiceTextControllerValidator;
+
+  FocusNode? searchSoupFocusNode;
+  TextEditingController? searchSoupTextController;
+  String? Function(BuildContext, String?)? searchSoupTextControllerValidator;
+
+  FocusNode? searchSideDishFocusNode;
+  TextEditingController? searchSideDishTextController;
+  String? Function(BuildContext, String?)? searchSideDishTextControllerValidator;
+
   // State field(s) for DropDown widget.
   String? dropDownValue1;
   FormFieldController<String>? dropDownValueController1;
@@ -28,11 +40,22 @@ class DietListModel extends FlutterFlowModel<DietListWidget> {
   // Stores action output result for [Backend Call - API (SearchDietLists)] action in Button widget.
   ApiCallResponse? apiResultsort;
 
+  ApiCallResponse? apiResultsearch;
+
   @override
   void initState(BuildContext context) {}
 
   @override
   void dispose() {
+    searchRiceFocusNode?.dispose();
+    searchRiceTextController?.dispose();
+
+    searchSoupFocusNode?.dispose();
+    searchSoupTextController?.dispose();
+
+    searchSideDishFocusNode?.dispose();
+    searchSideDishTextController?.dispose();
+
     paginatedDataTableController.dispose();
   }
 }
