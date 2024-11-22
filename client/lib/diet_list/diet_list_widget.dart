@@ -101,7 +101,8 @@ class _DietListWidgetState extends State<DietListWidget> {
                                                   child: Row(children: [
                                                     Column(
                                                       children: [
-                                                        Row(children: [
+                                                        Row(
+                                                          children: [
                                                           Padding(
                                                             padding:
                                                                 const EdgeInsetsDirectional
@@ -284,7 +285,7 @@ class _DietListWidgetState extends State<DietListWidget> {
                                                     Padding(
                                                       padding:
                                                           const EdgeInsetsDirectional
-                                                              .fromSTEB(0.0,
+                                                              .fromSTEB(20.0,
                                                               0.0, 0.0, 0.0),
                                                       child: FFButtonWidget(
                                                         onPressed: () async {
@@ -345,38 +346,39 @@ class _DietListWidgetState extends State<DietListWidget> {
                                                         text: 'Sort',
                                                         options:
                                                             FFButtonOptions(
-                                                          height: 40.0,
-                                                          padding:
-                                                              const EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                  16.0,
-                                                                  0.0,
-                                                                  16.0,
-                                                                  0.0),
-                                                          iconPadding:
-                                                              const EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                  0.0,
-                                                                  0.0,
-                                                                  0.0,
-                                                                  0.0),
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primary,
-                                                          textStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .titleSmall
-                                                                  .override(
-                                                                    fontFamily:
-                                                                        'Inter Tight',
-                                                                    color: Colors
-                                                                        .white,
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                  ),
-                                                          elevation: 0.0,
-                                                          borderRadius:
+                                                              width: 80.0,
+                                                              height: 80.0,
+                                                              padding:
+                                                                  const EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                      16.0,
+                                                                      0.0,
+                                                                      16.0,
+                                                                      0.0),
+                                                              iconPadding:
+                                                                  const EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                      0.0,
+                                                                      0.0,
+                                                                      0.0,
+                                                                      0.0),
+                                                              color: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .primary,
+                                                              textStyle:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .titleSmall
+                                                                      .override(
+                                                                        fontFamily:
+                                                                            'Inter Tight',
+                                                                        color: Colors
+                                                                            .white,
+                                                                        letterSpacing:
+                                                                            0.0,
+                                                                      ),
+                                                              elevation: 0.0,
+                                                              borderRadius:
                                                               BorderRadius
                                                                   .circular(
                                                                       24.0),
@@ -418,16 +420,15 @@ class _DietListWidgetState extends State<DietListWidget> {
                                     context: context,
                                     builder: (BuildContext context) {
                                       return SizedBox(
-                                        height: 400,
+                                        height: 200,
                                         child: Row(
                                           children: [
                                           Column(
                                             mainAxisSize: MainAxisSize.max,
                                             children: [
-                                              Expanded(
-                                                child: Padding(
+                                              Padding(
                                                   padding: const EdgeInsetsDirectional.fromSTEB(
-                                                      20.0, 0.0, 10.0, 15.0),
+                                                      80.0, 30.0, 10.0, 0.0),
                                                   child: SizedBox(
                                                     width: 200.0,
                                                     child: TextFormField(
@@ -496,11 +497,9 @@ class _DietListWidgetState extends State<DietListWidget> {
                                                     ),
                                                   ),
                                                 ),
-                                              ),
-                                              Expanded(
-                                                child: Padding(
+                                              Padding(
                                                   padding: const EdgeInsetsDirectional.fromSTEB(
-                                                      20.0, 0.0, 10.0, 15.0),
+                                                      80.0, 10.0, 10.0, 0.0),
                                                   child: SizedBox(
                                                     width: 200.0,
                                                     child: TextFormField(
@@ -569,11 +568,9 @@ class _DietListWidgetState extends State<DietListWidget> {
                                                     ),
                                                   ),
                                                 ),
-                                              ),
-                                              Expanded(
-                                                child: Padding(
+                                                Padding(
                                                   padding: const EdgeInsetsDirectional.fromSTEB(
-                                                      20.0, 0.0, 10.0, 15.0),
+                                                      80.0, 10.0, 10.0, 0.0),
                                                   child: SizedBox(
                                                     width: 200.0,
                                                     child: TextFormField(
@@ -642,7 +639,6 @@ class _DietListWidgetState extends State<DietListWidget> {
                                                     ),
                                                   ),
                                                 ),
-                                              ),
                                             ] ,
                                           ),
                                           Padding(
@@ -676,7 +672,8 @@ class _DietListWidgetState extends State<DietListWidget> {
                                                 }
                                               },
                                               options: FFButtonOptions(
-                                                height: 40.0,
+                                                width: 125.0,
+                                                height: 125.0,
                                                 padding: const EdgeInsetsDirectional.fromSTEB(
                                                     16.0, 0.0, 16.0, 0.0),
                                                 iconPadding:
