@@ -78,8 +78,8 @@ class _DietInfoWidgetState extends State<DietInfoWidget> {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Padding(
-                      padding:
-                         const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 10.0),
+                      padding: const EdgeInsetsDirectional.fromSTEB(
+                          0.0, 10.0, 0.0, 10.0),
                       child: Text(
                         'Nutrient Information',
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -96,14 +96,17 @@ class _DietInfoWidgetState extends State<DietInfoWidget> {
 
                           List<dynamic> dataList = [];
 
-                          if (left != null){
+                          if (left != null) {
                             if (left['rice'] != null) {
                               dataList.add({
-                                'name': left['rice']['name'] ?? 'Unknown Rice', // 기본값 설정
+                                'name': left['rice']['name'] ??
+                                    'Unknown Rice', // 기본값 설정
                                 'calorie': left['rice']['calorie'] * 1.5 ?? 0.0,
-                                'carbohydrate': left['rice']['carbohydrate'] * 1.5 ?? 0.0,
+                                'carbohydrate':
+                                    left['rice']['carbohydrate'] * 1.5 ?? 0.0,
                                 'protein': left['rice']['protein'] * 1.5 ?? 0.0,
-                                'province': left['rice']['province'] * 1.5 ?? 0.0,
+                                'province':
+                                    left['rice']['province'] * 1.5 ?? 0.0,
                                 'classification': '밥류'
                               });
                             }
@@ -111,11 +114,14 @@ class _DietInfoWidgetState extends State<DietInfoWidget> {
                             // Soup 정보 추가
                             if (left['soup'] != null) {
                               dataList.add({
-                                'name': left['soup']['name'] ?? 'Unknown Soup', // 기본값 설정
+                                'name': left['soup']['name'] ??
+                                    'Unknown Soup', // 기본값 설정
                                 'calorie': left['soup']['calorie'] * 1.5 ?? 0.0,
-                                'carbohydrate': left['soup']['carbohydrate'] * 1.5 ?? 0.0,
+                                'carbohydrate':
+                                    left['soup']['carbohydrate'] * 1.5 ?? 0.0,
                                 'protein': left['soup']['protein'] * 1.5 ?? 0.0,
-                                'province': left['soup']['province'] * 1.5 ?? 0.0,
+                                'province':
+                                    left['soup']['province'] * 1.5 ?? 0.0,
                                 'classification': '국, 찌개류'
                               });
                             }
@@ -125,21 +131,40 @@ class _DietInfoWidgetState extends State<DietInfoWidget> {
                               double coef = 0.0;
                               for (var sideDish in left['dietSideDishList']!) {
                                 if (sideDish['sideDishDto'] != null) {
-                                  if (sideDish['sideDishDto']['classification'] == '찜류' ||
-                                  sideDish['sideDishDto']['classification'] == '구이류' ||
-                                  sideDish['sideDishDto']['classification'] == '전·적 및 부침류찜류'){
+                                  if (sideDish['sideDishDto']
+                                              ['classification'] ==
+                                          '찜류' ||
+                                      sideDish['sideDishDto']
+                                              ['classification'] ==
+                                          '구이류' ||
+                                      sideDish['sideDishDto']
+                                              ['classification'] ==
+                                          '전·적 및 부침류찜류') {
                                     coef = 1.0;
-                                  }
-                                  else{
+                                  } else {
                                     coef = 0.5;
                                   }
                                   dataList.add({
-                                    'name': sideDish['sideDishDto']['name'] ?? 'Unknown Side Dish', // 기본값 설정
-                                    'calorie': sideDish['sideDishDto']['calorie'] * coef ?? 0.0,
-                                    'carbohydrate': sideDish['sideDishDto']['carbohydrate'] * coef ?? 0.0,
-                                    'protein': sideDish['sideDishDto']['protein'] * coef ?? 0.0,
-                                    'province': sideDish['sideDishDto']['province'] * coef ?? 0.0,
-                                    'classification': sideDish['sideDishDto']['classification']
+                                    'name': sideDish['sideDishDto']['name'] ??
+                                        'Unknown Side Dish', // 기본값 설정
+                                    'calorie': sideDish['sideDishDto']
+                                                ['calorie'] *
+                                            coef ??
+                                        0.0,
+                                    'carbohydrate': sideDish['sideDishDto']
+                                                ['carbohydrate'] *
+                                            coef ??
+                                        0.0,
+                                    'protein': sideDish['sideDishDto']
+                                                ['protein'] *
+                                            coef ??
+                                        0.0,
+                                    'province': sideDish['sideDishDto']
+                                                ['province'] *
+                                            coef ??
+                                        0.0,
+                                    'classification': sideDish['sideDishDto']
+                                        ['classification']
                                   });
                                 }
                               }
@@ -167,9 +192,9 @@ class _DietInfoWidgetState extends State<DietInfoWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .labelLarge
                                         .override(
-                                          fontFamily: 'Inter',
-                                          letterSpacing: 0.0,
-                                        ),
+                                            fontFamily: 'Inter',
+                                            letterSpacing: 0.0,
+                                            color: Colors.white),
                                   ),
                                 ),
                               ),
@@ -181,9 +206,9 @@ class _DietInfoWidgetState extends State<DietInfoWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .labelLarge
                                         .override(
-                                          fontFamily: 'Inter',
-                                          letterSpacing: 0.0,
-                                        ),
+                                            fontFamily: 'Inter',
+                                            letterSpacing: 0.0,
+                                            color: Colors.white),
                                   ),
                                 ),
                               ),
@@ -195,9 +220,9 @@ class _DietInfoWidgetState extends State<DietInfoWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .labelLarge
                                         .override(
-                                          fontFamily: 'Inter',
-                                          letterSpacing: 0.0,
-                                        ),
+                                            fontFamily: 'Inter',
+                                            letterSpacing: 0.0,
+                                            color: Colors.white),
                                   ),
                                 ),
                               ),
@@ -209,9 +234,9 @@ class _DietInfoWidgetState extends State<DietInfoWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .labelLarge
                                         .override(
-                                          fontFamily: 'Inter',
-                                          letterSpacing: 0.0,
-                                        ),
+                                            fontFamily: 'Inter',
+                                            letterSpacing: 0.0,
+                                            color: Colors.white),
                                   ),
                                 ),
                               ),
@@ -223,9 +248,9 @@ class _DietInfoWidgetState extends State<DietInfoWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .labelLarge
                                         .override(
-                                          fontFamily: 'Inter',
-                                          letterSpacing: 0.0,
-                                        ),
+                                            fontFamily: 'Inter',
+                                            letterSpacing: 0.0,
+                                            color: Colors.white),
                                   ),
                                 ),
                               ),
@@ -237,77 +262,91 @@ class _DietInfoWidgetState extends State<DietInfoWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .labelLarge
                                         .override(
-                                          fontFamily: 'Inter',
-                                          letterSpacing: 0.0,
-                                        ),
+                                            fontFamily: 'Inter',
+                                            letterSpacing: 0.0,
+                                            color: Colors.white),
                                   ),
                                 ),
                               ),
                             ],
                             dataRowBuilder: (leftItem, leftIndex, selected,
-                                    onSelectChanged) {
-                                return DataRow(
-                              color: WidgetStateProperty.all(
-                                leftIndex % 2 == 0
-                                    ? FlutterFlowTheme.of(context).secondaryBackground
-                                    : FlutterFlowTheme.of(context).primaryBackground,
-                              ),
-                              cells: [
-                                DataCell(
-                                  Text(
-                                    leftItem['name'],
-                                    style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                          fontFamily: 'Inter',
-                                          letterSpacing: 0.0,
-                                        ),
-                                  ),
+                                onSelectChanged) {
+                              return DataRow(
+                                color: WidgetStateProperty.all(
+                                  leftIndex % 2 == 0
+                                      ? FlutterFlowTheme.of(context)
+                                          .secondaryBackground
+                                      : FlutterFlowTheme.of(context)
+                                          .primaryBackground,
                                 ),
-                                DataCell(
-                                  Text(
-                                    '${leftItem['calorie'].toStringAsFixed(1)}kcal', 
-                                    style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                          fontFamily: 'Inter',
-                                          letterSpacing: 0.0,
-                                        ),
+                                cells: [
+                                  DataCell(
+                                    Text(
+                                      leftItem['name'],
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily: 'Inter',
+                                            letterSpacing: 0.0,
+                                          ),
+                                    ),
                                   ),
-                                ),
-                                DataCell(
-                                  Text(
-                                    '${leftItem['carbohydrate'].toStringAsFixed(1)}g',
-                                    style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                          fontFamily: 'Inter',
-                                          letterSpacing: 0.0,
-                                        ),
+                                  DataCell(
+                                    Text(
+                                      '${leftItem['calorie'].toStringAsFixed(1)}kcal',
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily: 'Inter',
+                                            letterSpacing: 0.0,
+                                          ),
+                                    ),
                                   ),
-                                ),
-                                DataCell(
-                                  Text(
-                                    '${leftItem['protein'].toStringAsFixed(1)}g', // 밥 칼로리
-                                    style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                          fontFamily: 'Inter',
-                                          letterSpacing: 0.0,
-                                        ),
+                                  DataCell(
+                                    Text(
+                                      '${leftItem['carbohydrate'].toStringAsFixed(1)}g',
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily: 'Inter',
+                                            letterSpacing: 0.0,
+                                          ),
+                                    ),
                                   ),
-                                ),
-                                DataCell(
-                                  Text(
-                                    '${leftItem['province'].toStringAsFixed(1)}g', // 밥 칼로리
-                                    style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                          fontFamily: 'Inter',
-                                          letterSpacing: 0.0,
-                                        ),
+                                  DataCell(
+                                    Text(
+                                      '${leftItem['protein'].toStringAsFixed(1)}g', // 밥 칼로리
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily: 'Inter',
+                                            letterSpacing: 0.0,
+                                          ),
+                                    ),
                                   ),
-                                ),
-                                DataCell(
-                                  Text(
-                                    leftItem['classification'],
-                                    style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                          fontFamily: 'Inter',
-                                          letterSpacing: 0.0,
-                                        ),
+                                  DataCell(
+                                    Text(
+                                      '${leftItem['province'].toStringAsFixed(1)}g', // 밥 칼로리
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily: 'Inter',
+                                            letterSpacing: 0.0,
+                                          ),
+                                    ),
                                   ),
-                                ),
-                              ],
+                                  DataCell(
+                                    Text(
+                                      leftItem['classification'],
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily: 'Inter',
+                                            letterSpacing: 0.0,
+                                          ),
+                                    ),
+                                  ),
+                                ],
                               );
                             },
                             paginated: false,
@@ -333,8 +372,8 @@ class _DietInfoWidgetState extends State<DietInfoWidget> {
                       ),
                     ),
                     Padding(
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
+                      padding: const EdgeInsetsDirectional.fromSTEB(
+                          0.0, 10.0, 0.0, 0.0),
                       child: FFButtonWidget(
                         onPressed: () async {
                           context.pushNamed('DietList');

@@ -15,15 +15,19 @@ class DietListModel extends FlutterFlowModel<DietListWidget> {
 
   FocusNode? searchRiceFocusNode;
   TextEditingController? searchRiceTextController;
+  String? searchRiceValue;
   String? Function(BuildContext, String?)? searchRiceTextControllerValidator;
 
   FocusNode? searchSoupFocusNode;
   TextEditingController? searchSoupTextController;
+  String? searchSoupValue;
   String? Function(BuildContext, String?)? searchSoupTextControllerValidator;
 
   FocusNode? searchSideDishFocusNode;
   TextEditingController? searchSideDishTextController;
-  String? Function(BuildContext, String?)? searchSideDishTextControllerValidator;
+  String? searchSideDishValue;
+  String? Function(BuildContext, String?)?
+      searchSideDishTextControllerValidator;
 
   // State field(s) for DropDown widget.
   String? dropDownValue1;

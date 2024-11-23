@@ -77,8 +77,8 @@ class _FindPasswordWidgetState extends State<FindPasswordWidget> {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 30.0, 75.0, 10.0),
+                      padding: const EdgeInsetsDirectional.fromSTEB(
+                          0.0, 30.0, 75.0, 10.0),
                       child: Text(
                         'Find Password',
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -89,9 +89,9 @@ class _FindPasswordWidgetState extends State<FindPasswordWidget> {
                       ),
                     ),
                     Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 0.0),
-                      child: Container(
+                      padding: const EdgeInsetsDirectional.fromSTEB(
+                          0.0, 20.0, 0.0, 0.0),
+                      child: SizedBox(
                         width: 350.0,
                         child: TextFormField(
                           controller: _model.emailFieldTextController,
@@ -115,14 +115,14 @@ class _FindPasswordWidgetState extends State<FindPasswordWidget> {
                                   letterSpacing: 0.0,
                                 ),
                             enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
+                              borderSide: const BorderSide(
                                 color: Colors.black,
                                 width: 1.0,
                               ),
                               borderRadius: BorderRadius.circular(24.0),
                             ),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
+                              borderSide: const BorderSide(
                                 color: Color(0x00000000),
                                 width: 1.0,
                               ),
@@ -159,8 +159,8 @@ class _FindPasswordWidgetState extends State<FindPasswordWidget> {
                       ),
                     ),
                     Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 230.0, 0.0),
+                      padding: const EdgeInsetsDirectional.fromSTEB(
+                          0.0, 10.0, 230.0, 0.0),
                       child: FFButtonWidget(
                         onPressed: () async {
                           FFAppState().MailType = 'findPassword';
@@ -168,20 +168,21 @@ class _FindPasswordWidgetState extends State<FindPasswordWidget> {
                           _model.apiResultiww = await MailSendCall.call();
 
                           if ((_model.apiResultiww?.succeeded ?? true)) {
-                            await FFAppState().setAuthNum((_model.apiResultiww?.bodyText ?? ''));
+                            await FFAppState().setAuthNum(
+                                (_model.apiResultiww?.bodyText ?? ''));
                             safeSetState(() {});
                           } else {
                             await showDialog(
                               context: context,
                               builder: (alertDialogContext) {
                                 return AlertDialog(
-                                  title: Text('Auth Email'),
-                                  content: Text('Email is not validate!'),
+                                  title: const Text('Auth Email'),
+                                  content: const Text('Email is not validate!'),
                                   actions: [
                                     TextButton(
                                       onPressed: () =>
                                           Navigator.pop(alertDialogContext),
-                                      child: Text('Ok'),
+                                      child: const Text('Ok'),
                                     ),
                                   ],
                                 );
@@ -194,9 +195,9 @@ class _FindPasswordWidgetState extends State<FindPasswordWidget> {
                         text: 'Check Email',
                         options: FFButtonOptions(
                           height: 40.0,
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               16.0, 0.0, 16.0, 0.0),
-                          iconPadding: EdgeInsetsDirectional.fromSTEB(
+                          iconPadding: const EdgeInsetsDirectional.fromSTEB(
                               0.0, 0.0, 0.0, 0.0),
                           color: FlutterFlowTheme.of(context).primary,
                           textStyle:
@@ -211,9 +212,9 @@ class _FindPasswordWidgetState extends State<FindPasswordWidget> {
                       ),
                     ),
                     Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 30.0, 0.0, 0.0),
-                      child: Container(
+                      padding: const EdgeInsetsDirectional.fromSTEB(
+                          0.0, 30.0, 0.0, 0.0),
+                      child: SizedBox(
                         width: 350.0,
                         child: TextFormField(
                           controller: _model.authNumberFieldTextController,
@@ -237,14 +238,14 @@ class _FindPasswordWidgetState extends State<FindPasswordWidget> {
                                   letterSpacing: 0.0,
                                 ),
                             enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
+                              borderSide: const BorderSide(
                                 color: Colors.black,
                                 width: 1.0,
                               ),
                               borderRadius: BorderRadius.circular(24.0),
                             ),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
+                              borderSide: const BorderSide(
                                 color: Color(0x00000000),
                                 width: 1.0,
                               ),
@@ -282,8 +283,8 @@ class _FindPasswordWidgetState extends State<FindPasswordWidget> {
                       ),
                     ),
                     Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 240.0, 0.0),
+                      padding: const EdgeInsetsDirectional.fromSTEB(
+                          0.0, 10.0, 240.0, 0.0),
                       child: FFButtonWidget(
                         onPressed: () async {
                           if (FFAppState().getAuthNum() != '') {
@@ -297,13 +298,14 @@ class _FindPasswordWidgetState extends State<FindPasswordWidget> {
                                 context: context,
                                 builder: (alertDialogContext) {
                                   return AlertDialog(
-                                    title: Text('Auth Email'),
-                                    content: Text('Auth num is incorrect!'),
+                                    title: const Text('Auth Email'),
+                                    content:
+                                        const Text('Auth num is incorrect!'),
                                     actions: [
                                       TextButton(
                                         onPressed: () =>
                                             Navigator.pop(alertDialogContext),
-                                        child: Text('Ok'),
+                                        child: const Text('Ok'),
                                       ),
                                     ],
                                   );
@@ -315,13 +317,13 @@ class _FindPasswordWidgetState extends State<FindPasswordWidget> {
                               context: context,
                               builder: (alertDialogContext) {
                                 return AlertDialog(
-                                  title: Text('Auth Email'),
-                                  content: Text('Auth email is failed!'),
+                                  title: const Text('Auth Email'),
+                                  content: const Text('Auth email is failed!'),
                                   actions: [
                                     TextButton(
                                       onPressed: () =>
                                           Navigator.pop(alertDialogContext),
-                                      child: Text('Ok'),
+                                      child: const Text('Ok'),
                                     ),
                                   ],
                                 );
@@ -334,9 +336,9 @@ class _FindPasswordWidgetState extends State<FindPasswordWidget> {
                         text: 'Auth Email',
                         options: FFButtonOptions(
                           height: 40.0,
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               16.0, 0.0, 16.0, 0.0),
-                          iconPadding: EdgeInsetsDirectional.fromSTEB(
+                          iconPadding: const EdgeInsetsDirectional.fromSTEB(
                               0.0, 0.0, 0.0, 0.0),
                           color: FlutterFlowTheme.of(context).primary,
                           textStyle:
@@ -351,7 +353,8 @@ class _FindPasswordWidgetState extends State<FindPasswordWidget> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(0, 225, 0, 0),
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(0, 225, 0, 0),
                       child: FFButtonWidget(
                         onPressed: () async {
                           context.pushNamed('AuthPage');
@@ -359,9 +362,10 @@ class _FindPasswordWidgetState extends State<FindPasswordWidget> {
                         text: 'Go Back',
                         options: FFButtonOptions(
                           height: 40,
-                          padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                              16, 0, 16, 0),
                           iconPadding:
-                              EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                              const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
                           color: FlutterFlowTheme.of(context).primary,
                           textStyle:
                               FlutterFlowTheme.of(context).titleSmall.override(

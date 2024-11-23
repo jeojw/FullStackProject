@@ -77,8 +77,8 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Padding(
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 10.0, 10.0),
+                      padding: const EdgeInsetsDirectional.fromSTEB(
+                          0.0, 20.0, 10.0, 10.0),
                       child: Text(
                         'Change Password',
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -275,15 +275,15 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                       ),
                     ),
                     Padding(
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 200.0, 0.0),
+                      padding: const EdgeInsetsDirectional.fromSTEB(
+                          0.0, 0.0, 200.0, 0.0),
                       child: Text(
                         valueOrDefault<String>(
                           (_model.inputPasswordTextController.text ==
                                       _model
                                           .checkPasswordTextController.text) &&
                                   (_model.inputPasswordTextController.text !=
-                                          '')
+                                      '')
                               ? 'Password correct!'
                               : 'Password diffeerent!',
                           'Input Password',
@@ -296,13 +296,14 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                       ),
                     ),
                     Padding(
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(0.0, 40.0, 180.0, 0.0),
+                      padding: const EdgeInsetsDirectional.fromSTEB(
+                          0.0, 40.0, 180.0, 0.0),
                       child: FFButtonWidget(
                         onPressed: () async {
                           if (_model.inputPasswordTextController.text ==
                               _model.checkPasswordTextController.text) {
-                            await FFAppState().setNewPassword(_model.inputPasswordTextController.text);
+                            await FFAppState().setNewPassword(
+                                _model.inputPasswordTextController.text);
                             safeSetState(() {});
                             _model.apiResult477 =
                                 await ChangePasswordCall.call();
@@ -313,7 +314,8 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                                 builder: (alertDialogContext) {
                                   return AlertDialog(
                                     title: const Text('Change Password'),
-                                    content: const Text('Change password compleete!'),
+                                    content: const Text(
+                                        'Change password compleete!'),
                                     actions: [
                                       TextButton(
                                         onPressed: () =>
@@ -334,7 +336,8 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                                 builder: (alertDialogContext) {
                                   return AlertDialog(
                                     title: const Text('Change password'),
-                                    content: const Text('Change password failed'),
+                                    content:
+                                        const Text('Change password failed'),
                                     actions: [
                                       TextButton(
                                         onPressed: () =>
@@ -352,7 +355,8 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                               builder: (alertDialogContext) {
                                 return AlertDialog(
                                   title: const Text('Change password'),
-                                  content: const Text('Passowords are incorrect'),
+                                  content:
+                                      const Text('Passowords are incorrect'),
                                   actions: [
                                     TextButton(
                                       onPressed: () =>

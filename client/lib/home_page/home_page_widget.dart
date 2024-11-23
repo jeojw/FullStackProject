@@ -112,7 +112,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
             mainAxisSize: MainAxisSize.max,
             children: [
               Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(55.0, 50.0, 0.0, 70.0),
+                padding:
+                    const EdgeInsetsDirectional.fromSTEB(55.0, 50.0, 0.0, 70.0),
                 child: FFButtonWidget(
                   onPressed: () async {
                     var _shouldSetState = false;
@@ -166,10 +167,10 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   options: FFButtonOptions(
                     width: MediaQuery.sizeOf(context).width * 0.7,
                     height: 60.0,
-                    padding:
-                        const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
-                    iconPadding:
-                        const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(
+                        16.0, 0.0, 16.0, 0.0),
+                    iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                        0.0, 0.0, 0.0, 0.0),
                     color: FlutterFlowTheme.of(context).primary,
                     textStyle: FlutterFlowTheme.of(context).titleSmall.override(
                           fontFamily: 'Inter Tight',
@@ -207,7 +208,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     width: MediaQuery.sizeOf(context).width * 0.7,
                     height: 60,
                     padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
-                    iconPadding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                    iconPadding:
+                        const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
                     color: FlutterFlowTheme.of(context).primary,
                     textStyle: FlutterFlowTheme.of(context).titleSmall.override(
                           fontFamily: 'Inter Tight',
@@ -221,7 +223,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(50.0, 0.0, 0.0, 0.0),
+                padding:
+                    const EdgeInsetsDirectional.fromSTEB(50.0, 0.0, 0.0, 0.0),
                 child: FFButtonWidget(
                   onPressed: () async {
                     context.pushNamed('SetOptions');
@@ -230,10 +233,10 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   options: FFButtonOptions(
                     width: MediaQuery.sizeOf(context).width * 0.7,
                     height: 60.0,
-                    padding:
-                        const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
-                    iconPadding:
-                        const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(
+                        16.0, 0.0, 16.0, 0.0),
+                    iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                        0.0, 0.0, 0.0, 0.0),
                     color: FlutterFlowTheme.of(context).primary,
                     textStyle: FlutterFlowTheme.of(context).titleSmall.override(
                           fontFamily: 'Inter Tight',

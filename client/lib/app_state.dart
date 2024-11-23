@@ -186,6 +186,24 @@ class FFAppState extends ChangeNotifier {
     _isVisibleInitButton = value;
   }
 
+  String _searchRice = '';
+  String get searchRice => _searchRice;
+  set searchRice(String value) {
+    _searchRice = value;
+  }
+
+  String _searchSoup = '';
+  String get searchSoup => _searchSoup;
+  set searchSoup(String value) {
+    _searchSoup = value;
+  }
+
+  String _searchSideDish = '';
+  String get searchSideDish => _searchSideDish;
+  set searchSideDish(String value) {
+    _searchSideDish = value;
+  }
+
   Future<String?> getAccessToken() async {
     return await readFromSecureStorage('accessToken');
   }

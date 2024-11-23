@@ -71,7 +71,8 @@ class _AuthPageWidgetState extends State<AuthPageWidget> {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Padding(
-                    padding: const EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 1.0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(
+                        0.0, 8.0, 0.0, 1.0),
                     child: Container(
                       width: MediaQuery.sizeOf(context).width * 1.0,
                       height: MediaQuery.sizeOf(context).height * 0.8,
@@ -262,17 +263,21 @@ class _AuthPageWidgetState extends State<AuthPageWidget> {
                                 0.0, 30.0, 0.0, 0.0),
                             child: FFButtonWidget(
                               onPressed: () async {
-                                await FFAppState().setUserEmail(_model.inputEmailTextController.text);
-                                await FFAppState().setUserPassword(_model.inputPWTextController.text);
+                                await FFAppState().setUserEmail(
+                                    _model.inputEmailTextController.text);
+                                await FFAppState().setUserPassword(
+                                    _model.inputPWTextController.text);
                                 safeSetState(() {});
                                 _model.apiResult8jy = await SignInCall.call();
 
                                 if ((_model.apiResult8jy?.succeeded ?? true)) {
-                                  await FFAppState().setAccessToken(getJsonField(
+                                  await FFAppState()
+                                      .setAccessToken(getJsonField(
                                     (_model.apiResult8jy?.jsonBody ?? ''),
                                     r'''$.accessToken''',
                                   ).toString());
-                                  await FFAppState().setRefreshToken(getJsonField(
+                                  await FFAppState()
+                                      .setRefreshToken(getJsonField(
                                     (_model.apiResult8jy?.jsonBody ?? ''),
                                     r'''$.refreshToken''',
                                   ).toString());
@@ -307,8 +312,9 @@ class _AuthPageWidgetState extends State<AuthPageWidget> {
                                 height: 50.0,
                                 padding: const EdgeInsetsDirectional.fromSTEB(
                                     16.0, 0.0, 16.0, 0.0),
-                                iconPadding: const EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 0.0, 0.0, 0.0),
+                                iconPadding:
+                                    const EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 0.0, 0.0, 0.0),
                                 color: FlutterFlowTheme.of(context).primary,
                                 textStyle: FlutterFlowTheme.of(context)
                                     .titleSmall
@@ -335,8 +341,9 @@ class _AuthPageWidgetState extends State<AuthPageWidget> {
                                 height: 50.0,
                                 padding: const EdgeInsetsDirectional.fromSTEB(
                                     16.0, 0.0, 16.0, 0.0),
-                                iconPadding: const EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 0.0, 0.0, 0.0),
+                                iconPadding:
+                                    const EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 0.0, 0.0, 0.0),
                                 color: Colors.white,
                                 textStyle: FlutterFlowTheme.of(context)
                                     .titleSmall
@@ -362,8 +369,9 @@ class _AuthPageWidgetState extends State<AuthPageWidget> {
                                 height: 40.0,
                                 padding: const EdgeInsetsDirectional.fromSTEB(
                                     16.0, 0.0, 16.0, 0.0),
-                                iconPadding: const EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 0.0, 0.0, 0.0),
+                                iconPadding:
+                                    const EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 0.0, 0.0, 0.0),
                                 color: Colors.white,
                                 textStyle: FlutterFlowTheme.of(context)
                                     .titleSmall

@@ -211,7 +211,7 @@ class MailAuthCall {
   }
 }
 
-class GetDietListCall{
+class GetDietListCall {
   static Future<ApiCallResponse> call() async {
     final userEmail = await FFAppState().getUserEmail();
     final accessToken = await FFAppState().getAccessToken();
@@ -357,14 +357,13 @@ class GetDietInfoCall {
   }
 }
 
-class SearchDietListsByOptionCall{
-  static Future<ApiCallResponse> call({
-    required String? rice,
-    required String? soup,
-    required String? sideDish
-  }) async {
+class SearchDietListsByOptionCall {
+  static Future<ApiCallResponse> call() async {
     final userEmail = await FFAppState().getUserEmail();
     final accessToken = await FFAppState().getAccessToken();
+    final rice = FFAppState().searchRice;
+    final soup = FFAppState().searchSoup;
+    final sideDish = FFAppState().searchSideDish;
     final ffApiRequestBody = '''
 {
   "userEmail": "$userEmail", 
@@ -374,13 +373,13 @@ class SearchDietListsByOptionCall{
 }''';
 
     return ApiManager.instance.makeApiCall(
-      callName: 'SearchDietByOptions', 
-      apiUrl: 'http://localhost:8080/api/searchDietListByOption', 
+      callName: 'SearchDietByOptions',
+      apiUrl: 'http://localhost:8080/api/searchDietListByOption',
       callType: ApiCallType.POST,
       headers: {
-        'Authorization': 'Bearer $accessToken', 
+        'Authorization': 'Bearer $accessToken',
         'Content-Type': 'application/json',
-        },
+      },
       params: {},
       body: ffApiRequestBody,
       bodyType: BodyType.JSON,

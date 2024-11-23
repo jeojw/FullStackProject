@@ -36,6 +36,598 @@ class _DietListWidgetState extends State<DietListWidget> {
     super.dispose();
   }
 
+  bool _canShowModalSort = false;
+  bool _canShowModalSearch = false;
+
+  void _showModalSort() {
+    if (_canShowModalSort) {
+      showModalBottomSheet(
+          context: context,
+          builder: (BuildContext context) {
+            return SizedBox(
+                height: 200,
+                child: Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsetsDirectional.fromSTEB(
+                            0.0, 40.0, 0.0, 0.0),
+                        child: Row(children: [
+                          Column(
+                            children: [
+                              Row(children: [
+                                Padding(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      40, 0, 20, 0),
+                                  child: Text(
+                                    'Nutrient Option',
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .override(
+                                          fontFamily: 'Inter',
+                                          fontSize: 18,
+                                          letterSpacing: 0.0,
+                                        ),
+                                  ),
+                                ),
+                                FlutterFlowDropDown<String>(
+                                  controller:
+                                      _model.dropDownValueController1 ??=
+                                          FormFieldController<String>(null),
+                                  options: const [
+                                    'Calorie',
+                                    'Carbohydrate',
+                                    'Protein',
+                                    'Province'
+                                  ],
+                                  onChanged: (val) => safeSetState(
+                                      () => _model.dropDownValue1 = val),
+                                  width:
+                                      MediaQuery.sizeOf(context).width * 0.35,
+                                  height: 40.0,
+                                  textStyle: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .override(
+                                        fontFamily: 'Inter',
+                                        letterSpacing: 0.0,
+                                      ),
+                                  hintText: 'Select...',
+                                  icon: Icon(
+                                    Icons.keyboard_arrow_down_rounded,
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryText,
+                                    size: 24.0,
+                                  ),
+                                  fillColor: FlutterFlowTheme.of(context)
+                                      .secondaryBackground,
+                                  elevation: 2.0,
+                                  borderColor: Colors.transparent,
+                                  borderWidth: 0.0,
+                                  borderRadius: 8.0,
+                                  margin: const EdgeInsetsDirectional.fromSTEB(
+                                      12.0, 0.0, 12.0, 0.0),
+                                  hidesUnderline: true,
+                                  isOverButton: false,
+                                  isSearchable: false,
+                                  isMultiSelect: false,
+                                )
+                              ]),
+                              Row(children: [
+                                Padding(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      40, 0, 54, 0),
+                                  child: Text(
+                                    'Sort Option',
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .override(
+                                          fontFamily: 'Inter',
+                                          fontSize: 18,
+                                          letterSpacing: 0.0,
+                                        ),
+                                  ),
+                                ),
+                                FlutterFlowDropDown<String>(
+                                  controller:
+                                      _model.dropDownValueController2 ??=
+                                          FormFieldController<String>(null),
+                                  options: const ['Upper', 'Lower'],
+                                  onChanged: (val) => safeSetState(
+                                      () => _model.dropDownValue2 = val),
+                                  width:
+                                      MediaQuery.sizeOf(context).width * 0.35,
+                                  height: 40.0,
+                                  textStyle: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .override(
+                                        fontFamily: 'Inter',
+                                        letterSpacing: 0.0,
+                                      ),
+                                  hintText: 'Select...',
+                                  icon: Icon(
+                                    Icons.keyboard_arrow_down_rounded,
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryText,
+                                    size: 24.0,
+                                  ),
+                                  fillColor: FlutterFlowTheme.of(context)
+                                      .secondaryBackground,
+                                  elevation: 2.0,
+                                  borderColor: Colors.transparent,
+                                  borderWidth: 0.0,
+                                  borderRadius: 8.0,
+                                  margin: const EdgeInsetsDirectional.fromSTEB(
+                                      12.0, 0.0, 12.0, 0.0),
+                                  hidesUnderline: true,
+                                  isOverButton: false,
+                                  isSearchable: false,
+                                  isMultiSelect: false,
+                                ),
+                              ]),
+                            ],
+                          ),
+                          Column(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    20.0, 0.0, 0.0, 5.0),
+                                child: FFButtonWidget(
+                                  onPressed: () async {
+                                    FFAppState().NutrientOption =
+                                        _model.dropDownValue1.toString();
+                                    FFAppState().SortOption =
+                                        _model.dropDownValue2.toString();
+                                    _model.apiResultsort =
+                                        await SortDietListCall.call();
+
+                                    if ((_model.apiResultsort?.succeeded ??
+                                        true)) {
+                                      FFAppState().DietList = [];
+                                      safeSetState(() {});
+                                      FFAppState().DietList =
+                                          (_model.apiResultsort?.jsonBody ?? '')
+                                              .toList()
+                                              .cast<dynamic>();
+                                      _canShowModalSort = false;
+                                      Navigator.pop(context);
+                                      safeSetState(() {});
+                                    } else {
+                                      await showDialog(
+                                        context: context,
+                                        builder: (alertDialogContext) {
+                                          return AlertDialog(
+                                            title: const Text('Sort Diet List'),
+                                            content:
+                                                const Text('API Call failed!'),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () => Navigator.pop(
+                                                    alertDialogContext),
+                                                child: const Text('Ok'),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    }
+                                    safeSetState(() {});
+                                  },
+                                  text: 'Sort',
+                                  options: FFButtonOptions(
+                                    width: 80.0,
+                                    height: 40.0,
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            16.0, 0.0, 16.0, 0.0),
+                                    iconPadding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            0.0, 0.0, 0.0, 0.0),
+                                    color: FlutterFlowTheme.of(context).primary,
+                                    textStyle: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .override(
+                                          fontFamily: 'Inter Tight',
+                                          color: Colors.white,
+                                          letterSpacing: 0.0,
+                                        ),
+                                    elevation: 0.0,
+                                    borderRadius: BorderRadius.circular(24.0),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    20.0, 0.0, 0.0, 0.0),
+                                child: FFButtonWidget(
+                                  onPressed: () async {
+                                    _canShowModalSort = false;
+                                    Navigator.pop(context);
+                                    safeSetState(() {});
+                                  },
+                                  text: 'Cancel',
+                                  options: FFButtonOptions(
+                                    width: 80.0,
+                                    height: 40.0,
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            16.0, 0.0, 16.0, 0.0),
+                                    iconPadding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            0.0, 0.0, 0.0, 0.0),
+                                    color: FlutterFlowTheme.of(context).primary,
+                                    textStyle: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .override(
+                                          fontFamily: 'Inter Tight',
+                                          color: Colors.white,
+                                          letterSpacing: 0.0,
+                                        ),
+                                    elevation: 0.0,
+                                    borderRadius: BorderRadius.circular(24.0),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                        ]),
+                      )
+                    ],
+                  ),
+                ));
+          });
+    }
+  }
+
+  void _showModalSearch() {
+    if (_canShowModalSearch) {
+      showModalBottomSheet(
+          context: context,
+          builder: (BuildContext context) {
+            return SizedBox(
+              height: 200,
+              child: Row(children: [
+                Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsetsDirectional.fromSTEB(
+                          80.0, 30.0, 10.0, 0.0),
+                      child: SizedBox(
+                        width: 200.0,
+                        child: TextFormField(
+                          controller: _model.searchRiceTextController,
+                          focusNode: _model.searchRiceFocusNode,
+                          onChanged: (value) => safeSetState(
+                              () => _model.searchRiceValue = value),
+                          autofocus: false,
+                          obscureText: false,
+                          decoration: InputDecoration(
+                            isDense: true,
+                            labelText: 'Rice',
+                            labelStyle: FlutterFlowTheme.of(context)
+                                .labelMedium
+                                .override(
+                                  fontFamily: 'Inter',
+                                  letterSpacing: 0.0,
+                                ),
+                            hintText: 'Search Rice',
+                            hintStyle: FlutterFlowTheme.of(context)
+                                .labelMedium
+                                .override(
+                                  fontFamily: 'Inter',
+                                  letterSpacing: 0.0,
+                                ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                color: Colors.black,
+                                width: 1.0,
+                              ),
+                              borderRadius: BorderRadius.circular(24.0),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                color: Color(0x00000000),
+                                width: 1.0,
+                              ),
+                              borderRadius: BorderRadius.circular(24.0),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: FlutterFlowTheme.of(context).error,
+                                width: 1.0,
+                              ),
+                              borderRadius: BorderRadius.circular(24.0),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: FlutterFlowTheme.of(context).error,
+                                width: 1.0,
+                              ),
+                              borderRadius: BorderRadius.circular(24.0),
+                            ),
+                            filled: true,
+                            fillColor: FlutterFlowTheme.of(context)
+                                .secondaryBackground,
+                          ),
+                          style:
+                              FlutterFlowTheme.of(context).bodyMedium.override(
+                                    fontFamily: 'Inter',
+                                    letterSpacing: 0.0,
+                                  ),
+                          cursorColor: FlutterFlowTheme.of(context).primaryText,
+                          validator: _model.searchRiceTextControllerValidator
+                              .asValidator(context),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsetsDirectional.fromSTEB(
+                          80.0, 10.0, 10.0, 0.0),
+                      child: SizedBox(
+                        width: 200.0,
+                        child: TextFormField(
+                          controller: _model.searchSoupTextController,
+                          focusNode: _model.searchSoupFocusNode,
+                          onChanged: (value) => safeSetState(
+                              () => _model.searchSoupValue = value),
+                          autofocus: false,
+                          obscureText: false,
+                          decoration: InputDecoration(
+                            isDense: true,
+                            labelText: 'Soup',
+                            labelStyle: FlutterFlowTheme.of(context)
+                                .labelMedium
+                                .override(
+                                  fontFamily: 'Inter',
+                                  letterSpacing: 0.0,
+                                ),
+                            hintText: 'Search Soup',
+                            hintStyle: FlutterFlowTheme.of(context)
+                                .labelMedium
+                                .override(
+                                  fontFamily: 'Inter',
+                                  letterSpacing: 0.0,
+                                ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                color: Colors.black,
+                                width: 1.0,
+                              ),
+                              borderRadius: BorderRadius.circular(24.0),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                color: Color(0x00000000),
+                                width: 1.0,
+                              ),
+                              borderRadius: BorderRadius.circular(24.0),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: FlutterFlowTheme.of(context).error,
+                                width: 1.0,
+                              ),
+                              borderRadius: BorderRadius.circular(24.0),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: FlutterFlowTheme.of(context).error,
+                                width: 1.0,
+                              ),
+                              borderRadius: BorderRadius.circular(24.0),
+                            ),
+                            filled: true,
+                            fillColor: FlutterFlowTheme.of(context)
+                                .secondaryBackground,
+                          ),
+                          style:
+                              FlutterFlowTheme.of(context).bodyMedium.override(
+                                    fontFamily: 'Inter',
+                                    letterSpacing: 0.0,
+                                  ),
+                          cursorColor: FlutterFlowTheme.of(context).primaryText,
+                          validator: _model.searchSoupTextControllerValidator
+                              .asValidator(context),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsetsDirectional.fromSTEB(
+                          80.0, 10.0, 10.0, 0.0),
+                      child: SizedBox(
+                        width: 200.0,
+                        child: TextFormField(
+                          controller: _model.searchSideDishTextController,
+                          focusNode: _model.searchSideDishFocusNode,
+                          onChanged: (value) => safeSetState(
+                              () => _model.searchSideDishValue = value),
+                          autofocus: false,
+                          obscureText: false,
+                          decoration: InputDecoration(
+                            isDense: true,
+                            labelText: 'SideDish',
+                            labelStyle: FlutterFlowTheme.of(context)
+                                .labelMedium
+                                .override(
+                                  fontFamily: 'Inter',
+                                  letterSpacing: 0.0,
+                                ),
+                            hintText: 'Search SideDish',
+                            hintStyle: FlutterFlowTheme.of(context)
+                                .labelMedium
+                                .override(
+                                  fontFamily: 'Inter',
+                                  letterSpacing: 0.0,
+                                ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                color: Colors.black,
+                                width: 1.0,
+                              ),
+                              borderRadius: BorderRadius.circular(24.0),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                color: Color(0x00000000),
+                                width: 1.0,
+                              ),
+                              borderRadius: BorderRadius.circular(24.0),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: FlutterFlowTheme.of(context).error,
+                                width: 1.0,
+                              ),
+                              borderRadius: BorderRadius.circular(24.0),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: FlutterFlowTheme.of(context).error,
+                                width: 1.0,
+                              ),
+                              borderRadius: BorderRadius.circular(24.0),
+                            ),
+                            filled: true,
+                            fillColor: FlutterFlowTheme.of(context)
+                                .secondaryBackground,
+                          ),
+                          style:
+                              FlutterFlowTheme.of(context).bodyMedium.override(
+                                    fontFamily: 'Inter',
+                                    letterSpacing: 0.0,
+                                  ),
+                          cursorColor: FlutterFlowTheme.of(context).primaryText,
+                          validator: _model
+                              .searchSideDishTextControllerValidator
+                              .asValidator(context),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsetsDirectional.fromSTEB(
+                          16.0, 30.0, 16.0, 20.0),
+                      child: FFButtonWidget(
+                        text: 'Search',
+                        onPressed: () async {
+                          FFAppState().searchRice =
+                              _model.searchRiceValue ?? '';
+                          FFAppState().searchSoup =
+                              _model.searchSoupValue ?? '';
+                          FFAppState().searchSideDish =
+                              _model.searchSideDishValue ?? '';
+                          _model.apiResultsearch =
+                              await SearchDietListsByOptionCall.call();
+
+                          if ((_model.apiResultsearch?.succeeded ?? true)) {
+                            FFAppState().DietList = [];
+                            safeSetState(() {});
+                            FFAppState().DietList =
+                                (_model.apiResultsearch?.jsonBody ?? '')
+                                    .toList()
+                                    .cast<dynamic>();
+                            _model.searchRiceTextController?.text =
+                                FFAppState().searchRice;
+                            _model.searchRiceTextController?.selection =
+                                TextSelection.collapsed(
+                                    offset: _model
+                                        .searchRiceTextController!.text.length);
+                            _model.searchRiceTextController?.text =
+                                FFAppState().searchSoup;
+                            _model.searchSoupTextController?.selection =
+                                TextSelection.collapsed(
+                                    offset: _model
+                                        .searchSoupTextController!.text.length);
+                            _model.searchRiceTextController?.text =
+                                FFAppState().searchSideDish;
+                            _model.searchSideDishTextController?.selection =
+                                TextSelection.collapsed(
+                                    offset: _model.searchSideDishTextController!
+                                        .text.length);
+                            FFAppState().isVisibleInitButton = true;
+                            _canShowModalSearch = false;
+                            Navigator.pop(context);
+                          }
+                        },
+                        options: FFButtonOptions(
+                          width: 125.0,
+                          height: 62.5,
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                              16.0, 0.0, 16.0, 0.0),
+                          iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                              0.0, 0.0, 0.0, 0.0),
+                          color: FlutterFlowTheme.of(context).primary,
+                          textStyle:
+                              FlutterFlowTheme.of(context).titleSmall.override(
+                                    fontFamily: 'Inter Tight',
+                                    color: Colors.white,
+                                    letterSpacing: 0.0,
+                                  ),
+                          elevation: 0.0,
+                          borderRadius: BorderRadius.circular(24.0),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsetsDirectional.fromSTEB(
+                          16.0, 0.0, 16.0, 0.0),
+                      child: FFButtonWidget(
+                        text: 'Cancel',
+                        onPressed: () async {
+                          _model.searchRiceTextController?.text =
+                              FFAppState().searchRice;
+                          _model.searchRiceTextController?.selection =
+                              TextSelection.collapsed(
+                                  offset: _model
+                                      .searchRiceTextController!.text.length);
+                          _model.searchRiceTextController?.text =
+                              FFAppState().searchSoup;
+                          _model.searchSoupTextController?.selection =
+                              TextSelection.collapsed(
+                                  offset: _model
+                                      .searchSoupTextController!.text.length);
+                          _model.searchRiceTextController?.text =
+                              FFAppState().searchSideDish;
+                          _model.searchSideDishTextController?.selection =
+                              TextSelection.collapsed(
+                                  offset: _model.searchSideDishTextController!
+                                      .text.length);
+                          Navigator.pop(context);
+                          safeSetState(() {});
+                        },
+                        options: FFButtonOptions(
+                          width: 125.0,
+                          height: 62.5,
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                              16.0, 0.0, 16.0, 0.0),
+                          iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                              0.0, 0.0, 0.0, 0.0),
+                          color: FlutterFlowTheme.of(context).primary,
+                          textStyle:
+                              FlutterFlowTheme.of(context).titleSmall.override(
+                                    fontFamily: 'Inter Tight',
+                                    color: Colors.white,
+                                    letterSpacing: 0.0,
+                                  ),
+                          elevation: 0.0,
+                          borderRadius: BorderRadius.circular(24.0),
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              ]),
+            );
+          });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
@@ -82,315 +674,10 @@ class _DietListWidgetState extends State<DietListWidget> {
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           FFButtonWidget(
-                            text: 'Sort',
-                            onPressed: () async {
-                              showModalBottomSheet(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return SizedBox(
-                                    height: 200,
-                                    child: Center(
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: [
-                                          Padding(
-                                            padding:
-                                                const EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                    0.0, 40.0, 0.0, 0.0),
-                                            child: Row(children: [
-                                              Column(
-                                                children: [
-                                                  Row(
-                                                    children: [
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                              40,
-                                                              0,
-                                                              20,
-                                                              0),
-                                                      child: Text(
-                                                        'Nutrient Option',
-                                                        style: FlutterFlowTheme
-                                                                .of(context)
-                                                            .bodyMedium
-                                                            .override(
-                                                              fontFamily:
-                                                                  'Inter',
-                                                              fontSize:
-                                                                  18,
-                                                              letterSpacing:
-                                                                  0.0,
-                                                            ),
-                                                      ),
-                                                    ),
-                                                    FlutterFlowDropDown<
-                                                        String>(
-                                                      controller: _model
-                                                              .dropDownValueController1 ??=
-                                                          FormFieldController<
-                                                                  String>(
-                                                              null),
-                                                      options: const [
-                                                        'Calorie',
-                                                        'Carbohydrate',
-                                                        'Protein',
-                                                        'Province'
-                                                      ],
-                                                      onChanged: (val) =>
-                                                          safeSetState(() =>
-                                                              _model.dropDownValue1 =
-                                                                  val),
-                                                      width: MediaQuery
-                                                                  .sizeOf(
-                                                                      context)
-                                                              .width *
-                                                          0.35,
-                                                      height: 40.0,
-                                                      textStyle:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyMedium
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Inter',
-                                                                letterSpacing:
-                                                                    0.0,
-                                                              ),
-                                                      hintText:
-                                                          'Select...',
-                                                      icon: Icon(
-                                                        Icons
-                                                            .keyboard_arrow_down_rounded,
-                                                        color: FlutterFlowTheme
-                                                                .of(context)
-                                                            .secondaryText,
-                                                        size: 24.0,
-                                                      ),
-                                                      fillColor: FlutterFlowTheme
-                                                              .of(context)
-                                                          .secondaryBackground,
-                                                      elevation: 2.0,
-                                                      borderColor: Colors
-                                                          .transparent,
-                                                      borderWidth: 0.0,
-                                                      borderRadius: 8.0,
-                                                      margin:
-                                                          const EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                              12.0,
-                                                              0.0,
-                                                              12.0,
-                                                              0.0),
-                                                      hidesUnderline:
-                                                          true,
-                                                      isOverButton: false,
-                                                      isSearchable: false,
-                                                      isMultiSelect:
-                                                          false,
-                                                    )
-                                                  ]),
-                                                  Row(children: [
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  40,
-                                                                  0,
-                                                                  54,
-                                                                  0),
-                                                      child: Text(
-                                                        'Sort Option',
-                                                        style: FlutterFlowTheme
-                                                                .of(context)
-                                                            .bodyMedium
-                                                            .override(
-                                                              fontFamily:
-                                                                  'Inter',
-                                                              fontSize:
-                                                                  18,
-                                                              letterSpacing:
-                                                                  0.0,
-                                                            ),
-                                                      ),
-                                                    ),
-                                                    FlutterFlowDropDown<
-                                                        String>(
-                                                      controller: _model
-                                                              .dropDownValueController2 ??=
-                                                          FormFieldController<
-                                                                  String>(
-                                                              null),
-                                                      options: const [
-                                                        'Upper',
-                                                        'Lower'
-                                                      ],
-                                                      onChanged: (val) =>
-                                                          safeSetState(() =>
-                                                              _model.dropDownValue2 =
-                                                                  val),
-                                                      width: MediaQuery
-                                                                  .sizeOf(
-                                                                      context)
-                                                              .width *
-                                                          0.35,
-                                                      height: 40.0,
-                                                      textStyle:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyMedium
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Inter',
-                                                                letterSpacing:
-                                                                    0.0,
-                                                              ),
-                                                      hintText:
-                                                          'Select...',
-                                                      icon: Icon(
-                                                        Icons
-                                                            .keyboard_arrow_down_rounded,
-                                                        color: FlutterFlowTheme
-                                                                .of(context)
-                                                            .secondaryText,
-                                                        size: 24.0,
-                                                      ),
-                                                      fillColor: FlutterFlowTheme
-                                                              .of(context)
-                                                          .secondaryBackground,
-                                                      elevation: 2.0,
-                                                      borderColor: Colors
-                                                          .transparent,
-                                                      borderWidth: 0.0,
-                                                      borderRadius: 8.0,
-                                                      margin:
-                                                          const EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                              12.0,
-                                                              0.0,
-                                                              12.0,
-                                                              0.0),
-                                                      hidesUnderline:
-                                                          true,
-                                                      isOverButton: false,
-                                                      isSearchable: false,
-                                                      isMultiSelect:
-                                                          false,
-                                                    ),
-                                                  ]),
-                                                ],
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsetsDirectional
-                                                        .fromSTEB(20.0,
-                                                        0.0, 0.0, 0.0),
-                                                child: FFButtonWidget(
-                                                  onPressed: () async {
-                                                    FFAppState()
-                                                            .NutrientOption =
-                                                        _model
-                                                            .dropDownValue1
-                                                            .toString();
-                                                    FFAppState()
-                                                            .SortOption =
-                                                        _model
-                                                            .dropDownValue2
-                                                            .toString();
-                                                    _model.apiResultsort =
-                                                        await SortDietListCall
-                                                            .call();
-
-                                                    if ((_model.apiResultsort?.succeeded ??
-                                                        true)) {
-                                                      FFAppState()
-                                                          .DietList = [];
-                                                      safeSetState(() {});
-                                                      FFAppState()
-                                                          .DietList = (_model
-                                                                  .apiResultsort
-                                                                  ?.jsonBody ??
-                                                              '')
-                                                          .toList()
-                                                          .cast<
-                                                              dynamic>();
-                                                      safeSetState(() {});
-                                                    } else {
-                                                      await showDialog(
-                                                        context: context,
-                                                        builder:
-                                                            (alertDialogContext) {
-                                                          return AlertDialog(
-                                                            title: const Text(
-                                                                'Sort Diet List'),
-                                                            content:
-                                                                const Text(
-                                                                    'API Call failed!'),
-                                                            actions: [
-                                                              TextButton(
-                                                                onPressed:
-                                                                    () =>
-                                                                        Navigator.pop(alertDialogContext),
-                                                                child: const Text(
-                                                                    'Ok'),
-                                                              ),
-                                                            ],
-                                                          );
-                                                        },
-                                                      );
-                                                    }
-                                                    safeSetState(() {});
-                                                  },
-                                                  text: 'Sort',
-                                                  options:
-                                                      FFButtonOptions(
-                                                        width: 80.0,
-                                                        height: 80.0,
-                                                        padding:
-                                                            const EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                16.0,
-                                                                0.0,
-                                                                16.0,
-                                                                0.0),
-                                                        iconPadding:
-                                                            const EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                0.0,
-                                                                0.0,
-                                                                0.0,
-                                                                0.0),
-                                                        color: FlutterFlowTheme
-                                                                .of(context)
-                                                            .primary,
-                                                        textStyle:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .titleSmall
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'Inter Tight',
-                                                                  color: Colors
-                                                                      .white,
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                ),
-                                                        elevation: 0.0,
-                                                        borderRadius:
-                                                        BorderRadius
-                                                            .circular(
-                                                                24.0),
-                                                  ),
-                                                ),
-                                              ),
-                                            ]),
-                                          )
-                                        ],
-                                      ),
-                                    ));
-                                });
+                              text: 'Sort',
+                              onPressed: () async {
+                                _canShowModalSort = true;
+                                _showModalSort();
                               },
                               options: FFButtonOptions(
                                 height: 40.0,
@@ -416,286 +703,8 @@ class _DietListWidgetState extends State<DietListWidget> {
                             child: FFButtonWidget(
                               text: 'Search',
                               onPressed: () async {
-                                showModalBottomSheet(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return SizedBox(
-                                    height: 200,
-                                    child: Row(
-                                      children: [
-                                      Column(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: [
-                                          Padding(
-                                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                                  80.0, 30.0, 10.0, 0.0),
-                                              child: SizedBox(
-                                                width: 200.0,
-                                                child: TextFormField(
-                                                  controller: _model.searchRiceTextController,
-                                                  focusNode: _model.searchRiceFocusNode,
-                                                  autofocus: false,
-                                                  obscureText: false,
-                                                  decoration: InputDecoration(
-                                                    isDense: true,
-                                                    labelText: 'Rice',
-                                                    labelStyle: FlutterFlowTheme.of(context)
-                                                        .labelMedium
-                                                        .override(
-                                                          fontFamily: 'Inter',
-                                                          letterSpacing: 0.0,
-                                                        ),
-                                                    hintText: 'Search Rice',
-                                                    hintStyle: FlutterFlowTheme.of(context)
-                                                        .labelMedium
-                                                        .override(
-                                                          fontFamily: 'Inter',
-                                                          letterSpacing: 0.0,
-                                                        ),
-                                                    enabledBorder: OutlineInputBorder(
-                                                      borderSide: const BorderSide(
-                                                        color: Colors.black,
-                                                        width: 1.0,
-                                                      ),
-                                                      borderRadius: BorderRadius.circular(24.0),
-                                                    ),
-                                                    focusedBorder: OutlineInputBorder(
-                                                      borderSide: const BorderSide(
-                                                        color: Color(0x00000000),
-                                                        width: 1.0,
-                                                      ),
-                                                      borderRadius: BorderRadius.circular(24.0),
-                                                    ),
-                                                    errorBorder: OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                        color: FlutterFlowTheme.of(context).error,
-                                                        width: 1.0,
-                                                      ),
-                                                      borderRadius: BorderRadius.circular(24.0),
-                                                    ),
-                                                    focusedErrorBorder: OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                        color: FlutterFlowTheme.of(context).error,
-                                                        width: 1.0,
-                                                      ),
-                                                      borderRadius: BorderRadius.circular(24.0),
-                                                    ),
-                                                    filled: true,
-                                                    fillColor: FlutterFlowTheme.of(context)
-                                                        .secondaryBackground,
-                                                  ),
-                                                  style: FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily: 'Inter',
-                                                        letterSpacing: 0.0,
-                                                      ),
-                                                  cursorColor:
-                                                      FlutterFlowTheme.of(context).primaryText,
-                                                  validator: _model.searchRiceTextControllerValidator
-                                                      .asValidator(context),
-                                                ),
-                                              ),
-                                            ),
-                                          Padding(
-                                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                                  80.0, 10.0, 10.0, 0.0),
-                                              child: SizedBox(
-                                                width: 200.0,
-                                                child: TextFormField(
-                                                  controller: _model.searchSoupTextController,
-                                                  focusNode: _model.searchSoupFocusNode,
-                                                  autofocus: false,
-                                                  obscureText: false,
-                                                  decoration: InputDecoration(
-                                                    isDense: true,
-                                                    labelText: 'Soup',
-                                                    labelStyle: FlutterFlowTheme.of(context)
-                                                        .labelMedium
-                                                        .override(
-                                                          fontFamily: 'Inter',
-                                                          letterSpacing: 0.0,
-                                                        ),
-                                                    hintText: 'Search Soup',
-                                                    hintStyle: FlutterFlowTheme.of(context)
-                                                        .labelMedium
-                                                        .override(
-                                                          fontFamily: 'Inter',
-                                                          letterSpacing: 0.0,
-                                                        ),
-                                                    enabledBorder: OutlineInputBorder(
-                                                      borderSide: const BorderSide(
-                                                        color: Colors.black,
-                                                        width: 1.0,
-                                                      ),
-                                                      borderRadius: BorderRadius.circular(24.0),
-                                                    ),
-                                                    focusedBorder: OutlineInputBorder(
-                                                      borderSide: const BorderSide(
-                                                        color: Color(0x00000000),
-                                                        width: 1.0,
-                                                      ),
-                                                      borderRadius: BorderRadius.circular(24.0),
-                                                    ),
-                                                    errorBorder: OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                        color: FlutterFlowTheme.of(context).error,
-                                                        width: 1.0,
-                                                      ),
-                                                      borderRadius: BorderRadius.circular(24.0),
-                                                    ),
-                                                    focusedErrorBorder: OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                        color: FlutterFlowTheme.of(context).error,
-                                                        width: 1.0,
-                                                      ),
-                                                      borderRadius: BorderRadius.circular(24.0),
-                                                    ),
-                                                    filled: true,
-                                                    fillColor: FlutterFlowTheme.of(context)
-                                                        .secondaryBackground,
-                                                  ),
-                                                  style: FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily: 'Inter',
-                                                        letterSpacing: 0.0,
-                                                      ),
-                                                  cursorColor:
-                                                      FlutterFlowTheme.of(context).primaryText,
-                                                  validator: _model.searchSoupTextControllerValidator
-                                                      .asValidator(context),
-                                                ),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                                  80.0, 10.0, 10.0, 0.0),
-                                              child: SizedBox(
-                                                width: 200.0,
-                                                child: TextFormField(
-                                                  controller: _model.searchSideDishTextController,
-                                                  focusNode: _model.searchSideDishFocusNode,
-                                                  autofocus: false,
-                                                  obscureText: false,
-                                                  decoration: InputDecoration(
-                                                    isDense: true,
-                                                    labelText: 'SideDish',
-                                                    labelStyle: FlutterFlowTheme.of(context)
-                                                        .labelMedium
-                                                        .override(
-                                                          fontFamily: 'Inter',
-                                                          letterSpacing: 0.0,
-                                                        ),
-                                                    hintText: 'Search SideDish',
-                                                    hintStyle: FlutterFlowTheme.of(context)
-                                                        .labelMedium
-                                                        .override(
-                                                          fontFamily: 'Inter',
-                                                          letterSpacing: 0.0,
-                                                        ),
-                                                    enabledBorder: OutlineInputBorder(
-                                                      borderSide: const BorderSide(
-                                                        color: Colors.black,
-                                                        width: 1.0,
-                                                      ),
-                                                      borderRadius: BorderRadius.circular(24.0),
-                                                    ),
-                                                    focusedBorder: OutlineInputBorder(
-                                                      borderSide: const BorderSide(
-                                                        color: Color(0x00000000),
-                                                        width: 1.0,
-                                                      ),
-                                                      borderRadius: BorderRadius.circular(24.0),
-                                                    ),
-                                                    errorBorder: OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                        color: FlutterFlowTheme.of(context).error,
-                                                        width: 1.0,
-                                                      ),
-                                                      borderRadius: BorderRadius.circular(24.0),
-                                                    ),
-                                                    focusedErrorBorder: OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                        color: FlutterFlowTheme.of(context).error,
-                                                        width: 1.0,
-                                                      ),
-                                                      borderRadius: BorderRadius.circular(24.0),
-                                                    ),
-                                                    filled: true,
-                                                    fillColor: FlutterFlowTheme.of(context)
-                                                        .secondaryBackground,
-                                                  ),
-                                                  style: FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily: 'Inter',
-                                                        letterSpacing: 0.0,
-                                                      ),
-                                                  cursorColor:
-                                                      FlutterFlowTheme.of(context).primaryText,
-                                                  validator: _model.searchSideDishTextControllerValidator
-                                                      .asValidator(context),
-                                                ),
-                                              ),
-                                            ),
-                                        ] ,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                            16.0, 0.0, 16.0, 0.0),
-                                        child: FFButtonWidget(
-                                          text: 'Search',
-                                          onPressed: () async {
-                                            _model.apiResultsearch =
-                                                await SearchDietListsByOptionCall.call(
-                                              rice: _model.searchRiceTextController.text,
-                                              soup: _model.searchSoupTextController.text,
-                                              sideDish: _model.searchSideDishTextController.text
-                                            );
-
-                                            if ((_model.apiResultsearch?.succeeded ??
-                                                true)) {
-                                                  FFAppState()
-                                                            .DietList = [];
-                                                        safeSetState(() {});
-                                                  FFAppState()
-                                                  .DietList = (_model
-                                                          .apiResultsearch
-                                                          ?.jsonBody ??
-                                                      '')
-                                                  .toList()
-                                                  .cast<
-                                                    dynamic>();
-                                                    safeSetState(() {});
-                                                    FFAppState().isVisibleInitButton = true;
-                                            }
-                                          },
-                                          options: FFButtonOptions(
-                                            width: 125.0,
-                                            height: 125.0,
-                                            padding: const EdgeInsetsDirectional.fromSTEB(
-                                                16.0, 0.0, 16.0, 0.0),
-                                            iconPadding:
-                                                const EdgeInsetsDirectional.fromSTEB(
-                                                    0.0, 0.0, 0.0, 0.0),
-                                            color: FlutterFlowTheme.of(context).primary,
-                                            textStyle: FlutterFlowTheme.of(context)
-                                                .titleSmall
-                                                .override(
-                                                  fontFamily: 'Inter Tight',
-                                                  color: Colors.white,
-                                                  letterSpacing: 0.0,
-                                                ),
-                                            elevation: 0.0,
-                                            borderRadius: BorderRadius.circular(24.0),
-                                          ),
-                                        ),
-                                      ),
-                                    ]
-                                    ),
-                                  );
-                                });
+                                _canShowModalSearch = true;
+                                _showModalSearch();
                               },
                               options: FFButtonOptions(
                                 height: 40.0,
@@ -725,11 +734,14 @@ class _DietListWidgetState extends State<DietListWidget> {
                               child: FFButtonWidget(
                                 text: 'Init Diet List',
                                 onPressed: () async {
-                                  _model.apiResultInitList = await GetDietListCall.call();
+                                  _model.apiResultInitList =
+                                      await GetDietListCall.call();
 
-                                  if ((_model.apiResultInitList?.succeeded ?? true)) {
+                                  if ((_model.apiResultInitList?.succeeded ??
+                                      true)) {
                                     FFAppState().DietList =
-                                        (_model.apiResultInitList?.jsonBody ?? '')
+                                        (_model.apiResultInitList?.jsonBody ??
+                                                '')
                                             .toList()
                                             .cast<dynamic>();
                                     safeSetState(() {});
@@ -776,9 +788,9 @@ class _DietListWidgetState extends State<DietListWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .labelLarge
                                         .override(
-                                          fontFamily: 'Inter',
-                                          letterSpacing: 0.0,
-                                        ),
+                                            fontFamily: 'Inter',
+                                            letterSpacing: 0.0,
+                                            color: Colors.white),
                                   ),
                                 ),
                                 fixedWidth:
@@ -792,9 +804,9 @@ class _DietListWidgetState extends State<DietListWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .labelLarge
                                         .override(
-                                          fontFamily: 'Inter',
-                                          letterSpacing: 0.0,
-                                        ),
+                                            fontFamily: 'Inter',
+                                            letterSpacing: 0.0,
+                                            color: Colors.white),
                                   ),
                                 ),
                                 fixedWidth:
@@ -808,9 +820,9 @@ class _DietListWidgetState extends State<DietListWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .labelLarge
                                         .override(
-                                          fontFamily: 'Inter',
-                                          letterSpacing: 0.0,
-                                        ),
+                                            fontFamily: 'Inter',
+                                            letterSpacing: 0.0,
+                                            color: Colors.white),
                                   ),
                                 ),
                                 fixedWidth:
@@ -824,9 +836,9 @@ class _DietListWidgetState extends State<DietListWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .labelLarge
                                         .override(
-                                          fontFamily: 'Inter',
-                                          letterSpacing: 0.0,
-                                        ),
+                                            fontFamily: 'Inter',
+                                            letterSpacing: 0.0,
+                                            color: Colors.white),
                                   ),
                                 ),
                                 fixedWidth:
