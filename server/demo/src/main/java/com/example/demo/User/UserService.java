@@ -86,7 +86,7 @@ public class UserService {
         if (userRepository.findByEmail(setOptionRequestDto.getUserEmail()).isPresent()){
             int age = Period.between(setOptionRequestDto.getBirth(), LocalDate.now()).getYears();;
             double BMR = 0;
-            if (setOptionRequestDto.getGender() == 1){
+            if (setOptionRequestDto.getGender() == 0){
                 BMR = 66.5 + (13.75 * setOptionRequestDto.getWeight()) + (5.003 * setOptionRequestDto.getHeight()) - (6.75 * age);
             }
             else{
