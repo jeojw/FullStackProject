@@ -36,7 +36,7 @@ class _SetOptionsWidgetState extends State<SetOptionsWidget> {
 
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       safeSetState(() {
-        _model.setGenderValue = FFAppState().Gender - 1;
+        _model.setGenderValue = FFAppState().Gender;
       });
       safeSetState(() {
         _model.heightTextController?.text = FFAppState().Height.toString();
@@ -62,6 +62,8 @@ class _SetOptionsWidgetState extends State<SetOptionsWidget> {
     _model.expandableExpandableController =
         ExpandableController(initialExpanded: false);
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
+
+    bool isChangeOption = false;
   }
 
   @override
@@ -139,7 +141,7 @@ class _SetOptionsWidgetState extends State<SetOptionsWidget> {
                                 minWidth: 90,
                                 minHeight: 40,
                                 initialLabelIndex:
-                                    _model.setGenderValue ?? 0 - 1,
+                                    _model.setGenderValue,
                                 cornerRadius: 20,
                                 activeFgColor: Colors.white,
                                 inactiveBgColor: Colors.grey,
@@ -155,7 +157,7 @@ class _SetOptionsWidgetState extends State<SetOptionsWidget> {
                                   [Colors.pink]
                                 ],
                                 onToggle: (index) async {
-                                  _model.setGenderValue = index! + 1;
+                                  _model.setGenderValue = index!;
                                 },
                               )),
                         ],
@@ -575,7 +577,6 @@ class _SetOptionsWidgetState extends State<SetOptionsWidget> {
                     child: FFButtonWidget(
                       onPressed: () async {
                         FFAppState().Gender = _model.setGenderValue!;
-
                         double? heightValue = double.tryParse(
                             _model.heightTextController?.text ?? '');
                         FFAppState().Height = heightValue!;

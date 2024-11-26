@@ -38,7 +38,7 @@ public interface DietRepository extends JpaRepository<DietEntity, Integer> {
         enableForeignKeyChecks();
     }
 
-    boolean existsByCarbohydrateAndProteinAndProvince(double Carbohydrate, double Protein, double Province);
+    boolean existsByCarbohydrateAndProteinAndProvinceAndUserId(double carbohydrate, double protein, double province, Long userId);
 
     @Query(value = "SELECT * FROM fullstack_proj.diet_list WHERE rice_table_id IN :riceList and soup_table_id IN :soupList and user_id = :userId",
             nativeQuery = true)

@@ -1,6 +1,7 @@
 package com.example.demo.Diet.Soup;
 
 import lombok.*;
+import org.springframework.transaction.annotation.Transactional;
 
 @Getter
 @Setter
@@ -14,7 +15,7 @@ public class SoupDto {
     private double carbohydrate;
     private double protein;
     private double province;
-
+    @Transactional
     public static SoupDto toSoupDto(SoupEntity soupEntity){
         return SoupDto.builder()
                 .name(soupEntity.getName())

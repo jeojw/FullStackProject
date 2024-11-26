@@ -14,6 +14,7 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -55,6 +56,7 @@ public class DietService {
     }
 
     @Async
+    @Transactional
     public CompletableFuture<List<DietDto>> getDietList(String userEmail){
         Optional<UserEntity> userEntity = userRepository.findByEmail(userEmail);
         if (userEntity.isPresent()){
@@ -72,6 +74,7 @@ public class DietService {
     }
 
     @Async
+    @Transactional
     public CompletableFuture<List<DietDto>> searchDietListByOption(SearchDto searchDto){
         Optional<UserEntity> user = userRepository.findByEmail(searchDto.getUserEmail());
         ArrayList<DietDto> returnList = new ArrayList<>();
@@ -104,6 +107,7 @@ public class DietService {
         }
     }
     @Async
+    @Transactional
     public CompletableFuture<List<DietDto>> searchDietList(String userEmail, double BMR, int activeCoef){
         Optional<UserEntity> userEntity = userRepository.findByEmail(userEmail);
         if (userEntity.isPresent()){
@@ -140,6 +144,7 @@ public class DietService {
         }
     }
     @Async
+    @Transactional
     public CompletableFuture<DietDto> getDiet(Long id){
         if (dietRepository.findById(id.intValue()).isPresent()){
             DietEntity entity = dietRepository.findById(id.intValue()).get();
@@ -149,7 +154,6 @@ public class DietService {
              return null;
         }
     }
-    @Async
     public void StoreDietList(UserEntity user, List<List<FoodDto>> DietList){
         if (!DietList.isEmpty()){
             for (List<FoodDto> foodDtos : DietList) {
@@ -165,10 +169,11 @@ public class DietService {
                     dietSideDishEntity.setDiet(dietEntity);
                     dietEntity.addDietSideDish(dietSideDishEntity);
                 }
-                if (!dietRepository.existsByCarbohydrateAndProteinAndProvince(
+                if (!dietRepository.existsByCarbohydrateAndProteinAndProvinceAndUserId(
                         dietEntity.getCarbohydrate(),
                         dietEntity.getProtein(),
-                        dietEntity.getProvince())){
+                        dietEntity.getProvince(),
+                        user.getId())){
                     dietEntity.setCalorie();
                     dietEntity.setCarbohydrate();
                     dietEntity.setProtein();
@@ -178,7 +183,7 @@ public class DietService {
             }
         }
     }
-    @Async
+
     public void SetDietList(List<FoodDto> indices, int depth,
                             double sum_carbohydrate, double sum_protein, double sum_province,
                             double carbohydrate, double protein, double province) {
@@ -275,6 +280,7 @@ public class DietService {
         return returnList;
     }
     @Async
+    @Transactional
     public CompletableFuture<List<DietDto>> sortDietList(List<DietDto> list, String nutrient, String sortOption){
         if (Objects.equals(nutrient, "Calorie")){
             if (Objects.equals(sortOption, "Upper")){

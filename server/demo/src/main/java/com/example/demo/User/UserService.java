@@ -10,11 +10,13 @@ import com.example.demo.Jwt.JwtToken;
 import com.example.demo.Jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.apache.catalina.User;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -22,6 +24,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 @RequiredArgsConstructor
@@ -31,10 +34,11 @@ public class UserService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtTokenProvider jwtTokenProvider;
     private final BCryptPasswordEncoder encoder;
-
-    public UserDto getUserInfo(SigninRequestDto signinRequestDto) {
+    @Async
+    @Transactional(readOnly = true)
+    public CompletableFuture<UserDto> getUserInfo(SigninRequestDto signinRequestDto) {
         Optional<UserEntity> userInfo = userRepository.findByEmail(signinRequestDto.getUserEmail());
-        return userInfo.map(UserDto::toUserDto).orElse(null);
+        return CompletableFuture.completedFuture(userInfo.map(UserDto::toUserDto).orElse(null));
     }
 
     public JwtToken signIn(SigninRequestDto signinRequestDto){

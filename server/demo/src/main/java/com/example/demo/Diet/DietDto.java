@@ -6,6 +6,7 @@ import com.example.demo.Diet.Rice.RiceDto;
 import com.example.demo.Diet.Soup.SoupDto;
 import com.example.demo.User.UserDto;
 import lombok.*;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,7 @@ public class DietDto {
     private double protein;
     private double province;
 
+    @Transactional
     public static DietDto toDietDto(DietEntity dietEntity){
         List<DietSideDishDto> dtoList = new ArrayList<>();
         for (DietSideDishEntity entity : dietEntity.getDietSideDishes()) {

@@ -8,6 +8,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.concurrent.CompletableFuture;
+
 @RestController
 @RequiredArgsConstructor
 public class UserController {
@@ -15,7 +17,7 @@ public class UserController {
     private final BCryptPasswordEncoder encoder;
 
     @PostMapping("/api/getUserInfo")
-    public ResponseEntity<UserDto> getUserInfo(@RequestBody @Validated SigninRequestDto signinRequestDto){
+    public ResponseEntity<CompletableFuture<UserDto>> getUserInfo(@RequestBody @Validated SigninRequestDto signinRequestDto){
         return ResponseEntity.ok(userService.getUserInfo(signinRequestDto));
     }
 
