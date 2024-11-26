@@ -36,47 +36,47 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       initialLocation: '/',
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
-      errorBuilder: (context, state) => AuthPageWidget(),
+      errorBuilder: (context, state) => const AuthPageWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
-          builder: (context, _) => AuthPageWidget(),
+          builder: (context, _) => const AuthPageWidget(),
         ),
         FFRoute(
           name: 'AuthPage',
           path: '/authPage',
-          builder: (context, params) => AuthPageWidget(),
+          builder: (context, params) => const AuthPageWidget(),
         ),
         FFRoute(
           name: 'SetOptions',
           path: '/setOptions',
-          builder: (context, params) => SetOptionsWidget(),
+          builder: (context, params) => const SetOptionsWidget(),
         ),
         FFRoute(
           name: 'Signup_1',
           path: '/signup1',
-          builder: (context, params) => Signup1Widget(),
+          builder: (context, params) => const Signup1Widget(),
         ),
         FFRoute(
           name: 'Signup_2',
           path: '/signup2',
-          builder: (context, params) => Signup2Widget(),
+          builder: (context, params) => const Signup2Widget(),
         ),
         FFRoute(
           name: 'FindPassword',
           path: '/findPassword',
-          builder: (context, params) => FindPasswordWidget(),
+          builder: (context, params) => const FindPasswordWidget(),
         ),
         FFRoute(
           name: 'ChangePassword',
           path: '/changePassword',
-          builder: (context, params) => ChangePasswordWidget(),
+          builder: (context, params) => const ChangePasswordWidget(),
         ),
         FFRoute(
           name: 'DietList',
           path: '/dietList',
-          builder: (context, params) => DietListWidget(),
+          builder: (context, params) => const DietListWidget(),
         ),
         FFRoute(
           name: 'DietInfo',
@@ -91,7 +91,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: 'HomePage',
           path: '/homePage',
-          builder: (context, params) => HomePageWidget(),
+          builder: (context, params) => const HomePageWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

@@ -89,7 +89,7 @@ class _Signup2WidgetState extends State<Signup2Widget> {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(
+                      padding: const EdgeInsetsDirectional.fromSTEB(
                           0.0, 20.0, 120.0, 10.0),
                       child: Text(
                         'Set Options',
@@ -105,28 +105,13 @@ class _Signup2WidgetState extends State<Signup2Widget> {
                       color: FlutterFlowTheme.of(context).alternate,
                     ),
                     Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 30),
+                      padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 30),
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
-                            child: Text(
-                              functions
-                                  .genderConverToString(FFAppState().Gender)!,
-                              style: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .override(
-                                    fontFamily: 'Inter',
-                                    fontSize: 24,
-                                    letterSpacing: 0.0,
-                                  ),
-                            ),
-                          ),
-                          Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(20, 10, 200, 10),
+                                const EdgeInsetsDirectional.fromSTEB(20, 10, 200, 10),
                             child: ToggleSwitch(
                               minWidth: 90,
                               minHeight: 40,
@@ -136,8 +121,8 @@ class _Signup2WidgetState extends State<Signup2Widget> {
                               inactiveBgColor: Colors.grey,
                               inactiveFgColor: Colors.white,
                               totalSwitches: 2,
-                              labels: ['Male', 'Female'],
-                              icons:[FontAwesomeIcons.mars, FontAwesomeIcons.venus],
+                              labels: const ['Male', 'Female'],
+                              icons: const [FontAwesomeIcons.mars, FontAwesomeIcons.venus],
                               activeBgColors: const [
                                 [Colors.blue],
                                 [Colors.pink]
@@ -154,7 +139,7 @@ class _Signup2WidgetState extends State<Signup2Widget> {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               20.0, 0.0, 0.0, 30.0),
                           child: Text(
                             valueOrDefault<String>(
@@ -172,7 +157,7 @@ class _Signup2WidgetState extends State<Signup2Widget> {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               10.0, 0.0, 10.0, 30.0),
                           child: FFButtonWidget(
                             onPressed: () async {
@@ -232,9 +217,9 @@ class _Signup2WidgetState extends State<Signup2Widget> {
                             text: 'Set Birth',
                             options: FFButtonOptions(
                               height: 40.0,
-                              padding: EdgeInsetsDirectional.fromSTEB(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
                                   16.0, 0.0, 16.0, 0.0),
-                              iconPadding: EdgeInsetsDirectional.fromSTEB(
+                              iconPadding: const EdgeInsetsDirectional.fromSTEB(
                                   0.0, 0.0, 0.0, 0.0),
                               color: FlutterFlowTheme.of(context).primary,
                               textStyle: FlutterFlowTheme.of(context)
@@ -256,9 +241,9 @@ class _Signup2WidgetState extends State<Signup2Widget> {
                       children: [
                         Expanded(
                           child: Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 20.0, 0.0, 10.0, 15.0),
-                            child: Container(
+                            child: SizedBox(
                               width: 200.0,
                               child: TextFormField(
                                 controller: _model.heightTextController,
@@ -287,14 +272,14 @@ class _Signup2WidgetState extends State<Signup2Widget> {
                                         letterSpacing: 0.0,
                                       ),
                                   enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
+                                    borderSide: const BorderSide(
                                       color: Colors.black,
                                       width: 1.0,
                                     ),
                                     borderRadius: BorderRadius.circular(24.0),
                                   ),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
+                                    borderSide: const BorderSide(
                                       color: Color(0x00000000),
                                       width: 1.0,
                                     ),
@@ -334,9 +319,9 @@ class _Signup2WidgetState extends State<Signup2Widget> {
                         ),
                         Expanded(
                           child: Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 0.0, 0.0, 20.0, 15.0),
-                            child: Container(
+                            child: SizedBox(
                               width: 200.0,
                               child: TextFormField(
                                 controller: _model.weightTextController,
@@ -365,14 +350,14 @@ class _Signup2WidgetState extends State<Signup2Widget> {
                                         letterSpacing: 0.0,
                                       ),
                                   enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
+                                    borderSide: const BorderSide(
                                       color: Colors.black,
                                       width: 1.0,
                                     ),
                                     borderRadius: BorderRadius.circular(24.0),
                                   ),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
+                                    borderSide: const BorderSide(
                                       color: Color(0x00000000),
                                       width: 1.0,
                                     ),
@@ -414,7 +399,7 @@ class _Signup2WidgetState extends State<Signup2Widget> {
                     ),
                     Padding(
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 240.0, 0.0),
+                          const EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 240.0, 0.0),
                       child: Text(
                         'Set Activity',
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -426,7 +411,7 @@ class _Signup2WidgetState extends State<Signup2Widget> {
                     ),
                     Padding(
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
+                          const EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
                       child: Slider(
                         activeColor: FlutterFlowTheme.of(context).primary,
                         inactiveColor: FlutterFlowTheme.of(context).alternate,
@@ -445,12 +430,12 @@ class _Signup2WidgetState extends State<Signup2Widget> {
                     ),
                     Expanded(
                       child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
+                        padding: const EdgeInsetsDirectional.fromSTEB(
                             20.0, 0.0, 20.0, 0.0),
                         child: Container(
                           width: double.infinity,
                           height: 200.0,
-                          color: Color(0x00000000),
+                          color: const Color(0x00000000),
                           child: ExpandableNotifier(
                             controller: _model.expandableExpandableController,
                             child: ExpandablePanel(
@@ -473,7 +458,7 @@ class _Signup2WidgetState extends State<Signup2Widget> {
                                         .bodyMedium
                                         .override(
                                           fontFamily: 'Inter',
-                                          color: Color(0x8A000000),
+                                          color: const Color(0x8A000000),
                                           letterSpacing: 0.0,
                                         ),
                                   ),
@@ -488,13 +473,13 @@ class _Signup2WidgetState extends State<Signup2Widget> {
                                         .bodyMedium
                                         .override(
                                           fontFamily: 'Inter',
-                                          color: Color(0x8A000000),
+                                          color: const Color(0x8A000000),
                                           letterSpacing: 0.0,
                                         ),
                                   ),
                                 ],
                               ),
-                              theme: ExpandableThemeData(
+                              theme: const ExpandableThemeData(
                                 tapHeaderToExpand: true,
                                 tapBodyToExpand: false,
                                 tapBodyToCollapse: false,
@@ -511,7 +496,7 @@ class _Signup2WidgetState extends State<Signup2Widget> {
                 ),
               ),
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 0.0),
+                padding: const EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 0.0),
                 child: FFButtonWidget(
                   onPressed: () async {
                     FFAppState().Gender =
@@ -533,13 +518,13 @@ class _Signup2WidgetState extends State<Signup2Widget> {
                         context: context,
                         builder: (alertDialogContext) {
                           return AlertDialog(
-                            title: Text('Sign up'),
-                            content: Text('Sign up is succeeded!'),
+                            title: const Text('Sign up'),
+                            content: const Text('Sign up is succeeded!'),
                             actions: [
                               TextButton(
                                 onPressed: () =>
                                     Navigator.pop(alertDialogContext),
-                                child: Text('Ok'),
+                                child: const Text('Ok'),
                               ),
                             ],
                           );
@@ -552,13 +537,13 @@ class _Signup2WidgetState extends State<Signup2Widget> {
                         context: context,
                         builder: (alertDialogContext) {
                           return AlertDialog(
-                            title: Text('Sign up'),
-                            content: Text('Sign up is failed!'),
+                            title: const Text('Sign up'),
+                            content: const Text('Sign up is failed!'),
                             actions: [
                               TextButton(
                                 onPressed: () =>
                                     Navigator.pop(alertDialogContext),
-                                child: Text('Ok'),
+                                child: const Text('Ok'),
                               ),
                             ],
                           );
@@ -572,9 +557,9 @@ class _Signup2WidgetState extends State<Signup2Widget> {
                   options: FFButtonOptions(
                     height: 40.0,
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                        const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
                     iconPadding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                        const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                     color: FlutterFlowTheme.of(context).primary,
                     textStyle: FlutterFlowTheme.of(context).titleSmall.override(
                           fontFamily: 'Inter Tight',

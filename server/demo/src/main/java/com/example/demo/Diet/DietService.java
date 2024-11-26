@@ -12,9 +12,11 @@ import com.example.demo.User.UserEntity;
 import com.example.demo.User.UserRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 @RequiredArgsConstructor
@@ -52,7 +54,8 @@ public class DietService {
         FoodSets.add(ChangeSideDishToFood(sideDishEntityList_3));
     }
 
-    public List<DietDto> getDietList(String userEmail){
+    @Async
+    public CompletableFuture<List<DietDto>> getDietList(String userEmail){
         Optional<UserEntity> userEntity = userRepository.findByEmail(userEmail);
         if (userEntity.isPresent()){
             List<DietEntity> entityList = dietRepository.returnSearchDiets(userEntity.get().getId());
@@ -61,16 +64,17 @@ public class DietService {
             for (DietEntity entity : entityList){
                 dtoList.add(DietDto.toDietDto(entity));
             }
-            return dtoList;
+            return CompletableFuture.completedFuture(dtoList);
         }
         else{
             return null;
         }
     }
 
-    public List<DietDto> searchDietListByOption(SearchDto searchDto){
+    @Async
+    public CompletableFuture<List<DietDto>> searchDietListByOption(SearchDto searchDto){
         Optional<UserEntity> user = userRepository.findByEmail(searchDto.getUserEmail());
-        List<DietDto> returnList = new ArrayList<>();
+        ArrayList<DietDto> returnList = new ArrayList<>();
         if (user.isPresent()){
             Optional<List<Long>> riceIdList = riceRepository.getRiceEntityId(searchDto.getSearchRice().trim());
             Optional<List<Long>> soupIdList = soupRepository.getSoupEntityId(searchDto.getSearchSoup().trim());
@@ -85,7 +89,7 @@ public class DietService {
                             returnList.add(DietDto.toDietDto(entity));
                         }
                     }
-                    return returnList;
+                    return CompletableFuture.completedFuture(returnList);
                 }
                 else{
                     return null;
@@ -99,8 +103,8 @@ public class DietService {
             return null;
         }
     }
-
-    public List<DietDto> searchDietList(String userEmail, double BMR, int activeCoef){
+    @Async
+    public CompletableFuture<List<DietDto>> searchDietList(String userEmail, double BMR, int activeCoef){
         Optional<UserEntity> userEntity = userRepository.findByEmail(userEmail);
         if (userEntity.isPresent()){
             List<DietEntity> entityList;
@@ -129,23 +133,23 @@ public class DietService {
             for (DietEntity entity : entityList){
                 dtoList.add(DietDto.toDietDto(entity));
             }
-            return dtoList;
+            return CompletableFuture.completedFuture(dtoList);
         }
         else{
             return null;
         }
     }
-
-    public DietDto getDiet(Long id){
+    @Async
+    public CompletableFuture<DietDto> getDiet(Long id){
         if (dietRepository.findById(id.intValue()).isPresent()){
             DietEntity entity = dietRepository.findById(id.intValue()).get();
-            return DietDto.toDietDto(entity);
+            return CompletableFuture.completedFuture(DietDto.toDietDto(entity));
         }
          else{
              return null;
         }
     }
-
+    @Async
     public void StoreDietList(UserEntity user, List<List<FoodDto>> DietList){
         if (!DietList.isEmpty()){
             for (List<FoodDto> foodDtos : DietList) {
@@ -174,7 +178,7 @@ public class DietService {
             }
         }
     }
-
+    @Async
     public void SetDietList(List<FoodDto> indices, int depth,
                             double sum_carbohydrate, double sum_protein, double sum_province,
                             double carbohydrate, double protein, double province) {
@@ -270,8 +274,8 @@ public class DietService {
 
         return returnList;
     }
-
-    public List<DietDto> sortDietList(List<DietDto> list, String nutrient, String sortOption){
+    @Async
+    public CompletableFuture<List<DietDto>> sortDietList(List<DietDto> list, String nutrient, String sortOption){
         if (Objects.equals(nutrient, "Calorie")){
             if (Objects.equals(sortOption, "Upper")){
                 list.sort(Comparator.comparing(DietDto::getCalorie));
@@ -279,7 +283,7 @@ public class DietService {
             else{
                 list.sort(Comparator.comparing(DietDto::getCalorie).reversed());
             }
-            return list;
+            return CompletableFuture.completedFuture(list);
         }
         else if (Objects.equals(nutrient, "Carbohydrate")){
             if (Objects.equals(sortOption, "Upper")){
@@ -288,7 +292,7 @@ public class DietService {
             else{
                 list.sort(Comparator.comparing(DietDto::getCarbohydrate).reversed());
             }
-            return list;
+            return CompletableFuture.completedFuture(list);
         }
         else if (Objects.equals(nutrient, "Protein")){
             if (Objects.equals(sortOption, "Upper")){
@@ -297,7 +301,7 @@ public class DietService {
             else{
                 list.sort(Comparator.comparing(DietDto::getProtein).reversed());
             }
-            return list;
+            return CompletableFuture.completedFuture(list);
         }
         else{
             if (Objects.equals(sortOption, "Upper")){
@@ -306,7 +310,7 @@ public class DietService {
             else{
                 list.sort(Comparator.comparing(DietDto::getProvince).reversed());
             }
-            return list;
+            return CompletableFuture.completedFuture(list);
         }
     }
 }

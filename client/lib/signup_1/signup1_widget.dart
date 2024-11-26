@@ -83,7 +83,7 @@ class _Signup1WidgetState extends State<Signup1Widget> {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(
+                      padding: const EdgeInsetsDirectional.fromSTEB(
                           0.0, 20.0, 200.0, 10.0),
                       child: Text(
                         'Sign up',
@@ -95,11 +95,11 @@ class _Signup1WidgetState extends State<Signup1Widget> {
                       ),
                     ),
                     Align(
-                      alignment: AlignmentDirectional(0.0, 0.0),
+                      alignment: const AlignmentDirectional(0.0, 0.0),
                       child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
+                        padding: const EdgeInsetsDirectional.fromSTEB(
                             0.0, 30.0, 0.0, 10.0),
-                        child: Container(
+                        child: SizedBox(
                           width: 350.0,
                           child: TextFormField(
                             controller: _model.inputEmailTextController,
@@ -129,14 +129,14 @@ class _Signup1WidgetState extends State<Signup1Widget> {
                                     letterSpacing: 0.0,
                                   ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Colors.black,
                                   width: 1.0,
                                 ),
                                 borderRadius: BorderRadius.circular(24.0),
                               ),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Color(0x00000000),
                                   width: 1.0,
                                 ),
@@ -177,7 +177,7 @@ class _Signup1WidgetState extends State<Signup1Widget> {
                     ),
                     Padding(
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 170.0, 10.0),
+                          const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 170.0, 10.0),
                       child: FFButtonWidget(
                         onPressed: () async {
                           await FFAppState().setUserEmail( _model.inputEmailTextController.text);
@@ -193,13 +193,13 @@ class _Signup1WidgetState extends State<Signup1Widget> {
                               context: context,
                               builder: (alertDialogContext) {
                                 return AlertDialog(
-                                  title: Text('Auth Email'),
-                                  content: Text('Email is not validate!'),
+                                  title: const Text('Auth Email'),
+                                  content: const Text('Email is not validate!'),
                                   actions: [
                                     TextButton(
                                       onPressed: () =>
                                           Navigator.pop(alertDialogContext),
-                                      child: Text('Ok'),
+                                      child: const Text('Ok'),
                                     ),
                                   ],
                                 );
@@ -212,9 +212,9 @@ class _Signup1WidgetState extends State<Signup1Widget> {
                         text: 'Send Auth Message',
                         options: FFButtonOptions(
                           height: 40.0,
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               16.0, 0.0, 16.0, 0.0),
-                          iconPadding: EdgeInsetsDirectional.fromSTEB(
+                          iconPadding: const EdgeInsetsDirectional.fromSTEB(
                               0.0, 0.0, 0.0, 0.0),
                           color: FlutterFlowTheme.of(context).primary,
                           textStyle:
@@ -230,12 +230,12 @@ class _Signup1WidgetState extends State<Signup1Widget> {
                     ),
                     Padding(
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 0.0, 0.0),
+                          const EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 0.0, 0.0),
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Expanded(
-                            child: Container(
+                            child: SizedBox(
                               width: 200.0,
                               child: TextFormField(
                                 controller: _model.authNumberTextController,
@@ -258,14 +258,14 @@ class _Signup1WidgetState extends State<Signup1Widget> {
                                         letterSpacing: 0.0,
                                       ),
                                   enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
+                                    borderSide: const BorderSide(
                                       color: Colors.black,
                                       width: 1.0,
                                     ),
                                     borderRadius: BorderRadius.circular(24.0),
                                   ),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
+                                    borderSide: const BorderSide(
                                       color: Color(0x00000000),
                                       width: 1.0,
                                     ),
@@ -304,7 +304,7 @@ class _Signup1WidgetState extends State<Signup1Widget> {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 10.0, 0.0, 20.0, 0.0),
                             child: FFButtonWidget(
                               onPressed: () async {
@@ -318,14 +318,14 @@ class _Signup1WidgetState extends State<Signup1Widget> {
                                       context: context,
                                       builder: (alertDialogContext) {
                                         return AlertDialog(
-                                          title: Text('Auth Email'),
+                                          title: const Text('Auth Email'),
                                           content:
-                                              Text('Email Auth is Succeeded!!'),
+                                              const Text('Email Auth is Succeeded!!'),
                                           actions: [
                                             TextButton(
                                               onPressed: () => Navigator.pop(
                                                   alertDialogContext),
-                                              child: Text('Ok'),
+                                              child: const Text('Ok'),
                                             ),
                                           ],
                                         );
@@ -336,14 +336,14 @@ class _Signup1WidgetState extends State<Signup1Widget> {
                                       context: context,
                                       builder: (alertDialogContext) {
                                         return AlertDialog(
-                                          title: Text('Auth Email'),
+                                          title: const Text('Auth Email'),
                                           content:
-                                              Text('Auth number is incorrect!'),
+                                              const Text('Auth number is incorrect!'),
                                           actions: [
                                             TextButton(
                                               onPressed: () => Navigator.pop(
                                                   alertDialogContext),
-                                              child: Text('Ok'),
+                                              child: const Text('Ok'),
                                             ),
                                           ],
                                         );
@@ -355,13 +355,13 @@ class _Signup1WidgetState extends State<Signup1Widget> {
                                     context: context,
                                     builder: (alertDialogContext) {
                                       return AlertDialog(
-                                        title: Text('Auth  Email'),
-                                        content: Text('Auth email is failed!'),
+                                        title: const Text('Auth  Email'),
+                                        content: const Text('Auth email is failed!'),
                                         actions: [
                                           TextButton(
                                             onPressed: () => Navigator.pop(
                                                 alertDialogContext),
-                                            child: Text('Ok'),
+                                            child: const Text('Ok'),
                                           ),
                                         ],
                                       );
@@ -374,9 +374,9 @@ class _Signup1WidgetState extends State<Signup1Widget> {
                               text: 'Auth Email',
                               options: FFButtonOptions(
                                 height: 40.0,
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     16.0, 0.0, 16.0, 0.0),
-                                iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                iconPadding: const EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 0.0, 0.0),
                                 color: FlutterFlowTheme.of(context).primary,
                                 textStyle: FlutterFlowTheme.of(context)
@@ -395,11 +395,11 @@ class _Signup1WidgetState extends State<Signup1Widget> {
                       ),
                     ),
                     Align(
-                      alignment: AlignmentDirectional(0.0, 0.0),
+                      alignment: const AlignmentDirectional(0.0, 0.0),
                       child: Padding(
                         padding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 50.0, 0.0, 0.0),
-                        child: Container(
+                            const EdgeInsetsDirectional.fromSTEB(0.0, 50.0, 0.0, 0.0),
+                        child: SizedBox(
                           width: 350.0,
                           child: TextFormField(
                             controller: _model.inputPasswordTextController,
@@ -429,14 +429,14 @@ class _Signup1WidgetState extends State<Signup1Widget> {
                                     letterSpacing: 0.0,
                                   ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Colors.black,
                                   width: 1.0,
                                 ),
                                 borderRadius: BorderRadius.circular(24.0),
                               ),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Color(0x00000000),
                                   width: 1.0,
                                 ),
@@ -490,11 +490,11 @@ class _Signup1WidgetState extends State<Signup1Widget> {
                       ),
                     ),
                     Align(
-                      alignment: AlignmentDirectional(0.0, 0.0),
+                      alignment: const AlignmentDirectional(0.0, 0.0),
                       child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
+                        padding: const EdgeInsetsDirectional.fromSTEB(
                             0.0, 20.0, 0.0, 15.0),
-                        child: Container(
+                        child: SizedBox(
                           width: 350.0,
                           child: TextFormField(
                             controller: _model.checkPasswordTextController,
@@ -520,14 +520,14 @@ class _Signup1WidgetState extends State<Signup1Widget> {
                                     letterSpacing: 0.0,
                                   ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Colors.black,
                                   width: 1.0,
                                 ),
                                 borderRadius: BorderRadius.circular(24.0),
                               ),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Color(0x00000000),
                                   width: 1.0,
                                 ),
@@ -582,7 +582,7 @@ class _Signup1WidgetState extends State<Signup1Widget> {
                     ),
                     Padding(
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 200.0, 0.0),
+                          const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 200.0, 0.0),
                       child: Text(
                         valueOrDefault<String>(
                           (_model.inputPasswordTextController.text ==
@@ -620,13 +620,13 @@ class _Signup1WidgetState extends State<Signup1Widget> {
                         context: context,
                         builder: (alertDialogContext) {
                           return AlertDialog(
-                            title: Text('Sign up'),
-                            content: Text('Password is incorrect!'),
+                            title: const Text('Sign up'),
+                            content: const Text('Password is incorrect!'),
                             actions: [
                               TextButton(
                                 onPressed: () =>
                                     Navigator.pop(alertDialogContext),
-                                child: Text('Ok'),
+                                child: const Text('Ok'),
                               ),
                             ],
                           );
@@ -638,9 +638,9 @@ class _Signup1WidgetState extends State<Signup1Widget> {
                   options: FFButtonOptions(
                     height: 40.0,
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                        const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
                     iconPadding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                        const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                     color: FlutterFlowTheme.of(context).primary,
                     textStyle: FlutterFlowTheme.of(context).titleSmall.override(
                           fontFamily: 'Inter Tight',

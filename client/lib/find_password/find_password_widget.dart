@@ -58,7 +58,7 @@ class _FindPasswordWidgetState extends State<FindPasswordWidget> {
                   letterSpacing: 0.0,
                 ),
           ),
-          actions: [],
+          actions: const [],
           centerTitle: false,
           elevation: 2.0,
         ),
@@ -164,6 +164,7 @@ class _FindPasswordWidgetState extends State<FindPasswordWidget> {
                       child: FFButtonWidget(
                         onPressed: () async {
                           FFAppState().MailType = 'findPassword';
+                          await FFAppState().setUserEmail(_model.emailFieldTextController.text);
                           safeSetState(() {});
                           _model.apiResultiww = await MailSendCall.call();
 
