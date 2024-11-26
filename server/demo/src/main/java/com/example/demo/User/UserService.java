@@ -34,7 +34,8 @@ public class UserService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtTokenProvider jwtTokenProvider;
     private final BCryptPasswordEncoder encoder;
-    @Async
+
+    @Async("ioTaskExecutor")
     @Transactional(readOnly = true)
     public CompletableFuture<UserDto> getUserInfo(SigninRequestDto signinRequestDto) {
         Optional<UserEntity> userInfo = userRepository.findByEmail(signinRequestDto.getUserEmail());

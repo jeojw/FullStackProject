@@ -21,28 +21,30 @@ public class MailSendService {
     private JavaMailSender mailSender;
     @Autowired
     private RedisUtil redisUtil;
-    private int authNumber;
 
-    @Async
+    @Async("ioTaskExecutor")
     public CompletableFuture<Boolean> checkAuthNum(String email, String authNum) {
         String redisKey = "auth:" + email;
-        return CompletableFuture.completedFuture(authNum.equals(redisUtil.getData(redisKey)));
+        String storedAuthNum = redisUtil.getData(redisKey);
+        return CompletableFuture.completedFuture(authNum.equals(storedAuthNum));
     }
 
-    public void makeRandomNumber() {
-        authNumber = new Random().nextInt(900000) + 100000; // 100000 ~ 999999
+    public int makeRandomNumber() {
+        return new Random().nextInt(900000) + 100000;
     }
 
-    @Async
+    @Async("ioTaskExecutor")
     public CompletableFuture<String> joinEmail(String email, String type){
         makeRandomNumber();
+        int authNumber = makeRandomNumber();
+
         String setFrom = "jeongjw0804@gmail.com";
         String title = type.equals("signIn")
                 ? "회원 가입 인증 이메일 입니다."
                 : "비밀번호 찾기 인증 이메일 입니다.";
         String content = String.format("인증 번호는 %d 입니다.<br>인증번호를 제대로 입력해주세요", authNumber);
 
-        return mailSend(setFrom, email, title, content)
+        return mailSend(setFrom, email, title, content, authNumber)
                 .thenApply(success -> {
                     if (success) {
                         return Integer.toString(authNumber);
@@ -52,8 +54,8 @@ public class MailSendService {
                 });
     }
 
-    @Async
-    public CompletableFuture<Boolean> mailSend(String setFrom, String toMail, String title, String content){
+    @Async("ioTaskExecutor")
+    public CompletableFuture<Boolean> mailSend(String setFrom, String toMail, String title, String content, int authNumber){
         MimeMessage message = mailSender.createMimeMessage();
         try {
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");

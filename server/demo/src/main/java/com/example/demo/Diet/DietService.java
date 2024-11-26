@@ -12,6 +12,7 @@ import com.example.demo.User.UserEntity;
 import com.example.demo.User.UserRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,7 +56,7 @@ public class DietService {
         FoodSets.add(ChangeSideDishToFood(sideDishEntityList_3));
     }
 
-    @Async
+    @Async("ioTaskExecutor")
     @Transactional
     public CompletableFuture<List<DietDto>> getDietList(String userEmail){
         Optional<UserEntity> userEntity = userRepository.findByEmail(userEmail);
@@ -73,7 +74,7 @@ public class DietService {
         }
     }
 
-    @Async
+    @Async("ioTaskExecutor")
     @Transactional
     public CompletableFuture<List<DietDto>> searchDietListByOption(SearchDto searchDto){
         Optional<UserEntity> user = userRepository.findByEmail(searchDto.getUserEmail());
@@ -106,9 +107,10 @@ public class DietService {
             return null;
         }
     }
-    @Async
+    @Async("cpuTaskExecutor")
     @Transactional
     public CompletableFuture<List<DietDto>> searchDietList(String userEmail, double BMR, int activeCoef){
+
         Optional<UserEntity> userEntity = userRepository.findByEmail(userEmail);
         if (userEntity.isPresent()){
             List<DietEntity> entityList;
@@ -143,7 +145,7 @@ public class DietService {
             return null;
         }
     }
-    @Async
+    @Async("ioTaskExecutor")
     @Transactional
     public CompletableFuture<DietDto> getDiet(Long id){
         if (dietRepository.findById(id.intValue()).isPresent()){
@@ -154,6 +156,7 @@ public class DietService {
              return null;
         }
     }
+
     public void StoreDietList(UserEntity user, List<List<FoodDto>> DietList){
         if (!DietList.isEmpty()){
             for (List<FoodDto> foodDtos : DietList) {
@@ -279,7 +282,7 @@ public class DietService {
 
         return returnList;
     }
-    @Async
+    @Async("cpuTaskExecutor")
     @Transactional
     public CompletableFuture<List<DietDto>> sortDietList(List<DietDto> list, String nutrient, String sortOption){
         if (Objects.equals(nutrient, "Calorie")){
