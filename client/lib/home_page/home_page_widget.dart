@@ -165,7 +165,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   },
                   text: 'Search Diets',
                   options: FFButtonOptions(
-                    width: MediaQuery.sizeOf(context).width * 0.7,
+                    width: MediaQuery.sizeOf(context).width * 0.78,
                     height: 60.0,
                     padding: const EdgeInsetsDirectional.fromSTEB(
                         16.0, 0.0, 16.0, 0.0),
@@ -205,7 +205,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   },
                   text: 'Show Diets',
                   options: FFButtonOptions(
-                    width: MediaQuery.sizeOf(context).width * 0.7,
+                    width: MediaQuery.sizeOf(context).width * 0.78,
                     height: 60,
                     padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
                     iconPadding:
@@ -231,7 +231,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   },
                   text: 'Set Options',
                   options: FFButtonOptions(
-                    width: MediaQuery.sizeOf(context).width * 0.7,
+                    width: MediaQuery.sizeOf(context).width * 0.78,
                     height: 60.0,
                     padding: const EdgeInsetsDirectional.fromSTEB(
                         16.0, 0.0, 16.0, 0.0),

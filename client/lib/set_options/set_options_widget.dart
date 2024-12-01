@@ -62,8 +62,6 @@ class _SetOptionsWidgetState extends State<SetOptionsWidget> {
     _model.expandableExpandableController =
         ExpandableController(initialExpanded: false);
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
-
-    bool isChangeOption = false;
   }
 
   @override

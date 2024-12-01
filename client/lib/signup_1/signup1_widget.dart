@@ -234,9 +234,11 @@ class _Signup1WidgetState extends State<Signup1Widget> {
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
                         children: [
-                          Expanded(
+                          Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                55.0, 0.0, 10.0, 0.0),  
                             child: SizedBox(
-                              width: 200.0,
+                              width: MediaQuery.sizeOf(context).width * 0.47,
                               child: TextFormField(
                                 controller: _model.authNumberTextController,
                                 focusNode: _model.authNumberFocusNode,
@@ -300,12 +302,12 @@ class _Signup1WidgetState extends State<Signup1Widget> {
                                 validator: _model
                                     .authNumberTextControllerValidator
                                     .asValidator(context),
-                              ),
+                                ),
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsetsDirectional.fromSTEB(
-                                10.0, 0.0, 20.0, 0.0),
+                                0.0, 0.0, 20.0, 0.0),
                             child: FFButtonWidget(
                               onPressed: () async {
                                 if (FFAppState().getAuthNum() != '') {
@@ -368,7 +370,6 @@ class _Signup1WidgetState extends State<Signup1Widget> {
                                     },
                                   );
                                 }
-
                                 safeSetState(() {});
                               },
                               text: 'Auth Email',
