@@ -22,7 +22,7 @@ class GetInfoDataCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'GetInfoData',
-      apiUrl: 'http://localhost:8080/api/getUserInfo',
+      apiUrl: 'http://43.201.184.6:8080/api/getUserInfo',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -52,7 +52,7 @@ class SignInCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'SignIn',
-      apiUrl: 'http://localhost:8080/api/signIn',
+      apiUrl: 'http://43.201.184.6:8080/api/signIn',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -90,7 +90,7 @@ class SetOptionCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'SetOption',
-      apiUrl: 'http://localhost:8080/api/setOption',
+      apiUrl: 'http://43.201.184.6:8080/api/setOption',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -133,7 +133,7 @@ class SingUpCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'SingUp',
-      apiUrl: 'http://localhost:8080/api/signUp',
+      apiUrl: 'http://43.201.184.6:8080/api/signUp',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -163,7 +163,7 @@ class MailSendCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'MailSend',
-      apiUrl: 'http://localhost:8080/api/mailSend',
+      apiUrl: 'http://43.201.184.6:8080/api/mailSend',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -193,7 +193,7 @@ class MailAuthCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'MailAuth',
-      apiUrl: 'http://localhost:8080/api/mailAuthCheck',
+      apiUrl: 'http://43.201.184.6:8080/api/mailAuthCheck',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -218,7 +218,7 @@ class GetDietListCall {
 
     return ApiManager.instance.makeApiCall(
       callName: 'GetDietLists',
-      apiUrl: 'http://localhost:8080/api/getDietList?userEmail=$userEmail',
+      apiUrl: 'http://43.201.184.6:8080/api/getDietList?userEmail=$userEmail',
       callType: ApiCallType.POST,
       headers: {
         'Authorization': 'Bearer $accessToken',
@@ -250,7 +250,7 @@ class SearchDietListsCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'SearchDietLists',
-      apiUrl: 'http://localhost:8080/api/searchDietList',
+      apiUrl: 'http://43.201.184.6:8080/api/searchDietList',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -281,7 +281,7 @@ class ChangePasswordCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'ChangePassword',
-      apiUrl: 'http://localhost:8080/api/changePassword',
+      apiUrl: 'http://43.201.184.6:8080/api/changePassword',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -316,7 +316,7 @@ class SortDietListCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'SortDietList',
-      apiUrl: 'http://localhost:8080/api/sortDietList',
+      apiUrl: 'http://43.201.184.6:8080/api/sortDietList',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -343,7 +343,7 @@ class GetDietInfoCall {
 
     return ApiManager.instance.makeApiCall(
       callName: 'GetDietInfo',
-      apiUrl: 'http://localhost:8080/api/dietInfo/${id.toString()}',
+      apiUrl: 'http://43.201.184.6:8080/api/dietInfo/${id.toString()}',
       callType: ApiCallType.GET,
       headers: {'Authorization': 'Bearer $accessToken'},
       params: {},
@@ -374,7 +374,7 @@ class SearchDietListsByOptionCall {
 
     return ApiManager.instance.makeApiCall(
       callName: 'SearchDietByOptions',
-      apiUrl: 'http://localhost:8080/api/searchDietListByOption',
+      apiUrl: 'http://43.201.184.6:8080/api/searchDietListByOption',
       callType: ApiCallType.POST,
       headers: {
         'Authorization': 'Bearer $accessToken',
