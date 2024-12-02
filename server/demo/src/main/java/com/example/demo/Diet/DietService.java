@@ -79,24 +79,83 @@ public class DietService {
     public CompletableFuture<List<DietDto>> searchDietListByOption(SearchDto searchDto){
         Optional<UserEntity> user = userRepository.findByEmail(searchDto.getUserEmail());
         ArrayList<DietDto> returnList = new ArrayList<>();
-        if (user.isPresent()){
-            Optional<List<Long>> riceIdList = riceRepository.getRiceEntityId(searchDto.getSearchRice().trim());
-            Optional<List<Long>> soupIdList = soupRepository.getSoupEntityId(searchDto.getSearchSoup().trim());
-            Optional<List<Long>> sideDishIdList = sideDishRepository.getSideDishEntityId(searchDto.getSearchSideDish().trim());
 
-            if (riceIdList.isPresent() && soupIdList.isPresent() && sideDishIdList.isPresent()){
-                Optional<List<DietEntity>> searchList = dietRepository.searchDietList(user.get().getId(), riceIdList.get(), soupIdList.get());
-                System.out.println("DietList: " + searchList + "\n");
-                if (searchList.isPresent()){
-                    for (DietEntity entity: searchList.get()){
-                        if (dietSideDishRepository.existsByUserIdAndDietIdAndSideDishIdIn(user.get().getId(), entity.getId(), sideDishIdList.get())) {
-                            returnList.add(DietDto.toDietDto(entity));
+        Optional<List<Long>> riceIdList = Optional.empty();
+        Optional<List<Long>> soupIdList = Optional.empty();
+        Optional<List<Long>> sideDishIdList = Optional.empty();
+        if (user.isPresent()){
+            if (!searchDto.getSearchRice().trim().isEmpty()){
+                riceIdList = riceRepository.getRiceEntityId(searchDto.getSearchRice().trim());
+            }
+            if (!searchDto.getSearchSoup().trim().isEmpty()){
+                soupIdList = soupRepository.getSoupEntityId(searchDto.getSearchSoup().trim());
+            }
+            if (!searchDto.getSearchSideDish().trim().isEmpty()){
+                sideDishIdList = sideDishRepository.getSideDishEntityId(searchDto.getSearchSideDish().trim());
+            }
+            if (riceIdList.isPresent() || soupIdList.isPresent() || sideDishIdList.isPresent()){
+                if (riceIdList.isPresent() && soupIdList.isEmpty()){
+                    Optional<List<DietEntity>> searchList = dietRepository.searchDietListByRice(user.get().getId(), riceIdList.get());
+                    if (searchList.isPresent()){
+                        if (sideDishIdList.isPresent()){
+                            for (DietEntity entity: searchList.get()){
+                                if (dietSideDishRepository.existsByUserIdAndDietIdAndSideDishIdIn(user.get().getId(), entity.getId(), sideDishIdList.get())) {
+                                    returnList.add(DietDto.toDietDto(entity));
+                                }
+                            }
                         }
+                        else{
+                            for (DietEntity entity: searchList.get()){
+                                returnList.add(DietDto.toDietDto(entity));
+                            }
+                        }
+                        return CompletableFuture.completedFuture(returnList);
                     }
-                    return CompletableFuture.completedFuture(returnList);
+                    else{
+                        return null;
+                    }
                 }
-                else{
-                    return null;
+                else if (riceIdList.isEmpty() && soupIdList.isPresent()){
+                    Optional<List<DietEntity>> searchList = dietRepository.searchDietListBySoup(user.get().getId(), soupIdList.get());
+                    if (searchList.isPresent()){
+                        if (sideDishIdList.isPresent()){
+                            for (DietEntity entity: searchList.get()){
+                                if (dietSideDishRepository.existsByUserIdAndDietIdAndSideDishIdIn(user.get().getId(), entity.getId(), sideDishIdList.get())) {
+                                    returnList.add(DietDto.toDietDto(entity));
+                                }
+                            }
+                        }
+                        else{
+                            for (DietEntity entity: searchList.get()){
+                                returnList.add(DietDto.toDietDto(entity));
+                            }
+                        }
+                        return CompletableFuture.completedFuture(returnList);
+                    }
+                    else{
+                        return null;
+                    }
+                }
+                else {
+                    Optional<List<DietEntity>> searchList = dietRepository.searchDietListByRiceAndSoup(user.get().getId(), riceIdList.get(), soupIdList.get());
+                    if (searchList.isPresent()){
+                        if (sideDishIdList.isPresent()){
+                            for (DietEntity entity: searchList.get()){
+                                if (dietSideDishRepository.existsByUserIdAndDietIdAndSideDishIdIn(user.get().getId(), entity.getId(), sideDishIdList.get())) {
+                                    returnList.add(DietDto.toDietDto(entity));
+                                }
+                            }
+                        }
+                        else{
+                            for (DietEntity entity: searchList.get()){
+                                returnList.add(DietDto.toDietDto(entity));
+                            }
+                        }
+                        return CompletableFuture.completedFuture(returnList);
+                    }
+                    else{
+                        return null;
+                    }
                 }
             }
             else{

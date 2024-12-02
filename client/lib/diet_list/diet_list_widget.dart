@@ -522,37 +522,59 @@ class _DietListWidgetState extends State<DietListWidget> {
                               _model.searchSoupValue ?? '';
                           FFAppState().searchSideDish =
                               _model.searchSideDishValue ?? '';
-                          _model.apiResultsearch =
+                          if (FFAppState().searchRice.trim().isEmpty && 
+                              FFAppState().searchSoup.trim().isEmpty &&
+                              FFAppState().searchSideDish.trim().isEmpty){
+                                await showDialog( 
+                                  context: context,
+                                  builder: (alertDialogContext) {
+                                    return AlertDialog(
+                                      title: const Text('Search Diet List'),
+                                      content:
+                                          const Text('Please input text!'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () => Navigator.pop(
+                                              alertDialogContext),
+                                          child: const Text('Ok'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              }
+                          else{
+                            _model.apiResultsearch =
                               await SearchDietListsByOptionCall.call();
-
-                          if ((_model.apiResultsearch?.succeeded ?? true)) {
-                            FFAppState().DietList = [];
-                            safeSetState(() {});
-                            FFAppState().DietList =
-                                (_model.apiResultsearch?.jsonBody ?? '')
-                                    .toList()
-                                    .cast<dynamic>();
-                            _model.searchRiceTextController?.text =
-                                FFAppState().searchRice;
-                            _model.searchRiceTextController?.selection =
-                                TextSelection.collapsed(
-                                    offset: _model
-                                        .searchRiceTextController!.text.length);
-                            _model.searchRiceTextController?.text =
-                                FFAppState().searchSoup;
-                            _model.searchSoupTextController?.selection =
-                                TextSelection.collapsed(
-                                    offset: _model
-                                        .searchSoupTextController!.text.length);
-                            _model.searchRiceTextController?.text =
-                                FFAppState().searchSideDish;
-                            _model.searchSideDishTextController?.selection =
-                                TextSelection.collapsed(
-                                    offset: _model.searchSideDishTextController!
-                                        .text.length);
-                            FFAppState().isVisibleInitButton = true;
-                            _canShowModalSearch = false;
-                            Navigator.pop(context);
+                            if ((_model.apiResultsearch?.succeeded ?? true)) {
+                              FFAppState().DietList = [];
+                              safeSetState(() {});
+                              FFAppState().DietList =
+                                  (_model.apiResultsearch?.jsonBody ?? '')
+                                      .toList()
+                                      .cast<dynamic>();
+                              _model.searchRiceTextController?.text =
+                                  FFAppState().searchRice;
+                              _model.searchRiceTextController?.selection =
+                                  TextSelection.collapsed(
+                                      offset: _model
+                                          .searchRiceTextController!.text.length);
+                              _model.searchRiceTextController?.text =
+                                  FFAppState().searchSoup;
+                              _model.searchSoupTextController?.selection =
+                                  TextSelection.collapsed(
+                                      offset: _model
+                                          .searchSoupTextController!.text.length);
+                              _model.searchRiceTextController?.text =
+                                  FFAppState().searchSideDish;
+                              _model.searchSideDishTextController?.selection =
+                                  TextSelection.collapsed(
+                                      offset: _model.searchSideDishTextController!
+                                          .text.length);
+                              FFAppState().isVisibleInitButton = true;
+                              _canShowModalSearch = false;
+                              Navigator.pop(context);
+                            }
                           }
                         },
                         options: FFButtonOptions(
