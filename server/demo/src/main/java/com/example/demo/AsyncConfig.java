@@ -16,9 +16,9 @@ public class AsyncConfig implements AsyncConfigurer {
     @Bean(name = "ioTaskExecutor")
     public Executor ioTaskExecutor(){
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(16);
-        executor.setMaxPoolSize(48);
-        executor.setQueueCapacity(200);
+        executor.setCorePoolSize(2);
+        executor.setMaxPoolSize(4);
+        executor.setQueueCapacity(100);
         executor.setThreadNamePrefix("IO-Executor-");
         executor.initialize();;
 
@@ -28,8 +28,8 @@ public class AsyncConfig implements AsyncConfigurer {
     @Bean(name = "cpuTaskExecutor")
     public Executor cpuTaskExecutor(){
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(8);
-        executor.setMaxPoolSize(10);
+        executor.setCorePoolSize(1);
+        executor.setMaxPoolSize(2);
         executor.setQueueCapacity(50);
         executor.setThreadNamePrefix("CPU-Executor-");
         executor.initialize();
