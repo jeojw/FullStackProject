@@ -40,19 +40,19 @@ public interface DietRepository extends JpaRepository<DietEntity, Integer> {
 
     boolean existsByCarbohydrateAndProteinAndProvinceAndUserId(double carbohydrate, double protein, double province, Long userId);
 
-    @Query(value = "SELECT * FROM fullstack_proj.diet_list WHERE rice_table_id IN :riceList and user_id = :userId",
-            nativeQuery = true)
-    Optional<List<DietEntity>> searchDietListByRice(@Param("userId") Long userId,
-                                                    @Param("riceList") List<Long> riceIdList);
-
-    @Query(value = "SELECT * FROM fullstack_proj.diet_list WHERE soup_table_id IN :soupList and user_id = :userId",
-            nativeQuery = true)
-    Optional<List<DietEntity>> searchDietListBySoup(@Param("userId") Long userId,
-                                                    @Param("soupList") List<Long> soupIdList);
-
-    @Query(value = "SELECT * FROM fullstack_proj.diet_list WHERE rice_table_id IN :riceList and soup_table_id IN :soupList and user_id = :userId",
-            nativeQuery = true)
-    Optional<List<DietEntity>> searchDietListByRiceAndSoup(@Param("userId") Long userId,
-                                              @Param("riceList") List<Long> riceIdList,
-                                              @Param("soupList") List<Long> soupIdList);
+    @Query(value = """
+        SELECT d.id AS dietId, ds.id AS sideDishId, d.*
+        FROM diet_list d
+        JOIN diet_side_dish ds ON d.id = ds.diet_id
+        WHERE d.user_id = :userId
+          AND (d.rice_table_id IN (:riceIdList))
+          AND (d.soup_table_id IN (:soupIdList))
+          AND (ds.side_dish_id IN (:sideDishIdList))
+    """, nativeQuery = true)
+    List<DietEntity> searchDietListByOptions(
+            @Param("userId") Long userId,
+            @Param("riceIdList") List<Long> riceIdList,
+            @Param("soupIdList") List<Long> soupIdList,
+            @Param("sideDishIdList") List<Long> sideDishIdList
+    );
 }

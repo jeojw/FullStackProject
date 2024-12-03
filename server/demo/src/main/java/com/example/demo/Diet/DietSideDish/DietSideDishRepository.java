@@ -31,7 +31,4 @@ public interface DietSideDishRepository extends JpaRepository<DietSideDishEntity
         deleteDietListById(id);
         enableForeignKeyChecks();
     }
-
-    boolean existsByUserIdAndDietIdAndSideDishIdIn(Long userId, Long dietId, List<Long> sideDishId);
-
 }

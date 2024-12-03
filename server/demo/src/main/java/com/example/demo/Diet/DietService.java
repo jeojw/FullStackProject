@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -74,97 +75,30 @@ public class DietService {
         }
     }
 
-    @Async("ioTaskExecutor")
     @Transactional
-    public CompletableFuture<List<DietDto>> searchDietListByOption(SearchDto searchDto){
+    @Async("ioTaskExecutor")
+    public CompletableFuture<List<DietDto>> searchDietListByOption(SearchDto searchDto) {
         Optional<UserEntity> user = userRepository.findByEmail(searchDto.getUserEmail());
-        ArrayList<DietDto> returnList = new ArrayList<>();
+        if (user.isEmpty()) {
+            return CompletableFuture.completedFuture(Collections.emptyList());
+        }
 
-        Optional<List<Long>> riceIdList = Optional.empty();
-        Optional<List<Long>> soupIdList = Optional.empty();
-        Optional<List<Long>> sideDishIdList = Optional.empty();
-        if (user.isPresent()){
-            if (!searchDto.getSearchRice().trim().isEmpty()){
-                riceIdList = riceRepository.getRiceEntityId(searchDto.getSearchRice().trim());
-            }
-            if (!searchDto.getSearchSoup().trim().isEmpty()){
-                soupIdList = soupRepository.getSoupEntityId(searchDto.getSearchSoup().trim());
-            }
-            if (!searchDto.getSearchSideDish().trim().isEmpty()){
-                sideDishIdList = sideDishRepository.getSideDishEntityId(searchDto.getSearchSideDish().trim());
-            }
-            if (riceIdList.isPresent() || soupIdList.isPresent() || sideDishIdList.isPresent()){
-                if (riceIdList.isPresent() && soupIdList.isEmpty()){
-                    Optional<List<DietEntity>> searchList = dietRepository.searchDietListByRice(user.get().getId(), riceIdList.get());
-                    if (searchList.isPresent()){
-                        if (sideDishIdList.isPresent()){
-                            for (DietEntity entity: searchList.get()){
-                                if (dietSideDishRepository.existsByUserIdAndDietIdAndSideDishIdIn(user.get().getId(), entity.getId(), sideDishIdList.get())) {
-                                    returnList.add(DietDto.toDietDto(entity));
-                                }
-                            }
-                        }
-                        else{
-                            for (DietEntity entity: searchList.get()){
-                                returnList.add(DietDto.toDietDto(entity));
-                            }
-                        }
-                        return CompletableFuture.completedFuture(returnList);
-                    }
-                    else{
-                        return null;
-                    }
-                }
-                else if (riceIdList.isEmpty() && soupIdList.isPresent()){
-                    Optional<List<DietEntity>> searchList = dietRepository.searchDietListBySoup(user.get().getId(), soupIdList.get());
-                    if (searchList.isPresent()){
-                        if (sideDishIdList.isPresent()){
-                            for (DietEntity entity: searchList.get()){
-                                if (dietSideDishRepository.existsByUserIdAndDietIdAndSideDishIdIn(user.get().getId(), entity.getId(), sideDishIdList.get())) {
-                                    returnList.add(DietDto.toDietDto(entity));
-                                }
-                            }
-                        }
-                        else{
-                            for (DietEntity entity: searchList.get()){
-                                returnList.add(DietDto.toDietDto(entity));
-                            }
-                        }
-                        return CompletableFuture.completedFuture(returnList);
-                    }
-                    else{
-                        return null;
-                    }
-                }
-                else {
-                    Optional<List<DietEntity>> searchList = dietRepository.searchDietListByRiceAndSoup(user.get().getId(), riceIdList.get(), soupIdList.get());
-                    if (searchList.isPresent()){
-                        if (sideDishIdList.isPresent()){
-                            for (DietEntity entity: searchList.get()){
-                                if (dietSideDishRepository.existsByUserIdAndDietIdAndSideDishIdIn(user.get().getId(), entity.getId(), sideDishIdList.get())) {
-                                    returnList.add(DietDto.toDietDto(entity));
-                                }
-                            }
-                        }
-                        else{
-                            for (DietEntity entity: searchList.get()){
-                                returnList.add(DietDto.toDietDto(entity));
-                            }
-                        }
-                        return CompletableFuture.completedFuture(returnList);
-                    }
-                    else{
-                        return null;
-                    }
-                }
-            }
-            else{
-                return null;
-            }
-        }
-        else{
-            return null;
-        }
+        List<Long> riceIdList = riceRepository.getRiceEntityId(searchDto.getSearchRice().trim()).orElse(Collections.emptyList());
+        List<Long> soupIdList = soupRepository.getSoupEntityId(searchDto.getSearchSoup().trim()).orElse(Collections.emptyList());
+        List<Long> sideDishIdList = sideDishRepository.getSideDishEntityId(searchDto.getSearchSideDish().trim()).orElse(Collections.emptyList());
+
+        List<DietEntity> dietEntities = dietRepository.searchDietListByOptions(
+                user.get().getId(),
+                riceIdList.isEmpty() ? null : riceIdList,
+                soupIdList.isEmpty() ? null : soupIdList,
+                sideDishIdList.isEmpty() ? null : sideDishIdList
+        );
+
+        List<DietDto> returnList = dietEntities.stream()
+                .map(DietDto::toDietDto)
+                .collect(Collectors.toList());
+
+        return CompletableFuture.completedFuture(returnList);
     }
     @Async("cpuTaskExecutor")
     @Transactional
