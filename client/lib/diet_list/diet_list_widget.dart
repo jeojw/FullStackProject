@@ -870,7 +870,7 @@ class _DietListWidgetState extends State<DietListWidget> {
                             dataRowBuilder: (leftItem, leftIndex, selected,
                                     onSelectChanged) =>
                                 DataRow(
-                              color: MaterialStateProperty.all(
+                              color: WidgetStateProperty.all(
                                 leftIndex % 2 == 0
                                     ? FlutterFlowTheme.of(context)
                                         .secondaryBackground
