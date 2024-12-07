@@ -105,33 +105,36 @@ class _Signup2WidgetState extends State<Signup2Widget> {
                       color: FlutterFlowTheme.of(context).alternate,
                     ),
                     Padding(
-                      padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 30),
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 30),
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Padding(
-                            padding:
-                                const EdgeInsetsDirectional.fromSTEB(20, 10, 200, 10),
-                            child: ToggleSwitch(
-                              minWidth: 90,
-                              minHeight: 40,
-                              initialLabelIndex: 0,
-                              cornerRadius: 20,
-                              activeFgColor: Colors.white,
-                              inactiveBgColor: Colors.grey,
-                              inactiveFgColor: Colors.white,
-                              totalSwitches: 2,
-                              labels: const ['Male', 'Female'],
-                              icons: const [FontAwesomeIcons.mars, FontAwesomeIcons.venus],
-                              activeBgColors: const [
-                                [Colors.blue],
-                                [Colors.pink]
-                              ],
-                              onToggle: (index) async {
-                                  _model.setGenderValue = index! + 1;
-                              },
-                            )
-                          ),
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  20, 10, 200, 10),
+                              child: ToggleSwitch(
+                                minWidth: 90,
+                                minHeight: 40,
+                                initialLabelIndex: 0,
+                                cornerRadius: 20,
+                                activeFgColor: Colors.white,
+                                inactiveBgColor: Colors.grey,
+                                inactiveFgColor: Colors.white,
+                                totalSwitches: 2,
+                                labels: const ['Male', 'Female'],
+                                icons: const [
+                                  FontAwesomeIcons.mars,
+                                  FontAwesomeIcons.venus
+                                ],
+                                activeBgColors: const [
+                                  [Colors.blue],
+                                  [Colors.pink]
+                                ],
+                                onToggle: (index) async {
+                                  _model.setGenderValue = index ?? 0;
+                                },
+                              )),
                         ],
                       ),
                     ),
@@ -398,8 +401,8 @@ class _Signup2WidgetState extends State<Signup2Widget> {
                       ],
                     ),
                     Padding(
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 240.0, 0.0),
+                      padding: const EdgeInsetsDirectional.fromSTEB(
+                          0.0, 20.0, 240.0, 0.0),
                       child: Text(
                         'Set Activity',
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -410,8 +413,8 @@ class _Signup2WidgetState extends State<Signup2Widget> {
                       ),
                     ),
                     Padding(
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
+                      padding: const EdgeInsetsDirectional.fromSTEB(
+                          10.0, 0.0, 10.0, 0.0),
                       child: Slider(
                         activeColor: FlutterFlowTheme.of(context).primary,
                         inactiveColor: FlutterFlowTheme.of(context).alternate,
@@ -496,11 +499,11 @@ class _Signup2WidgetState extends State<Signup2Widget> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 0.0),
+                padding:
+                    const EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 0.0),
                 child: FFButtonWidget(
                   onPressed: () async {
-                    FFAppState().Gender =
-                        _model.setGenderValue!;
+                    FFAppState().Gender = _model.setGenderValue!;
                     FFAppState().BirthText =
                         dateTimeFormat('yyyy-MM-dd', _model.datePicked);
                     FFAppState().Height =
@@ -556,10 +559,10 @@ class _Signup2WidgetState extends State<Signup2Widget> {
                   text: 'Finish',
                   options: FFButtonOptions(
                     height: 40.0,
-                    padding:
-                        const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
-                    iconPadding:
-                        const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(
+                        16.0, 0.0, 16.0, 0.0),
+                    iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                        0.0, 0.0, 0.0, 0.0),
                     color: FlutterFlowTheme.of(context).primary,
                     textStyle: FlutterFlowTheme.of(context).titleSmall.override(
                           fontFamily: 'Inter Tight',
