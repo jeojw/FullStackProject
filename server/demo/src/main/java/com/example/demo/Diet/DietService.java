@@ -85,7 +85,8 @@ public class DietService {
 
         List<Long> riceIdList = riceRepository.getRiceEntityId(searchDto.getSearchRice().trim()).orElse(Collections.emptyList());
         List<Long> soupIdList = soupRepository.getSoupEntityId(searchDto.getSearchSoup().trim()).orElse(Collections.emptyList());
-        List<Long> sideDishIdList = sideDishRepository.getSideDishEntityId(searchDto.getSearchSideDish().trim()).orElse(Collections.emptyList());
+        List<Long> sideDishIdList =
+                sideDishRepository.getSideDishEntityId(searchDto.getSearchSideDish().trim()).orElse(Collections.emptyList());
 
         List<DietEntity> dietEntities = dietRepository.searchDietListByOptions(
                 user.get().getId(),
@@ -100,6 +101,18 @@ public class DietService {
 
         return CompletableFuture.completedFuture(returnList);
     }
+
+    public double getActiveCoef(int activeCoef){
+        return switch (activeCoef) {
+            case 1 -> 1.2;
+            case 2 -> 1.375;
+            case 3 -> 1.55;
+            case 4 -> 1.725;
+            case 5 -> 1.9;
+            default -> 1.2;
+        };
+    }
+
     @Async("cpuTaskExecutor")
     @Transactional
     public CompletableFuture<List<DietDto>> searchDietList(String userEmail, double BMR, int activeCoef){
@@ -109,7 +122,7 @@ public class DietService {
             List<DietEntity> entityList;
             List<DietDto> dtoList = new ArrayList<>();
 
-            double calorie = BMR * activeCoef;
+            double calorie = BMR * getActiveCoef(activeCoef);
             double min_carb = calorie * 0.55 / 12;
             double max_carb = calorie * 0.65 / 12;
             double min_protein = calorie * 0.07 / 12;
@@ -123,7 +136,7 @@ public class DietService {
 
             dietSideDishRepository.deleteDietSideList(userEntity.get().getId());
             dietRepository.deleteDietList(userEntity.get().getId());
-            SetDietList(new ArrayList<>(), 0,
+            SetDietList(new ArrayList<>(), 0, activeCoef,
                     0, 0, 0,
                     carb, protein, province);
             StoreDietList(userEntity.get(), DietList);
@@ -180,7 +193,7 @@ public class DietService {
         }
     }
 
-    public void SetDietList(List<FoodDto> indices, int depth,
+    public void SetDietList(List<FoodDto> indices, int depth, int activeCoef,
                             double sum_carbohydrate, double sum_protein, double sum_province,
                             double carbohydrate, double protein, double province) {
 
@@ -193,7 +206,7 @@ public class DietService {
             return;
         }
 
-        double localCoef = getLocalCoef(depth);
+        double localCoef = getLocalCoef(depth, activeCoef);
 
         for (FoodDto food : FoodSets.get(depth)) {
             // 목표를 초과한 값은 더 이상 처리하지 않음
@@ -204,7 +217,7 @@ public class DietService {
             }
 
             indices.add(food);
-            SetDietList(indices, depth + 1,
+            SetDietList(indices, depth + 1, activeCoef,
                     sum_carbohydrate + food.getCarbohydrate() * localCoef,
                     sum_protein + food.getProtein() * localCoef,
                     sum_province + food.getProvince() * localCoef,
@@ -220,13 +233,20 @@ public class DietService {
                 sum_province >= province * 0.9 && sum_province <= province * 1.1;
     }
 
-    private double getLocalCoef(int depth) {
+    private double getLocalCoef(int depth, int activeCoef) {
+        double plusGram = 0;
+        if (activeCoef == 5){
+            plusGram = 0.5;
+        }
+        else if (activeCoef >= 3){
+            plusGram = 0.25;
+        }
         if (depth < 2) {
-            return 1.5;
+            return 1.5 + plusGram;
         } else if (depth == 2) {
-            return 1;
+            return 1 + plusGram;
         } else {
-            return 0.5;
+            return 0.5 + plusGram;
         }
     }
 
